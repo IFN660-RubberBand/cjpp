@@ -1,8 +1,0 @@
-//Array of Javascript pitfalls
-
-var KEYWORDS_ATOM = array_to_hash([
-"false",
-"null",
-"true",
-"undefined"
-]);
