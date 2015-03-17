@@ -8,8 +8,8 @@ int nvow=0,ncons=0,nblank=0;
 
 %%
 [aeiouAEIOU] nvow++;                              /* Increment the no. of Vowels */
-[b-df-hj-np-tv-zB-DF-HJ-NP-TV-Z] ncons++; /* Increment the no. of Consonants */
-[ ] nblank++;                                          /* Increment the no. of BlankSpace */
+[b-df-hj-np-tv-zB-DF-HJ-NP-TV-Z] ncons++;        /* Increment the no. of Consonants */
+[ ] nblank++;                                    /* Increment the no. of BlankSpace */
 %%
 
 
