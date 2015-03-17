@@ -31,4 +31,14 @@ number	{num1}|{num2}
 					}
 					}
 
+"//"				{
+					int c;
+					while((c = yyinput()) != 0)
+					{
+						if(c == '\n')
+							break;
+					}
+					}
+
+
 %%
