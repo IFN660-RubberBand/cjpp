@@ -1,7 +1,6 @@
 /* Program to count number of lines, words, characters and blank spaces*/
 
 
-
 %{
 int cha=0;
 int words=0;
