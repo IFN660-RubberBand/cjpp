@@ -1,11 +1,8 @@
 #include <stdio.h>
 #include <iostream>
 
-extern "C"
-{
-	extern int yylex(void);
-	extern FILE* yyin;
-}
+extern int yylex(void);
+extern FILE* yyin;
 
 int main()
 {
