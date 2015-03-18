@@ -2,7 +2,7 @@
 
 %{
 	#include "stdio.h"
-	int mylineno = 0;
+	int mylineno = 1;
 %}
 
 digit	[0-9]
@@ -14,7 +14,10 @@ number	{num1}|{num2}
 
 %%
 			/* whitespace */
-[ \t\n\r]			
+\t
+[\n\r]				{ ++mylineno;
+					  fprintf(yyout, "\n");		
+					}
 			/* comments */
 "/*"				{
 					int c;
@@ -33,6 +36,7 @@ number	{num1}|{num2}
 					}
 "//"				{
 					int c;
+					++mylineno;
 					while((c = yyinput()) != 0)
 					{
 						if(c == '\n')
@@ -40,41 +44,41 @@ number	{num1}|{num2}
 					}
 					}
 			/* operators */
-=						fprintf(yyout, "ASSIGN");
-\+						fprintf(yyout, "PLUS");
--						fprintf(yyout, "MINUS");
-\*						fprintf(yyout, "MULTIPLY");
-\/						fprintf(yyout, "DIVIDE");
-;						fprintf(yyout, "SEMICOLON");
+"="						fprintf(yyout, " ASSIGN");
+"\+"						fprintf(yyout, " PLUS");
+"-"						fprintf(yyout, " MINUS");
+"\*"						fprintf(yyout, " MULTIPLY");
+"\/"						fprintf(yyout, " DIVIDE");
+";"						fprintf(yyout, " SEMICOLON");
 			/* keywords */
-"break"					fprintf(yyout, "BREAKSYM");
-"case"					fprintf(yyout, "CASESYM");
-"catch"					fprintf(yyout, "CATCHSYM");
-"const"					fprintf(yyout, "CONSTSYM");
-"continue"				fprintf(yyout, "CONTSYM");
-"debugger"				fprintf(yyout, "DEBUGSYM");
-"default"				fprintf(yyout, "DEFAULTSYM");
-"delete"				fprintf(yyout, "DELSYM");
-"do"					fprintf(yyout, "DOSYM");
-"else"					fprintf(yyout, "ELSESYM");
-"finally"				fprintf(yyout, "FINALSYM");
-"for"					fprintf(yyout, "FORSYM");
-"function"				fprintf(yyout, "FUNCSYM");
-"if"					fprintf(yyout, "INSYM");
-"in"					fprintf(yyout, "INSYM");
-"instanceof"			fprintf(yyout, "INSTSYM");
-"new"					fprintf(yyout, "NEWSYM");
-"return"				fprintf(yyout, "RETURNSYM");
-"switch"				fprintf(yyout, "SWITCHSYM");
-"throw"					fprintf(yyout, "THROWSYM");
-"try"					fprintf(yyout, "TRYSYM");
-"TYPEOF"				fprintf(yyout, "TYPEOFSYM");
-"var"					fprintf(yyout, "VARSYM");
-"void"					fprintf(yyout, "VOIDSYM");
-"while"					fprintf(yyout, "WHILESYM");
-"with"					fprintf(yyout, "WITH");
+"break"					fprintf(yyout, " BREAKSYM");
+"case"					fprintf(yyout, " CASESYM");
+"catch"					fprintf(yyout, " CATCHSYM");
+"const"					fprintf(yyout, " CONSTSYM");
+"continue"				fprintf(yyout, " CONTSYM");
+"debugger"				fprintf(yyout, " DEBUGSYM");
+"default"				fprintf(yyout, " DEFAULTSYM");
+"delete"				fprintf(yyout, " DELSYM");
+"do"					fprintf(yyout, " DOSYM");
+"else"					fprintf(yyout, " ELSESYM");
+"finally"				fprintf(yyout, " FINALSYM");
+"for"					fprintf(yyout, " FORSYM");
+"function"				fprintf(yyout, " FUNCSYM");
+"if"					fprintf(yyout, " INSYM");
+"in"					fprintf(yyout, " INSYM");
+"instanceof"				fprintf(yyout, " INSTSYM");
+"new"					fprintf(yyout, " NEWSYM");
+"return"				fprintf(yyout, " RETURNSYM");
+"switch"				fprintf(yyout, " SWITCHSYM");
+"throw"					fprintf(yyout, " THROWSYM");
+"try"					fprintf(yyout, " TRYSYM");
+"TYPEOF"				fprintf(yyout, " TYPEOFSYM");
+"var"					fprintf(yyout, " VARSYM");
+"void"					fprintf(yyout, " VOIDSYM");
+"while"					fprintf(yyout, " WHILESYM");
+"with"					fprintf(yyout, " WITH");
 			/* Unknown */
-.						fprintf(yyout, "UNKNOWN"); yyterminate();
+.					fprintf(yyout, "UNKNOWN in line %d", mylineno); yyterminate();
 %%
 
 main()
