@@ -44,6 +44,8 @@ number	{num1}|{num2}
 							break;
 					}
 					}
+			/* indentifiers */
+name					fprintf(yyout, "IDENTIFIER");
 			/* operators */
 "="						fprintf(yyout, " ASSIGN");
 "\+"						fprintf(yyout, " PLUS");
@@ -52,6 +54,7 @@ number	{num1}|{num2}
 "\/"						fprintf(yyout, " DIVIDE");
 ";"						fprintf(yyout, " SEMICOLON");
 			/* keywords */
+<<<<<<< HEAD
 "break"					fprintf(yyout, " BREAKSYM");
 "case"					fprintf(yyout, " CASESYM");
 "catch"					fprintf(yyout, " CATCHSYM");
@@ -80,6 +83,34 @@ number	{num1}|{num2}
 "with"					fprintf(yyout, " WITH");
 			/* Unknown */
 .					fprintf(yyout, " UNKNOWN in line %d", mylineno); yyterminate();
+=======
+"break"					fprintf(yyout, "BREAKSYM");
+"case"					fprintf(yyout, "CASESYM");
+"catch"					fprintf(yyout, "CATCHSYM");
+"const"					fprintf(yyout, "CONSTSYM");
+"continue"				fprintf(yyout, "CONTSYM");
+"debugger"				fprintf(yyout, "DEBUGSYM");
+"default"				fprintf(yyout, "DEFAULTSYM");
+"delete"				fprintf(yyout, "DELSYM");
+"do"					fprintf(yyout, "DOSYM");
+"else"					fprintf(yyout, "ELSESYM");
+"finally"				fprintf(yyout, "FINALSYM");
+"for"					fprintf(yyout, "FORSYM");
+"function"				fprintf(yyout, "FUNCSYM");
+"if"					fprintf(yyout, "INSYM");
+"in"					fprintf(yyout, "INSYM");
+"instanceof"			fprintf(yyout, "INSTSYM");
+"new"					fprintf(yyout, "NEWSYM");
+"return"				fprintf(yyout, "RETURNSYM");
+"switch"				fprintf(yyout, "SWITCHSYM");
+"throw"					fprintf(yyout, "THROWSYM");
+"try"					fprintf(yyout, "TRYSYM");
+"TYPEOF"				fprintf(yyout, "TYPEOFSYM");
+"var"					fprintf(yyout, "VARSYM");
+"void"					fprintf(yyout, "VOIDSYM");
+"while"					fprintf(yyout, "WHILESYM");
+"with"					fprintf(yyout, "WITH");
+>>>>>>> 2282da19885ba9d7a3817f44840dcb68389b2053
 %%
 
 main()
