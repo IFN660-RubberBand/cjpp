@@ -1,5 +1,5 @@
 /* LEX program to identify a compound statement */
-
+%option noyywrap
 %{
 #include"stdio.h"
 int count=0;
