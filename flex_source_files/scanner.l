@@ -14,7 +14,8 @@ number	{num1}|{num2}
 
 %%
 			/* whitespace */
-\t
+[\t]
+" "
 [\n\r]				{ ++mylineno;
 					  fprintf(yyout, "\n");		
 					}
@@ -78,13 +79,13 @@ number	{num1}|{num2}
 "while"					fprintf(yyout, " WHILESYM");
 "with"					fprintf(yyout, " WITH");
 			/* Unknown */
-.					fprintf(yyout, "UNKNOWN in line %d", mylineno); yyterminate();
+.					fprintf(yyout, " UNKNOWN in line %d", mylineno); yyterminate();
 %%
 
 main()
 {
 	yyin=fopen("test.js", "r");
-	yyout=fopen("outtest", "w");
+	yyout=fopen("outtest.txt", "w");
 	yylex();
 	fclose(yyin);
 	fclose(yyout);
