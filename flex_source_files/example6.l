@@ -1,5 +1,5 @@
 /* Program to count number of printf's and scanf's in a given program */
-
+%option noyywrap
 %{
 #include"stdio.h"
 int pcount=0;
