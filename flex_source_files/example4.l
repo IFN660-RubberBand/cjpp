@@ -1,5 +1,5 @@
 /* LEX program to count the number of identifiers */
-
+%option noyywrap
 %{
 int id_ct=0;
 %}
