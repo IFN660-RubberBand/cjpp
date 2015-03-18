@@ -39,6 +39,8 @@ number	{num1}|{num2}
 							break;
 					}
 					}
+			/* indentifiers */
+name					fprintf(yyout, "IDENTIFIER");
 			/* operators */
 =						fprintf(yyout, "ASSIGN");
 \+						fprintf(yyout, "PLUS");
@@ -73,8 +75,6 @@ number	{num1}|{num2}
 "void"					fprintf(yyout, "VOIDSYM");
 "while"					fprintf(yyout, "WHILESYM");
 "with"					fprintf(yyout, "WITH");
-			/* Unknown */
-.						fprintf(yyout, "UNKNOWN"); yyterminate();
 %%
 
 main()
