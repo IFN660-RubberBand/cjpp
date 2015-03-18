@@ -1,5 +1,5 @@
 /* LEX program to recognize a valid arithmetic expression */
-
+%option noyywrap
 %{
 /* No. of operators and operands */
 int nop=0,noprnd=0,top=-1,stack[20];
