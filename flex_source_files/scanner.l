@@ -94,6 +94,7 @@ number		{num1}|{num2}
 		
 	
 ";"					fprintf(yyout, " SEMICOLON");	
+":"					fprintf(yyout, " COLON");	
 ","					fprintf(yyout, " COMMA");		
 "."					fprintf(yyout, " POINT");
 "?"					fprintf(yyout, " QUESTION");
@@ -202,7 +203,7 @@ number		{num1}|{num2}
 		
 					
 			/* indentifiers */
-{name}				fprintf(yyout, " IDENTIFIER");
+{name}				fprintf(yyout, " IDENTIFIER(%s)", yytext);
 			/* Unknown */
 .					fprintf(yyout, " unknown identifier %s in line %d", yytext, mylineno); yyterminate();
 %%
