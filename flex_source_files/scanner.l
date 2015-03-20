@@ -15,12 +15,16 @@
 %x STRING1
 %x STRING2
 
-digit	[0-9]
-letter	[a-zA-Z]
-name	({letter}|{digit}|\$)({letter}|{digit}|[_.\-/$])*
-num1	[-+]?{digit}+\.?([eE][-+]?{digit}+)?
-num2	[-+]?{digit}*\.{digit}+([eE][-+]?{digit}+)?
-number	{num1}|{num2}
+digit		[0-9]
+hexdigit	[0-9a-fA-F]
+letter		[a-zA-Z]
+name		({letter}|{digit}|\$)({letter}|{digit}|[_.\-/$])*
+
+
+hexnumber	0x{hexdigit}+
+num1		[-+]?{digit}+\.?([eE][-+]?{digit}+)?
+num2		[-+]?{digit}*\.{digit}+([eE][-+]?{digit}+)?
+number		{num1}|{num2}
 
 %%
 			/* whitespace */
@@ -78,7 +82,7 @@ number	{num1}|{num2}
 <STRING2><<EOF>>    yyerror("EOF in string.");       BEGIN(INITIAL);
 <STRING2>\n         fprintf(yyout, "unterminated string line %d", mylineno); BEGIN(INITIAL);
 <STRING2>\\[\\nt'\n] yymore();
-<STRING1>\\			fprintf(yyout, "incorrect escaped character in line %d", mylineno); yyterminate();
+<STRING2>\\			fprintf(yyout, "incorrect escaped character in line %d", mylineno); yyterminate();
 <STRING2>\'        {
                      yytext[yyleng-1] = '\0';
                      fprintf(yyout, " STRING(%s)", yytext, yyleng); BEGIN(INITIAL);
@@ -86,7 +90,7 @@ number	{num1}|{num2}
 				  		
 
 {number}   			fprintf(yyout, " NUMBER(%f)", strtod( yytext , NULL ));
-
+{hexnumber}			fprintf(yyout, " HEXNUMBER(%f)", (double) strtol(yytext+2, NULL, 16));
 		
 	
 ";"					fprintf(yyout, " SEMICOLON");	
