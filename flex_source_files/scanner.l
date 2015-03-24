@@ -3,7 +3,7 @@
 %{
 	#include "stdio.h"
 	#include <string.h>
-	//#include "parser.tab.h"
+	#include "parser.tab.h"
 	
 	int mylineno = 1;
 	void yyerror(char *message)
@@ -89,38 +89,38 @@ number		{num1}|{num2}
 				  }						  
 				  		
 
-{number}   			fprintf(yyout, " NUMBER(%f)", strtod( yytext , NULL ));
-{hexnumber}			fprintf(yyout, " HEXNUMBER(%f)", (double) strtol(yytext+2, NULL, 16));
+{number}   			fprintf(yyout, " NUMBER(%f)", strtod( yytext , NULL ));					return NUMBER;
+{hexnumber}			fprintf(yyout, " HEXNUMBER(%f)", (double) strtol(yytext+2, NULL, 16)); 	return HEXNUMBER;
 		
 	
-";"					fprintf(yyout, " SEMICOLON");	
-":"					fprintf(yyout, " COLON");	
-","					fprintf(yyout, " COMMA");		
-"."					fprintf(yyout, " POINT");
-"?"					fprintf(yyout, " QUESTION");
+";"					fprintf(yyout, " SEMICOLON");		return SEMICOLON;
+":"					fprintf(yyout, " COLON");			return COLON;
+","					fprintf(yyout, " COMMA");			return COMMA;
+"."					fprintf(yyout, " POINT");			return POINT;
+"?"					fprintf(yyout, " QUESTION");		return QUESTION;
 		
 		/* operators */
-"\+"				fprintf(yyout, " PLUS");
-"\+\+"				fprintf(yyout, " INC");
-"-"					fprintf(yyout, " MINUS");
-"--"			 	fprintf(yyout, " DEC");
-"\*"				fprintf(yyout, " MULTIPLY");	 
-"\/"				fprintf(yyout, " DIVIDE");	
-"%"					fprintf(yyout, " MOD");		
+"\+"				fprintf(yyout, " PLUS");			return PLUS;
+"\+\+"				fprintf(yyout, " INC");				return INC;
+"-"					fprintf(yyout, " MINUS");			return MINUS;
+"--"			 	fprintf(yyout, " DEC");				return DEC;
+"\*"				fprintf(yyout, " MULTIPLY");	 	return MULTIPLY;
+"\/"				fprintf(yyout, " DIVIDE");			return DIVIDE;
+"%"					fprintf(yyout, " MOD");				return MOD;
  
 		/* all assignments */ 
-"="					fprintf(yyout, " ASSIGN");	
-"\+="				fprintf(yyout, " ASSPLUS");
-"-="				fprintf(yyout, " ASSMINUS");
-"\*="				fprintf(yyout, " ASSMULTIPLY");	 
-"\/="				fprintf(yyout, " ASSDIVIDE");	
-"%="				fprintf(yyout, " ASSMOD");		
-"^="				fprintf(yyout, " ASSBITXOR");
-"|="				fprintf(yyout, " ASSBITOR");		
-"&="				fprintf(yyout, " ASSBITAND");
-"<<="				fprintf(yyout, " ASSLSHIFT");
-">>="				fprintf(yyout, " ASSRSHIFT");
-">>>="				fprintf(yyout, " ASSLRSHIFT");
+"="					fprintf(yyout, " ASSIGN");			return ASSIGN;
+"\+="				fprintf(yyout, " ASSPLUS");			return ASSPLUS;
+"-="				fprintf(yyout, " ASSMINUS");		return ASSMINUS;
+"\*="				fprintf(yyout, " ASSMULTIPLY");	 	return ASSMULTIPLY;
+"\/="				fprintf(yyout, " ASSDIVIDE");		return ASSDIVIDE;
+"%="				fprintf(yyout, " ASSMOD");			return ASSMOD;
+"^="				fprintf(yyout, " ASSBITXOR");		return ASSBITXOR;
+"|="				fprintf(yyout, " ASSBITOR");		return ASSBITOR;
+"&="				fprintf(yyout, " ASSBITAND");		return ASSBITAND;
+"<<="				fprintf(yyout, " ASSLSHIFT");		return ASSLSHIFT;
+">>="				fprintf(yyout, " ASSRSHIFT");		return ASSRSHIFT;
+">>>="				fprintf(yyout, " ASSLRSHIFT");		return ASSLRSHIFT;
 
 		/* comperator */
 "=="				fprintf(yyout, " EQUAL");
@@ -133,20 +133,20 @@ number		{num1}|{num2}
 ">="				fprintf(yyout, " GEQ");
 
 		/* shift operation */
-"<<"				fprintf(yyout, " LSHIFT");
-">>"				fprintf(yyout, " RSHIFT");
-">>>"				fprintf(yyout, " LRSHIFT");
+"<<"				fprintf(yyout, " LSHIFT");		return LSHIFT;
+">>"				fprintf(yyout, " RSHIFT");		return RSHIFT;
+">>>"				fprintf(yyout, " LRSHIFT");		return LRSHIFT;
 
 		/* logic operator */ 
-"!"					fprintf(yyout, " NOT");
-"||"				fprintf(yyout, " OR");		
-"&&"				fprintf(yyout, " AND");		
+"!"					fprintf(yyout, " NOT");			return NOT;
+"||"				fprintf(yyout, " OR");			return OR;
+"&&"				fprintf(yyout, " AND");			return AND;
 
 		/* bitwise operator */ 
-"^"					fprintf(yyout, " BITXOR");
-"|"					fprintf(yyout, " BITOR");		
-"&"					fprintf(yyout, " BITAND");
-"~"					fprintf(yyout, " BITNOT");
+"^"					fprintf(yyout, " BITXOR");		return BITXOR;
+"|"					fprintf(yyout, " BITOR");		return BITOR;
+"&"					fprintf(yyout, " BITAND");		return BITAND;
+"~"					fprintf(yyout, " BITNOT");		return BITNOT;
 
 		/* boolean constants */
 "false"				fprintf(yyout, " FALSE");
@@ -156,12 +156,12 @@ number		{num1}|{num2}
 "null"				fprintf(yyout, " NULL");
 		
 		/* brackets */
-"("					fprintf(yyout, " LPAREN"); 		 
-")"					fprintf(yyout, " RPAREN"); 		 
-"["					fprintf(yyout, " LBRACK"); 		 
-"]"					fprintf(yyout, " RBRACK"); 		 
-"{"					fprintf(yyout, " LCURLY"); 		 
-"}"					fprintf(yyout, " RCURLY"); 		 
+"("					fprintf(yyout, " LPAREN"); 			return LPAREN;
+")"					fprintf(yyout, " RPAREN"); 		 	return RPAREN;
+"["					fprintf(yyout, " LBRACK"); 		 	return LBRACK;
+"]"					fprintf(yyout, " RBRACK"); 		 	return RBRACK;
+"{"					fprintf(yyout, " LCURLY"); 		 	return LCURLY;
+"}"					fprintf(yyout, " RCURLY"); 		 	return RCURLY;
 		
 
 		/* keywords */
@@ -187,9 +187,9 @@ number		{num1}|{num2}
 "throw"				fprintf(yyout, " THROWSYM");	 
 "try"				fprintf(yyout, " TRYSYM");		 
 "typeof"			fprintf(yyout, " TYPEOFSYM");	 
-"var"				fprintf(yyout, " VARSYM");		 
+"var"				fprintf(yyout, " VARSYM");			return VARSYM; 
 "void"				fprintf(yyout, " VOIDSYM");		 
-"while"				fprintf(yyout, " WHILESYM");	 
+"while"				fprintf(yyout, " WHILESYM");	 	return WHILESYM;
 "with"				fprintf(yyout, " WITHSYM");		 
 		
 		/* future reserved keywords */
@@ -203,15 +203,13 @@ number		{num1}|{num2}
 		
 					
 			/* indentifiers */
-{name}				fprintf(yyout, " IDENTIFIER(%s)", yytext);
+{name}				fprintf(yyout, " IDENTIFIER(%s)", yytext);		return IDENTIFIER;
 			/* Unknown */
 .					fprintf(yyout, " unknown identifier %s in line %d", yytext, mylineno); yyterminate();
 %%
-main()
+void asdasd()
 {
-	yyin=fopen("test.js", "r");
 	yyout=fopen("outtest.txt", "w");
 	yylex();
-	fclose(yyin);
 	fclose(yyout);
 }
