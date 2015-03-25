@@ -27,3 +27,8 @@
 *.out
 *.app
 *~
+
+# flex and bison generated files
+*.yy.c
+*.tab.c
+*.tab.h
