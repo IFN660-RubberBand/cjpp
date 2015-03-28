@@ -114,6 +114,8 @@ statement:
 	| VARSYM IDENTIFIER SEMICOLON    
 	| WHILESYM LPAREN expr RPAREN LCURLY program RCURLY
 	;
+lefthandsideexpr:
+	IDENTIFIER	
 expr:
 	  NUMBER						{ printf("%d", $1); }
 	| HEXNUMBER
@@ -127,8 +129,25 @@ expr:
 	| expr RSHIFT expr
 	| expr LRSHIFT expr
 	| LPAREN expr RPAREN
+	| unaryexpr
 	;
-	   
+postfixexpr:
+	lefthandsideexpr
+	| lefthandsideexpr DEC
+	| lefthandsideexpr INC
+	;	
+unaryexpr:
+	postfixexpr
+	| DELSYM unaryexpr
+	| VOIDSYM unaryexpr
+	| TYPEOFSYM unaryexpr
+	| INC unaryexpr
+	| DEC unaryexpr
+	| PLUS unaryexpr
+	| MINUS unaryexpr
+	| BITNOT unaryexpr
+	| NOT unaryexpr
+	;	   
 %%
 main()
 {
