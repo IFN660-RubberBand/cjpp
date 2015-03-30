@@ -17,9 +17,9 @@ ifeq ($(UNAME), Linux)
 endif
 ifeq ($(UNAME), Darwin)
 	#MacOS
-	lex = aaaa
-	yacc = bbbb
-	main = ccc
+	lex = lex
+	yacc = yacc
+	main = scanner
 endif
 ifeq ($(UNAME), MINGW32_NT-6.1)
 	#MinGW
