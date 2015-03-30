@@ -4,11 +4,9 @@
     int yylex(void);
     extern void yyerror(char *message);
 	int yywrap()
-{
-	return 1;
-}
-
-	
+	{
+		return 1;
+	}
 %}
 
 %token NUMBER
@@ -62,15 +60,12 @@
 %right BITNOT
 
 		/* relational operators */
-
 %left LESSTHAN
 %left GREATERTHAN
 %left LESSTHANEQUAL
 %left GREATERTHANEQUAL
 %left INSTANCEOF
 %left IN
-
-
 
 		/* brackets */
 %token LPAREN		"(" 
@@ -80,7 +75,6 @@
 %token LCURLY		"{"
 %token RCURLY		"}"
 		
-
 		/* keywords */
 %token BREAKSYM		"break"
 %token CASESYM		"case"
@@ -110,22 +104,24 @@
 %token WITHSYM		"with"
 
 %%
-program:   
-      statement program		
-   	|
-   	;
-    
+
+program: 
+	statement program
+	|
+	;
+
 statement:
-	  expr SEMICOLON                                   		{ printf("%s\n", $1); }
+	expr SEMICOLON 		{ printf("%s\n", $1); }
 	| IDENTIFIER ASSIGN expr SEMICOLON
 	| VARSYM IDENTIFIER ASSIGN expr SEMICOLON
-	| VARSYM IDENTIFIER SEMICOLON    
+	| VARSYM IDENTIFIER SEMICOLON
 	| WHILESYM LPAREN expr RPAREN LCURLY program RCURLY
 	;
+
 lefthandsideexpr:
-	IDENTIFIER	
-expr:
-	  NUMBER						{ printf("%d", $1); }
+	IDENTIFIER 
+	expr:
+	NUMBER 			{ printf("%d", $1); }
 	| HEXNUMBER
 	| IDENTIFIER
 	| expr PLUS expr	
@@ -139,11 +135,13 @@ expr:
 	| LPAREN expr RPAREN
 	| unaryexpr
 	;
+
 postfixexpr:
 	lefthandsideexpr
 	| lefthandsideexpr DEC
 	| lefthandsideexpr INC
-	;	
+	;
+
 unaryexpr:
 	postfixexpr
 	| DELSYM unaryexpr
@@ -175,8 +173,24 @@ relationexprnoin:
 	|relationexprnoin GREATERTHANEQUALshiftexpr
 	|relationexprnoin INSTANCEOF shiftexpr
 	;
-	
+
+/* 
+	Implement Literals 
+	PrimaryExpression :
+		this
+		Identifier
+		Literal
+		ArrayLiteral
+		ObjectLiteral
+		( Expression )
+*/
+primaryexpr: 
+	THISSYM
+	| IDENTIFIER 
+	;
+
 %%
+
 main()
 {
 	yyparse();
