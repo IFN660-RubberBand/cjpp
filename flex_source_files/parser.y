@@ -61,6 +61,14 @@
 %left BITAND
 %right BITNOT
 
+		/* relational operators */
+
+%left LESSTHAN
+%left GREATERTHAN
+%left LESSTHANEQUAL
+%left GREATERTHANEQUAL
+%left INSTANCEOF
+%left IN
 
 
 
@@ -147,7 +155,27 @@ unaryexpr:
 	| MINUS unaryexpr
 	| BITNOT unaryexpr
 	| NOT unaryexpr
-	;	   
+	;	
+	
+relationexpr:
+	shiftexpr
+	|relationexpr LESSTHAN shiftexpr
+	|relationexpr GREATERTHAN shiftexpr
+	|relationexpr LESSTHANEQUAL shiftexpr
+	|relationexpr GREATERTHANEQUALshiftexpr
+	|relationexpr INSTANCEOF shiftexpr
+	|relationexpr IN shiftexpr
+	;
+	
+relationexprnoin:
+	shiftexpr
+	|relationexprnoin LESSTHAN shiftexpr
+	|relationexprnoin GREATERTHAN shiftexpr
+	|relationexprnoin LESSTHANEQUAL shiftexpr
+	|relationexprnoin GREATERTHANEQUALshiftexpr
+	|relationexprnoin INSTANCEOF shiftexpr
+	;
+	
 %%
 main()
 {
