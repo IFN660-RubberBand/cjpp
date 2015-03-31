@@ -184,6 +184,7 @@ relationexprnoin:
 	;
 		/* END OF 11.8 - Relational Operators */
 
+		/* 11.1 - Primary Expressions */
 nullliteral:
 	NULL
 	;
@@ -268,13 +269,14 @@ objectliteral:
 	| LCURLY propertynameandvaluelist COMMA RCURLY
 	;
 
-primaryexpr: 
+primaryexpression: 
 	THISSYM
 	| IDENTIFIER 
 	| literal
 	| arrayliteral
 	| objectliteral
 	;
+		/* END OF 11.1 - Primary Expressions */
 
 		/* 11.2 - Left-Hand-Side-Expressions */
 memberexpression:
