@@ -103,6 +103,12 @@
 %token WHILESYM		"while"
 %token WITHSYM		"with"
 
+	/* literals */
+%token NULL 		"null"
+%token TRUE 		"true"
+%token FALSE 		"false"
+%token STRING
+
 %%
 
 program: 
@@ -154,7 +160,8 @@ unaryexpr:
 	| BITNOT unaryexpr
 	| NOT unaryexpr
 	;	
-	
+
+/*
 relationexpr:
 	shiftexpr
 	|relationexpr LESSTHAN shiftexpr
@@ -173,20 +180,98 @@ relationexprnoin:
 	|relationexprnoin GREATERTHANEQUAL shiftexpr
 	|relationexprnoin INSTANCEOF shiftexpr
 	;
-
-/* 
-	Implement Literals 
-	PrimaryExpression :
-		this
-		Identifier
-		Literal
-		ArrayLiteral
-		ObjectLiteral
-		( Expression )
 */
+
+nullliteral:
+	NULL
+	;
+
+booleanliteral:
+	TRUE
+	| FALSE
+	;
+
+decimalliteral:
+	NUMBER
+	;
+
+hexintegerliteral:
+	HEXNUMBER
+	;
+
+numericliteral:
+	decimalliteral
+	| hexintegerliteral
+	;
+
+stringliteral:
+	STRING
+	;
+
+regularexpressionliteral:
+	;
+
+literal:
+	nullliteral 
+	| booleanliteral
+	| numericliteral
+	| stringliteral
+	| regularexpressionliteral
+	;
+
+elison:
+	COMMA
+	| elison COMMA
+	;
+
+elementlist:
+	elison assignmentexpression
+	| assignmentexpression
+	| elementlist COMMA elison assignmentexpression
+	| elementlist assignmentexpression
+	;
+
+arrayliteral:
+	LBRACK elison RBRACK
+	| LBRACK RBRACK
+	| LBRACK elementlist RBRACK
+	| LBRACK elementlist COMMA elison RBRACK
+	| LBRACK elementlist COMMA RBRACK
+	;
+
+propertyname: 
+	identifiername
+	| stringliteral
+	| numericliteral
+	;
+
+propertysetparameterlist:
+	IDENTIFIER
+	;
+
+propertyassignment:
+	propertyname COLON assignmentexpression
+	| IDENTIFIER propertyname LPAREN RPAREN LCURLY functionbody RCURLY
+	| IDENTIFIER propertyname LPAREN propertysetparameterlist RPAREN LCURLY functionbody RCURLY
+	;
+
+propertynameandvaluelist:
+	propertyassignment
+	| propertynameandvaluelist COMMA propertyassignment
+	;
+
+objectliteral:
+	LCURLY RCURLY
+	| LCURLY propertynameandvaluelist RCURLY
+	| LCURLY propertynameandvaluelist COMMA RCURLY
+	;
+
 primaryexpr: 
 	THISSYM
 	| IDENTIFIER 
+	| literal
+	| arrayliteral
+	| objectliteral
 	;
 
 %%
