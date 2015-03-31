@@ -160,7 +160,7 @@ relationexpr:
 	|relationexpr LESSTHAN shiftexpr
 	|relationexpr GREATERTHAN shiftexpr
 	|relationexpr LESSTHANEQUAL shiftexpr
-	|relationexpr GREATERTHANEQUALshiftexpr
+	|relationexpr GREATERTHANEQUAL shiftexpr
 	|relationexpr INSTANCEOF shiftexpr
 	|relationexpr IN shiftexpr
 	;
@@ -170,7 +170,7 @@ relationexprnoin:
 	|relationexprnoin LESSTHAN shiftexpr
 	|relationexprnoin GREATERTHAN shiftexpr
 	|relationexprnoin LESSTHANEQUAL shiftexpr
-	|relationexprnoin GREATERTHANEQUALshiftexpr
+	|relationexprnoin GREATERTHANEQUAL shiftexpr
 	|relationexprnoin INSTANCEOF shiftexpr
 	;
 
