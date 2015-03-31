@@ -32,3 +32,6 @@
 *.yy.c
 *.tab.c
 *.tab.h
+
+#marge files
+*.orig
