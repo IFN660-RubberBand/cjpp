@@ -109,10 +109,46 @@
 
 %%
 
-program: 
-	statement program
-	|
+		/* 14 - Program */
+program:
+	| sourceelements
+	| 
 	;
+	
+sourceelements:
+	sourceelement
+	sourceelements sourceelement
+	;
+
+sourceelement:
+	statement
+	| functiondeclaration
+	;
+		/* END OF 14 - Program */
+		
+		/* 13 - Function Definitions */
+functiondeclaration :
+	FUNCSYM identifier LPAREN RPAREN LCURLY functionbody RCURLY
+	| FUNCSYM identifier LPAREN formalparameterlist RPAREN LCURLY functionbody RCURLY
+	;
+	
+functionexpression :
+	FUNCSYM identifier LPAREN formalparameterlist RPAREN LCURLY functionbody RCURLY
+	| FUNCSYM identifier LPAREN  RPAREN LCURLY functionbody RCURLY
+	| FUNCSYM LPAREN formalparameterlist RPAREN LCURLY functionbody RCURLY
+	| FUNCSYM LPAREN RPAREN LCURLY functionbody RCURLY
+	;
+
+formalparameterlist :
+	| identifier
+	| formalparameterlist COMMA identifier
+	;
+
+functionbody :
+	sourceelements
+	|
+	;	
+		/* END OF 13 - Function Definitions */
 
 statement:
 	expr SEMICOLON 		{ printf("%s\n", $1); }
