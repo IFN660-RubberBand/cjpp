@@ -150,37 +150,11 @@ functionbody :
 	;	
 		/* END OF 13 - Function Definitions */
 
-statement:
-	expr SEMICOLON 		{ printf("%s\n", $1); }
-	| IDENTIFIER ASSIGN expr SEMICOLON
-	| VARSYM IDENTIFIER ASSIGN expr SEMICOLON
-	| VARSYM IDENTIFIER SEMICOLON
-	| WHILESYM LPAREN expr RPAREN LCURLY program RCURLY
-	;
-
-lefthandsideexpr:
-	IDENTIFIER 
-	expr:
-	NUMBER 			{ printf("%d", $1); }
-	| HEXNUMBER
-	| IDENTIFIER
-	| expr PLUS expr	
-	| expr MINUS expr			
-	| expr MULTIPLY expr
-	| expr DIVIDE expr
-	| expr MOD expr
-	| expr LSHIFT expr
-	| expr RSHIFT expr
-	| expr LRSHIFT expr
-	| LPAREN expr RPAREN
-	| unaryexpr
-	;
-
 		/* 11.3 - Postfix Expressions */
 postfixexpr:
-	lefthandsideexpr
-	| lefthandsideexpr DEC
-	| lefthandsideexpr INC
+	lefthandsideexpression
+	| lefthandsideexpression DEC
+	| lefthandsideexpression INC
 	;	
 		/* END OF 11.3 - Postfix Expressions */
 	
@@ -345,7 +319,7 @@ argumentlist:
 	| argumentlist COMMA assignmentexpression
 	;
 
-leftHandSideExpression :
+lefthandsideexpression:
 	newexpression
 	| callexpression
 	;
