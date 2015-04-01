@@ -158,27 +158,27 @@ number 		{num1}|{num2}
 		
 
  	/* keywords */
-"break"				fprintf(yyout, " BREAKSYM"); 	
-"case"				fprintf(yyout, " CASESYM");		 
-"catch"				fprintf(yyout, " CATCHSYM");	 
+"break"				fprintf(yyout, " BREAKSYM"); 	return BREAKSYM;
+"case"				fprintf(yyout, " CASESYM");	return CASESYM;	 
+"catch"				fprintf(yyout, " CATCHSYM");	return CATCHSYM; 
 "continue"			fprintf(yyout, " CONTSYM");		 
-"debugger"			fprintf(yyout, " DEBUGSYM");	 
-"default"			fprintf(yyout, " DEFAULTSYM");	
+"debugger"			fprintf(yyout, " DEBUGSYM");	return DEBUGSYM; 
+"default"			fprintf(yyout, " DEFAULTSYM");	return DEFAULTSYM;	
 "delete"			fprintf(yyout, " DELSYM");		 
 "do"				fprintf(yyout, " DOSYM");		 
-"else"				fprintf(yyout, " ELSESYM");		
-"finally"			fprintf(yyout, " FINALSYM");	 
+"else"				fprintf(yyout, " ELSESYM");	return ELSESYM;	
+"finally"			fprintf(yyout, " FINALSYM");	return FINALSYM; 
 "for"				fprintf(yyout, " FORSYM");		 
 "function"			fprintf(yyout, " FUNCSYM");		 
-"if"				fprintf(yyout, " IFSYM");		 
+"if"				fprintf(yyout, " IFSYM");	return IFSYM;	 
 "in"				fprintf(yyout, " INSYM");		 
 "instanceof"		fprintf(yyout, " INSTSYM");		 
 "new"				fprintf(yyout, " NEWSYM");		 
 "return"			fprintf(yyout, " RETURNSYM");	 
-"switch"			fprintf(yyout, " SWITCHSYM");	 
+"switch"			fprintf(yyout, " SWITCHSYM");	return SWITCHSYM; 
 "this"				fprintf(yyout, " THISSYM");		 
-"throw"				fprintf(yyout, " THROWSYM");	 
-"try"				fprintf(yyout, " TRYSYM");		 
+"throw"				fprintf(yyout, " THROWSYM");	return THROWSYM; 
+"try"				fprintf(yyout, " TRYSYM");	return TRYSYM;	 
 "typeof"			fprintf(yyout, " TYPEOFSYM");	 
 "var"				fprintf(yyout, " VARSYM");			return VARSYM; 
 "void"				fprintf(yyout, " VOIDSYM");		 
