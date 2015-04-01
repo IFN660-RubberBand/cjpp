@@ -205,11 +205,11 @@ CaseClauses:
 	;
 
 CaseClause:
-	|CASESYM IDENTIFIER COLON StatementList
+	|CASESYM IDENTIFIER COLON StatementList BREAKSYM SEMICOLON
 	;
 
 DefaultClause:
-	|DEFAULTSYM COLON StatementList						{printf("\t \"Default Clause\"\t");}
+	|DEFAULTSYM COLON StatementList					{printf("\t \"Default Clause\"\t");}
 	;
 
 /* End of SWITCH statement */

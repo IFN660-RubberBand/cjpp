@@ -39,13 +39,13 @@ number		{num1}|{num2}
 			/* comments */
 "/*"				{
 						int c;
-						while((c = input()) != 0)
+						while((c = yyinput()) != 0)
 						{
 							if(c == '\n')
 								++mylineno;
 							else if(c == '*')
 							{
-								if((c = input()) == '/')
+								if((c = yyinput()) == '/')
 									break;
 								else
 									unput(c);
@@ -56,7 +56,7 @@ number		{num1}|{num2}
 "//"				{
 						int c;
 						++mylineno;
-						while((c = input()) != 0)
+						while((c = yyinput()) != 0)
 						{
 							if(c == '\n')
 								break;
