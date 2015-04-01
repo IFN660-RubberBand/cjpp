@@ -108,16 +108,56 @@
 %token STRING
 
 %%
+keyword:
+	BREAKSYM		
+ 	| CASESYM		
+	| CATCHSYM			
+	| CONTSYM		
+	| DEBUGSYM		
+ 	| DEFAULTSYM	
+	| DELSYM		
+	| DOSYM			
+	| ELSESYM		
+	| FINALSYM		
+	| FORSYM		
+	| FUNCSYM		
+	| IFSYM			
+	| INSYM			
+	| INSTSYM		
+	| NEWSYM		
+	| RETURNSYM		
+	| SWITCHSYM	
+	| THISSYM		
+	| THROWSYM		
+	| TRYSYM		
+	| TYPEOFSYM	
+	| VARSYM		
+	| VOIDSYM		
+	| WHILESYM		
+	| WITHSYM		
+	| NULL
+	| TRUE
+	| FALSE
+	;
+	
+
+
+identifiername:
+	IDENTIFIER
+	| keyword
+	;
+
+
 
 		/* 14 - Program */
 program:
-	| sourceelements
+	sourceelements
 	| 
 	;
 	
 sourceelements:
 	sourceelement
-	sourceelements sourceelement
+	| sourceelements sourceelement
 	;
 
 sourceelement:
@@ -128,20 +168,20 @@ sourceelement:
 		
 		/* 13 - Function Definitions */
 functiondeclaration :
-	FUNCSYM identifier LPAREN RPAREN LCURLY functionbody RCURLY
-	| FUNCSYM identifier LPAREN formalparameterlist RPAREN LCURLY functionbody RCURLY
+	FUNCSYM IDENTIFIER LPAREN RPAREN LCURLY functionbody RCURLY
+	| FUNCSYM IDENTIFIER LPAREN formalparameterlist RPAREN LCURLY functionbody RCURLY
 	;
 	
 functionexpression :
-	FUNCSYM identifier LPAREN formalparameterlist RPAREN LCURLY functionbody RCURLY
-	| FUNCSYM identifier LPAREN  RPAREN LCURLY functionbody RCURLY
+	FUNCSYM IDENTIFIER LPAREN formalparameterlist RPAREN LCURLY functionbody RCURLY
+	| FUNCSYM IDENTIFIER LPAREN  RPAREN LCURLY functionbody RCURLY
 	| FUNCSYM LPAREN formalparameterlist RPAREN LCURLY functionbody RCURLY
 	| FUNCSYM LPAREN RPAREN LCURLY functionbody RCURLY
 	;
 
 formalparameterlist :
-	| identifier
-	| formalparameterlist COMMA identifier
+	| IDENTIFIER
+	| formalparameterlist COMMA IDENTIFIER
 	;
 
 functionbody :
@@ -332,7 +372,7 @@ multiexpr:
 	| multiexpr DIVIDE unaryexpr
 	| multiexpr MOD unaryexpr
 	;
-	/* END OF 11.5 - Multiplicative Operators */
+		/* END OF 11.5 - Multiplicative Operators */
 	
 		/* 11.6 - Additive Operators */
 addexpr:
@@ -349,7 +389,7 @@ shiftexpr:
 	| shiftexpr RSHIFT addexpr
 	| shiftexpr LRSHIFT addexpr
 	;		
-	/* END OF 11.7 - Bitwise Shift Operators */
+		/* END OF 11.7 - Bitwise Shift Operators */
 	
 %%
 
