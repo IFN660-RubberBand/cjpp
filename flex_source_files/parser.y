@@ -391,6 +391,68 @@ shiftexpr:
 	;		
 		/* END OF 11.7 - Bitwise Shift Operators */
 	
+		/* 12.6 - Iteration Statements */
+iterationstatement:
+	DOSYM statement WHILESYM LPAREN expression RPAREN SEMICOLON
+	| WHILESYM LPAREN expression RPAREN  statement 
+	| FORSYM LPAREN  expression? SEMICOLON expression? SEMICOLON expression? RPAREN statement
+	| FORSYM LPAREN VARSYM variabledeclarationlist SEMICOLON expression? SEMICOLON expression? RPAREN statement
+	| FORSYM LPAREN expression INSYM expression RPAREN statement
+	| FORSYM LPAREN VARSYM variableDeclaration INSYM expression RPAREN statement
+	;
+		/* END OF 12.6 - Iteration Statements */
+
+		/* 12.7 - Continue Statement */
+continuestatement:
+	CONTSYM IDENTIFIER? SEMICOLON
+	;
+		/* END OF 12.7 - Continue Statement */
+
+		/* 12.8 - Break Statement */
+breakstatement:
+	BREAKSYM IDENTIFIER? SEMICOLON
+	;
+		/* END OF 12.8 - Break Statement */
+
+		/* 12.9 - Return Statement */
+returnstatement:
+	RETURNSYM expression? SEMICOLON
+	;
+		/* END OF 12.9 - Return Statement */
+
+		/* 12.10 - With Statement */
+withstatement:
+	WITHSYM LPAREN expression RPAREN statement
+	;
+		/* END OF 12.10 - With Statement */
+
+lineterminator:
+	[r\n\u2028\u2029]
+	;
+
+expression:
+	primaryexpression
+	| functionexpression
+	;
+
+statement:
+	block
+	| variablestatement
+	| emptystatement
+	| expressionstatement
+	| ifstatement
+	| iterationstatement
+	| continuestatement
+	| breakstatement
+	| returnstatement
+	| withstatement
+	| labelledstatement
+	| switchstatement
+	| throwstatement
+	| trystatement
+	| debuggerstatement
+	;
+
 %%
 
 main()
