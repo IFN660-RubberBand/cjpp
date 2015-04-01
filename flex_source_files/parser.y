@@ -161,7 +161,7 @@ sourceelements:
 	;
 
 sourceelement:
-	statement
+	Statement
 	| functiondeclaration
 	;
 		/* END OF 14 - Program */
@@ -390,7 +390,7 @@ shiftexpr:
 	| shiftexpr LRSHIFT addexpr
 	;		
 		/* END OF 11.7 - Bitwise Shift Operators */
-		
+	
 		
 /* All Statements */    
 
@@ -405,6 +405,20 @@ Statement:
 	|TryStatement
 	|DebuggerStatement
 	
+		/* 12.6 - Iteration Statements */
+iterationstatement:
+	DOSYM Statement WHILESYM LPAREN expression RPAREN SEMICOLON
+	| WHILESYM LPAREN expression RPAREN  Statement 
+	| FORSYM LPAREN  expression SEMICOLON expression SEMICOLON expression RPAREN Statement
+	| FORSYM LPAREN VARSYM VariableDeclarationList SEMICOLON expression SEMICOLON expression RPAREN Statement
+	| FORSYM LPAREN expression INSYM expression RPAREN Statement
+	| FORSYM LPAREN VARSYM VariableDeclaration INSYM expression RPAREN Statement
+	;
+		/* END OF 12.6 - Iteration Statements */
+
+		/* 12.7 - Continue Statement */
+continuestatement:
+	CONTSYM IDENTIFIER SEMICOLON
 	;
 
 /* End of statements */
@@ -419,6 +433,19 @@ StatementList:
 	|Statement
 	|StatementList Statement
 	;
+		/* END OF 12.7 - Continue Statement */
+
+		/* 12.8 - Break Statement */
+breakstatement:
+	BREAKSYM IDENTIFIER SEMICOLON
+	;
+		/* END OF 12.8 - Break Statement */
+
+		/* 12.9 - Return Statement */
+returnstatement:
+	RETURNSYM expression SEMICOLON
+	;
+		/* END OF 12.9 - Return Statement */
 
 /* End of Statment Block */
 
@@ -429,7 +456,16 @@ EmptyStatement:
 	;	
 
 /* End of Empty Statement */
-
+		/* 12.10 - With Statement */
+withstatement:
+	WITHSYM LPAREN expression RPAREN Statement
+	;
+		/* END OF 12.10 - With Statement */
+/*
+lineterminator:
+	[r\n\u2028\u2029]
+	;
+*/
 /* Variable Statement */
 
 VariableStatement: 		
