@@ -1,0 +1,25 @@
+
+/* can someone explain why these expressions (multiplicative etc) are shortened in everyone elses grammar compared to that */
+/* in the ECMA breakdown?  is this something we have chosen or is it a requirement? */
+
+MultiplicativeExpression :
+	UnaryExpression
+	| MultiplicativeExpression  MULTIPLY UnaryExpression
+	| MultiplicativeExpression  DIVIDE UnaryExpression
+	| MultiplicativeExpression  MOD UnaryExpression
+	;
+	
+
+AdditiveExpression :
+	MultiplicativeExpression 
+	| AdditiveExpression  PLUS MultiplicativeExpression 
+	| AdditiveExpression  MINUS MultiplicativeExpression 
+	;
+		
+
+ShiftExpression :
+	AdditiveExpression
+	| ShiftExpression  LSHIFT AdditiveExpression
+	| ShiftExpression  RSHIFT AdditiveExpression
+	| ShiftExpression  LRSHIFT AdditiveExpression
+	;		
