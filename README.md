@@ -16,25 +16,3 @@ C++ code for implementing Flex
 
 # ECMAScript® Language Specification
 http://www.ecma-international.org/ecma-262/5.1/
-
-# files
-* cjpp
-  - anu_parser.y
-  - anu_parser1.y
-  - BITWISE Grammar.txt
-  - Chapter11
-  * Examples
-  - lex.yy.c
-  - Makefile
-  - parser_statements.y
-  - parser.tab.c
-  - parser.tab.h
-  - parser.y
-  - RELATIONALOP Grammer.txt
-  - sample.js
-  - scanner.l
-* JavaScriptTestScripts
-  * calculation
-  * comment
-  * token
-  * variable
