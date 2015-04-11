@@ -22,7 +22,7 @@ num1 		([-+]?{digit}+\.?([eE][-+]?{digit}+)?)
 num2 		([-+]?{digit}*\.{digit}+([eE][-+]?{digit}+)?)
 number 		{num1}|{num2}
 
-identifier 	(^[_$a-zA-Z][_$a-zA-Z0-9]*$)
+identifier 		({letter}|{digit}|\$)({letter}|{digit}|[_.\-/$])*
 
 %%
 
@@ -134,7 +134,8 @@ identifier 	(^[_$a-zA-Z][_$a-zA-Z0-9]*$)
 "in" 				{ fprintf(yyout, " IN"); 			return IN; }
 
 	/* Identifier */
-{identifier} 		{ fprintf(yyout, " IDENTIFIER"); 	return IDENTIFIER; }
+{identifier} 		{ fprintf(yyout, " IDENTIFIER(%s)", yytext); 	return IDENTIFIER; }
+
 
 %%
 

@@ -1,6 +1,7 @@
 	/* Definition */
 
 %{
+	#include <stdio.h>
 	int yyerror(char const *s);
 	int yylex(void);
 %}
@@ -105,7 +106,7 @@ StatementList: Statement
 	;
 
 // 12.2 Variable Statement
-VariableStatement: VAR VariableDeclarationList SEMICOLON
+VariableStatement: VAR VariableDeclarationList SEMICOLON 				{printf("\t \"Variable Statement\"\t");}
 	;
 
 VariableDeclarationList: VariableDeclaration
