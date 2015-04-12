@@ -159,5 +159,4 @@ int main(void) {
 
 	printf("\t%d\t%d\n", line, column);
 
-	yylex_destroy();
 }
