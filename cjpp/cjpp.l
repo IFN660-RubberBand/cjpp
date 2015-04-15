@@ -40,6 +40,9 @@ identifier 		({letter}|{digit}|\$)({letter}|{digit}|[_.\-/$])*
 "," 				{ fprintf(yyout, " COMMA"); 		return COMMA; }
 "." 				{ fprintf(yyout, " POINT"); 		return POINT; }
 "?" 				{ fprintf(yyout, " QUESTION"); 		return QUESTION; }
+"\'"				{ fprintf(yyout, "SINGLEQUOTE");	return SINGLEQUOTE; }
+"\""				{ fprintf(yyout, "DOUBLEQUOTE");	return DOUBLEQUOTE; }
+"\\"				{ fprintf(yyout, "BACKSLASH");		return BACKSLASH; }
 
 	/* operators */
 "\+" 				{ fprintf(yyout, " PLUS"); 			return PLUS; }
@@ -159,5 +162,4 @@ int main(void) {
 
 	printf("\t%d\t%d\n", line, column);
 
-	yylex_destroy();
 }
