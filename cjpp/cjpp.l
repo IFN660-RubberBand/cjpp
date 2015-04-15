@@ -139,6 +139,9 @@ identifier 		({letter}|{digit}|\$)({letter}|{digit}|[_.\-/$])*
 	/* Identifier */
 {identifier} 		{ fprintf(yyout, " IDENTIFIER(%s)", yytext); 	return IDENTIFIER; }
 
+	/* String literals */
+\"(\\.|[^"])*\"		{ fprintf(yyout, "DOUBLE_STRING_LITERAL(%s)", yytext);	return DOUBLE_STRING_LITERAL; }
+\'(\\.|[^'])*\'		{ fprintf(yyout, "SINGLE_STRING_LITERAL(%s)", yytext);	return SINGLE_STRING_LITERAL; }
 
 %%
 
