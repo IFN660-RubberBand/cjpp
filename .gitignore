@@ -27,6 +27,7 @@
 *.out
 *.app
 *~
+cjpp
 
 # flex and bison generated files
 *.yy.c
