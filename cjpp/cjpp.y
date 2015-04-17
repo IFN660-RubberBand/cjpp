@@ -186,7 +186,7 @@ WithStatement: WITH LPAREN Expression RPAREN Statement
 SwitchStatement: SWITCH LPAREN Expression RPAREN CaseBlock
 	;
 
-CaseBlock: LCURLY CaseClause RCURLY
+CaseBlock: LCURLY CaseClauses RCURLY
 	| LCURLY RCURLY
 	| LCURLY CaseClause DefaultClause CaseClause RCURLY
 	| LCURLY DefaultClause CaseClause RCURLY

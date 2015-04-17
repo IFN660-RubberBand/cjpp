@@ -143,6 +143,33 @@ identifier 		({letter}|{digit}|\$)({letter}|{digit}|[_.\-/$])*
 \"(\\.|[^"])*\"		{ fprintf(yyout, "DOUBLE_STRING_LITERAL(%s)", yytext);	return DOUBLE_STRING_LITERAL; }
 \'(\\.|[^'])*\'		{ fprintf(yyout, "SINGLE_STRING_LITERAL(%s)", yytext);	return SINGLE_STRING_LITERAL; }
 
+	/* Comments */
+"/*"				{
+						int c;
+						while ((c = yyinput()) != 0)
+						{
+							if(c == '\n')
+								++line;
+							else if(c == '*')
+							{
+								if((c = yyinput()) == '/')
+									break;
+								else
+									unput(c);
+							}
+						}
+					}				
+"//"				{
+						int c;
+						while ((c = yyinput()) != 0)
+						{
+							if(c =='\n')
+								break;
+							else if (c == EOF)
+								break;
+						}
+					}
+
 %%
 
 	/* Subroutine */
