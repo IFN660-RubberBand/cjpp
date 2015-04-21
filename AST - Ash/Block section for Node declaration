@@ -1,0 +1,58 @@
+
+
+/*
+ * EXAMPLE 1
+ * Latest finding on Block class AST below ... extends from Statement
+ *
+ */
+
+class Block : Statement {
+ List<Statement> stats = new ArrayList<Statement>();
+ void add(Statment s) { stats.add(s); }
+} 
+
+
+/*
+ * EXAMPLE 2
+ *information bleow found on "create a toy compiler" for the block class. aprently extends from expression.. this confused me 
+ *
+ */
+
+class NBlock : public NExpression {
+public:
+    StatementList statements;
+    NBlock() { }
+    virtual llvm::Value* codeGen(CodeGenContext& context);
+};
+
+
+
+
+/*Possible dependant classes below*/
+
+/*
+ *
+ * when viewing example from "Make a toy compiler" - block is reliant on other functions so jsut jotting down possible required classes below. 
+ *
+ */
+
+
+ /*Block extends from the Statement Node!! */
+
+ class NStatement : public Node {
+};
+
+class NFunctionDeclaration : public NStatement {
+public:
+    const NIdentifier& type;
+    const NIdentifier& id;
+    VariableList arguments;
+    NBlock& block;
+    NFunctionDeclaration(const NIdentifier& type, const NIdentifier& id, 
+            const VariableList& arguments, NBlock& block) :
+        type(type), id(id), arguments(arguments), block(block) { }
+    virtual llvm::Value* codeGen(CodeGenContext& context);
+};
+
+
+
