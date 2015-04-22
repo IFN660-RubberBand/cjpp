@@ -208,7 +208,7 @@ DefaultClause: DEFAULT COLON
 	;
 
 // 12.12 Labelled Statement
-LabelledStatement: IDENTIFIER COLON Statement
+LabelledStatement: IDENTIFIER COLON Statement 									{ $$ = new NLabelledStatement($1, $3); }
 	;
 
 // 12.13 The throw Statement
@@ -228,7 +228,7 @@ TryStatement: TRY Block Catch
 	;
 
 // 12.15 The debugger Statement
-DebuggerStatement: DEBUGGER SEMICOLON
+DebuggerStatement: DEBUGGER SEMICOLON 											{ $$ = new NDebuggerStatement($1); }
 	;
 	/* END 12 - Stetements */
 
