@@ -81,6 +81,24 @@ public:
 
 class Ident : public Expression {
 
+ int *m_val;
+
+public:
+   
+  Ident (int *val): m_val (val) {}
+
+  // Copy constructor
+  Ident (const Ident &other) { m_val = other.m_val; }
+
+  Ident &operator = (const Ident &other) {
+    if (&other != this)
+      m_val = other.m_val;
+  }
+
+  virtual Expression *clone () { return new Ident (*this); }
+  
+
+  virtual int value () { return *m_val; }
 
 
 
