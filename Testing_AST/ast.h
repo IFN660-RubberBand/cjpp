@@ -6,9 +6,39 @@ class Expression {
   
   virtual int value () = 0;
 
-}; 
+};
+
+class Times : public Expression {
 
 
+Expression *m_left, *m_right;
+
+public:
+ 
+
+Plus (Expression *left, Expression *right): m_left (left), m_right (right) {}
+
+ Plus (const Plus &other) {
+    m_left = other.m_left->clone ();
+    m_right = other.m_right->clone ();
+  }
+ 
+  virtual ~Plus ()
+  {
+    delete m_left;
+    delete m_right;
+  }
+
+  Plus &operator = (const Plus &other) {
+    if (&other != this) {
+      delete m_left;
+      delete m_right;
+     
+      m_left = other.m_left->clone ();
+      m_right = other.m_right->clone ();
+    }
+
+};
 
 class Times : public Expression {
 
