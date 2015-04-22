@@ -1,7 +1,7 @@
 
 /* 
  *
- * $$ dollar dollar values below to add to cjpp.y  couldn't test any of this as required complete node file
+ * $$ dollar dollar values below to add to cjpp.y  
  *
  */
 
