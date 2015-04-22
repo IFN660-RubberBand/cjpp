@@ -2,6 +2,7 @@
 
 %{
 	#include <stdio.h>
+	#include "ast.h"
 	int yyerror(char const *s);
 	int yylex(void);
 %}
@@ -132,7 +133,7 @@ InitialiserNoIn: ASSIGN AssignmentExpressionNoIn
 	;
 
 // 12.3 Empty Statement
-EmptyStatement: 
+EmptyStatement: 																{ $$ = new EmptyStatement_node(); }
 	;
 
 // 12.4 Expression Statement
@@ -141,8 +142,8 @@ ExpressionStatement:
 	;
 
 // 12.5 if Statement
-IfStatement: IF LPAREN Expression RPAREN Statement ELSE Statement
-	| IF LPAREN Expression RPAREN Statement
+IfStatement: IF LPAREN Expression RPAREN Statement ELSE Statement 				{ $$ = new IfStatement_node($3, $5, $6); }
+	| IF LPAREN Expression RPAREN Statement 									{ $$ = new IfStatement_node($3, $5); }
 	;
 
 // 12.6 Iteration Statements
@@ -317,16 +318,16 @@ PostfixExpression: LeftHandSideExpression
 	;
 
 // 11.4 Unary Operators
-UnaryExpression: PostfixExpression
-	| DELETE UnaryExpression
-	| VOID UnaryExpression
-	| TYPEOF UnaryExpression
-	| INC UnaryExpression
-	| DEC UnaryExpression
-	| PLUS UnaryExpression
-	| MINUS UnaryExpression
-	| BITNOT UnaryExpression
-	| NOT UnaryExpression
+UnaryExpression: PostfixExpression										{ $$ = new PostfixExpression_node($1); }
+	| DELETE UnaryExpression											{ $$ = new UnaryExpression_node($2); }
+	| VOID UnaryExpression												{ $$ = new UnaryExpression_node($2); }
+	| TYPEOF UnaryExpression											{ $$ = new UnaryExpression_node($2); }
+	| INC UnaryExpression												{ $$ = new UnaryExpression_node($2); }
+	| DEC UnaryExpression												{ $$ = new UnaryExpression_node($2); }
+	| PLUS UnaryExpression												{ $$ = new UnaryExpression_node($2); }
+	| MINUS UnaryExpression												{ $$ = new UnaryExpression_node($2); }
+	| BITNOT UnaryExpression											{ $$ = new UnaryExpression_node($2); }
+	| NOT UnaryExpression												{ $$ = new UnaryExpression_node($2); }
 	;
 
 // 11.5 Multiplicative Operators
