@@ -57,6 +57,23 @@ public:
 
 class Number : public Expression {
 
+int m_val;
+
+public:
+   
+  Number (int val): m_val (val) {}
+
+  // Copy constructor
+  Number (const Number &other) { m_val = other.m_val; }
+
+  Number &operator = (const Number &other) {
+    if (&other != this)
+      m_val = other.m_val;
+  }
+
+  virtual Expression *clone () { return new Number (*this); }
+
+  virtual int value () { return m_val; }
 
 
 };
