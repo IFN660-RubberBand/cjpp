@@ -46,12 +46,12 @@
 	/* Rule */
 
 	/* 14 - Program */
-Program: SourceElements
+Program: SourceElements												{ $$ = new SourceElement_node($1); }
 	|
 	;
 
-SourceElements: SourceElement
-	| SourceElements SourceElement
+SourceElements: SourceElement 										{ $$ = new SourceElement_node($1); }
+	| SourceElements SourceElement 									{ $$ = new SourceElement_node($1, $2); }
 	;
 
 SourceElement: Statement

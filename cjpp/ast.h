@@ -1,14 +1,14 @@
 #include <iostream>
 
-class Node {
+class SourceElement_node {
 public:
 	virtual ~Node() {}
 };
 
-class Expression_node : public Node {
+class Expression_node : public SourceElement_node {
 };
 
-class Statement_node: public Node {
+class Statement_node: public SourceElement_node {
 };
 
 class IfStatement_node : public Statement_node {
