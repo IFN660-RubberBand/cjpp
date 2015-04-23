@@ -2,7 +2,7 @@
 
 %{
 	#include <stdio.h>
-	#include "ast.h"
+	/*#include "ast.h"*/
 	int yyerror(char const *s);
 	int yylex(void);
 %}
@@ -46,12 +46,12 @@
 	/* Rule */
 
 	/* 14 - Program */
-Program: SourceElements												{ $$ = new SourceElement_node($1); }
+Program: SourceElements												//{ $$ = new SourceElement_node($1); }
 	|
 	;
 
-SourceElements: SourceElement 										{ $$ = new SourceElement_node($1); }
-	| SourceElements SourceElement 									{ $$ = new SourceElement_node($1, $2); }
+SourceElements: SourceElement 										//{ $$ = new SourceElement_node($1); }
+	| SourceElements SourceElement 									//{ $$ = new SourceElement_node($1, $2); }
 	;
 
 SourceElement: Statement
@@ -64,9 +64,8 @@ FunctionDeclaration: FUNCTION IDENTIFIER LPAREN FormalParameterList RPAREN LCURL
 	| FUNCTION IDENTIFIER LPAREN RPAREN LCURLY FunctionBody RCURLY
 	;
 
-FunctionExpression: FUNCTION IDENTIFIER LPAREN FormalParameterList RPAREN LCURLY FunctionBody RCURLY
+FunctionExpression: FunctionDeclaration
 	| FUNCTION LPAREN FormalParameterList RPAREN LCURLY FunctionBody RCURLY
-	| FUNCTION IDENTIFIER LPAREN RPAREN LCURLY FunctionBody RCURLY
 	| FUNCTION LPAREN RPAREN LCURLY FunctionBody RCURLY
 	;
 
@@ -83,7 +82,7 @@ FunctionBody: SourceElements
 Statement: Block
 	| VariableStatement
 	| EmptyStatement
-	| ExpressionStatement
+	//| ExpressionStatement
 	| IfStatement
 	| IterationStatement
 	| ContinueStatement
@@ -133,17 +132,17 @@ InitialiserNoIn: ASSIGN AssignmentExpressionNoIn
 	;
 
 // 12.3 Empty Statement
-EmptyStatement: 																{ $$ = new EmptyStatement_node(); }
+EmptyStatement: 																//{ $$ = new EmptyStatement_node(); }
 	;
 
 // 12.4 Expression Statement
 // todo
-ExpressionStatement: 
-	;
+//ExpressionStatement: 
+//	;
 
 // 12.5 if Statement
-IfStatement: IF LPAREN Expression RPAREN Statement ELSE Statement 				{ $$ = new IfStatement_node($3, $5, $6); }
-	| IF LPAREN Expression RPAREN Statement 									{ $$ = new IfStatement_node($3, $5); }
+IfStatement: IF LPAREN Expression RPAREN Statement ELSE Statement 				//{ $$ = new IfStatement_node($3, $5, $6); }
+	| IF LPAREN Expression RPAREN Statement 									//{ $$ = new IfStatement_node($3, $5); }
 	;
 
 // 12.6 Iteration Statements
@@ -195,20 +194,22 @@ CaseBlock: LCURLY CaseClauses RCURLY
 	| LCURLY DefaultClause RCURLY
 	;
 
-CaseClause: CASE Expression COLON
-	| CASE Expression COLON StatementList
+CaseClause: CASE Expression COLON StatementListOpt
 	;
 
 CaseClauses: CaseClause
 	| CaseClauses CaseClause
 	;
 
-DefaultClause: DEFAULT COLON
-	| DEFAULT COLON StatementList
+DefaultClause: DEFAULT COLON StatementListOpt
+	;
+
+StatementListOpt: 
+	| StatementList
 	;
 
 // 12.12 Labelled Statement
-LabelledStatement: IDENTIFIER COLON Statement 									{ $$ = new NLabelledStatement($1, $3); }
+LabelledStatement: IDENTIFIER COLON Statement 									//{ $$ = new NLabelledStatement($1, $3); }
 	;
 
 // 12.13 The throw Statement
@@ -228,7 +229,7 @@ TryStatement: TRY Block Catch
 	;
 
 // 12.15 The debugger Statement
-DebuggerStatement: DEBUGGER SEMICOLON 											{ $$ = new NDebuggerStatement($1); }
+DebuggerStatement: DEBUGGER SEMICOLON 											//{ $$ = new NDebuggerStatement($1); }
 	;
 	/* END 12 - Stetements */
 
@@ -318,16 +319,16 @@ PostfixExpression: LeftHandSideExpression
 	;
 
 // 11.4 Unary Operators
-UnaryExpression: PostfixExpression										{ $$ = new PostfixExpression_node($1); }
-	| DELETE UnaryExpression											{ $$ = new UnaryExpression_node($2); }
-	| VOID UnaryExpression												{ $$ = new UnaryExpression_node($2); }
-	| TYPEOF UnaryExpression											{ $$ = new UnaryExpression_node($2); }
-	| INC UnaryExpression												{ $$ = new UnaryExpression_node($2); }
-	| DEC UnaryExpression												{ $$ = new UnaryExpression_node($2); }
-	| PLUS UnaryExpression												{ $$ = new UnaryExpression_node($2); }
-	| MINUS UnaryExpression												{ $$ = new UnaryExpression_node($2); }
-	| BITNOT UnaryExpression											{ $$ = new UnaryExpression_node($2); }
-	| NOT UnaryExpression												{ $$ = new UnaryExpression_node($2); }
+UnaryExpression: PostfixExpression										//{ $$ = new PostfixExpression_node($1); }
+	| DELETE UnaryExpression											//{ $$ = new UnaryExpression_node($2); }
+	| VOID UnaryExpression												//{ $$ = new UnaryExpression_node($2); }
+	| TYPEOF UnaryExpression											//{ $$ = new UnaryExpression_node($2); }
+	| INC UnaryExpression												//{ $$ = new UnaryExpression_node($2); }
+	| DEC UnaryExpression												//{ $$ = new UnaryExpression_node($2); }
+	| PLUS UnaryExpression												//{ $$ = new UnaryExpression_node($2); }
+	| MINUS UnaryExpression												//{ $$ = new UnaryExpression_node($2); }
+	| BITNOT UnaryExpression											//{ $$ = new UnaryExpression_node($2); }
+	| NOT UnaryExpression												//{ $$ = new UnaryExpression_node($2); }
 	;
 
 // 11.5 Multiplicative Operators

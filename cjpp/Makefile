@@ -36,7 +36,7 @@ $(main): $(main).yy.c $(main).tab.c
 	g++ -x c++ $(main).yy.c $(main).tab.c -o $(main)
 
 $(main).tab.c: $(main).y
-	yacc -d $(main).y -o $(main).tab.c
+	yacc -d --verbose $(main).y -o $(main).tab.c
 
 $(main).yy.c: $(main).l
 	lex -o $(main).yy.c $(main).l

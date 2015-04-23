@@ -6,8 +6,10 @@ public:
     const NStatement& statement;
     
     NLabelledStatement(
-                       const NIdentifier& id,
-                       const NStatement& statement
-                       ) : id(id), statement(statement)
-    {}
+                       const NIdentifier& arg_id,
+                       const NStatement& arg_statement
+                       ) : id(arg_id), statement(arg_statement)
+    {
+    	
+    }
 };

@@ -5,6 +5,6 @@ public:
     const NIdentifier& id;
     
     NDebuggerStatement(
-                       const NIdentifier& id
-                       ) : id(id) {}
+                       const NIdentifier& arg_id
+                       ) : id(arg_id) {}
 };
