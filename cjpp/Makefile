@@ -42,4 +42,4 @@ $(main).yy.c: $(main).l
 	lex -o $(main).yy.c $(main).l
 
 clear:
-	rm $(main).yy.c $(main).tab.c $(main).tab.h $(main)
+	rm $(main).yy.c $(main).tab.c $(main).tab.h $(main).output $(main)
