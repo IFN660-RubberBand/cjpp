@@ -132,7 +132,7 @@ InitialiserNoIn: ASSIGN AssignmentExpressionNoIn
 	;
 
 // 12.3 Empty Statement
-EmptyStatement: 																//{ $$ = new EmptyStatement_node(); }
+EmptyStatement: 																//{ $$ = new NEmptyStatement(); }
 	;
 
 // 12.4 Expression Statement
@@ -141,8 +141,8 @@ EmptyStatement: 																//{ $$ = new EmptyStatement_node(); }
 //	;
 
 // 12.5 if Statement
-IfStatement: IF LPAREN Expression RPAREN Statement ELSE Statement 				//{ $$ = new IfStatement_node($3, $5, $6); }
-	| IF LPAREN Expression RPAREN Statement 									//{ $$ = new IfStatement_node($3, $5); }
+IfStatement: IF LPAREN Expression RPAREN Statement ELSE Statement 				//{ $$ = new NIfStatement($3, $5, $6); }
+	| IF LPAREN Expression RPAREN Statement 									//{ $$ = new NIfStatement($3, $5, null); }
 	;
 
 // 12.6 Iteration Statements

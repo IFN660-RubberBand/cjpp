@@ -1,0 +1,2 @@
+class NEmptyStatement : public NStatement {
+};
