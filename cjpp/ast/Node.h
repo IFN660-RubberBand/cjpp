@@ -2,6 +2,8 @@
 
 class Node {
 public:
+    Node() {};
+    virtual ~Node() {};
 };
 
 class Statement : public Node {
@@ -51,13 +53,9 @@ public:
 
 class PrimaryExpression : public Expression {
 public:
-    const Identifier* i;	
-    const Literal* l;
-    PrimaryExpression(const Identifier* i)
+    const Node* i;	
+    PrimaryExpression(const Node* i)
 	: i(i)
-    {}	
-    PrimaryExpression(const Literal* l)
-	: l(l)
     {}	
 };
 
