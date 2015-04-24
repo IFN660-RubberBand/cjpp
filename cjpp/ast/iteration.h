@@ -1,9 +1,13 @@
-#include "ast.h"
+#include "Node.h"
 
-class IterationStatement : public Statement_node {
+//TODO implement somewhere else
+class VariableDeclList {};
+class LeftHandSideExpression : Expression {};
+
+class IterationStatement : public Statement {
 public:
-    Statement_node* stmt;
-    IterationStatement(const Statement_node* s) 
+    const Statement* stmt;
+    IterationStatement(const Statement* s) 
     {
          stmt = s;
     }
@@ -12,8 +16,8 @@ public:
 
 class DoWhileIterationStatement : public IterationStatement {
 public:
-    Expression_node* expr;
-    DoWhileIterationStatement(const Statement_node* stmt, const Expression_node* e)
+    const Expression* expr;
+    DoWhileIterationStatement(const Statement* stmt, const Expression* e)
 	: IterationStatement(stmt) 
     {
        expr = e;
@@ -22,8 +26,8 @@ public:
 
 class WhileIterationStatement : public IterationStatement {
 public:
-    Expression_node* expr;
-    WhileIterationStatement(const Expression_node* e, const Statement_node* stmt)
+    const Expression* expr;
+    WhileIterationStatement(const Expression* e, const Statement* stmt)
 	: IterationStatement(stmt) 
     {
        expr = e;
@@ -32,10 +36,10 @@ public:
 
 class ForIterationStatement : public IterationStatement {
 public:
-    Expression_node* refexpr;
-    Expression_node* testexpr;
-    Expression_node* incexpr;
-    ForIterationStatement(const Expression_node* init, const Expression_node* test, const Expression_node* inc, const Statement_node* stmt)
+    const Expression* refexpr;
+    const Expression* testexpr;
+    const Expression* incexpr;
+    ForIterationStatement(const Expression* init, const Expression* test, const Expression* inc, const Statement* stmt)
 	: IterationStatement(stmt) 
     {
        refexpr = init;
@@ -46,10 +50,10 @@ public:
 
 class ForVarIterationStatement : public IterationStatement {
 public:
-    variableDeclList* vars;
-    Expression_node* testexpr;
-    Expression_node* incexpr;
-    ForVarIterationStatement(const variableDeclList* v, const Expression_node* test, const Expression_node* inc, const Statement_node* stmt)
+    const VariableDeclList* vars;
+    const Expression* testexpr;
+    const Expression* incexpr;
+    ForVarIterationStatement(const VariableDeclList* v, const Expression* test, const Expression* inc, const Statement* stmt)
 	: IterationStatement(stmt) 
     {
        vars = v;
@@ -60,9 +64,9 @@ public:
 
 class ForInIterationStatement : public IterationStatement {
 public:
-    LeftHandSideExpresion* left;
-    Expression_node* expr;
-    ForInIterationStatement(const LeftHandSideExpresion* l, const Expression_node* e, const Statement_node* stmt)
+    const LeftHandSideExpression* left;
+    const Expression* expr;
+    ForInIterationStatement(const LeftHandSideExpression* l, const Expression* e, const Statement* stmt)
 	: IterationStatement(stmt) 
     {
        left = l;
@@ -70,11 +74,11 @@ public:
     }
 };
 
-class ForVarIterationStatement : public IterationStatement {
+class ForVarInIterationStatement : public IterationStatement {
 public:
-    variableDeclList* vars;
-    Expression_node* expr;
-    ForVarIterationStatement(const variableDeclList* v, const Expression_node* e, const Statement_node* stmt)
+    const VariableDeclList* vars;
+    const Expression* expr;
+    ForVarInIterationStatement(const VariableDeclList* v, const Expression* e, const Statement* stmt)
 	: IterationStatement(stmt) 
     {
        vars = v;

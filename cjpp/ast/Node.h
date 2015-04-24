@@ -6,3 +6,11 @@ public:
     virtual Node *clone () = 0;
     virtual int value () = 0;
 };
+
+class Statement : public Node {
+
+};
+
+class Expression : public Node {
+
+};
