@@ -14,3 +14,12 @@ class Statement : public Node {
 class Expression : public Node {
 
 };
+
+
+class Identifier : public Node {
+public:
+    char* name;
+    
+    Identifier(char* name) : name(name)
+    {}	
+}
