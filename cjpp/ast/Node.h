@@ -1,4 +1,6 @@
 #include <iostream>
+#include <list>
+using namespace std;
 
 class Node {
 public:
@@ -59,4 +61,21 @@ public:
     {}	
 };
 
+class StatementList : public Node {
+public:
+    list<const Statement*>* stmts;	
+    StatementList(const Statement* s)
+    {
+         stmts = new list<const Statement*>();
+	 append(s);	
+    }
+    StatementList()
+    {
+         stmts = new list<const Statement*>();
+    }	
+    void append(const Statement* s) 
+    {
+	 stmts->push_back(s);
+    }
+};
 

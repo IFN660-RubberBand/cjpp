@@ -13,10 +13,12 @@
 %union {
 	Expression* expr;
 	Statement* stmt;
+	StatementList* stmtlist;
 	Literal* l;
 	Identifier* i;
 }
 
+%type <stmtlist> Program SourceElements
 %type <stmt> Statement SourceElement ExpressionStatement
 %type <expr> Expression MemberExpression NewExpression BitwiseANDExpression BitwiseOrExpression PrimaryExpression LogicalAndExpression AssignmentExpression MultiplicativeExpression ShiftExpression UnaryExpression RelationalExpression LogicalOrExpression
 BitwiseXORExpression ConditionalExpression AdditiveExpression EqualityExpression LeftHandSideExpression PostfixExpression 
@@ -63,12 +65,12 @@ BitwiseXORExpression ConditionalExpression AdditiveExpression EqualityExpression
 
 	/* 14 - Program */
 Program: 
-        SourceElements			
+        SourceElements			{ $$ = $1; }
 	;
 
 SourceElements: 
-        SourceElement 										
-	| SourceElements SourceElement 									
+        SourceElement 			{ $$ = new StatementList($1); } 							
+	| SourceElements SourceElement 	{ $$ = $1; $$->append($2);    }								
 	;
 
 SourceElement: 
