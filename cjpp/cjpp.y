@@ -97,8 +97,8 @@ Statement: Block
 	;
 
 // 12.1 Block
-Block: LCURLY StatementList RCURLY
-	| LCURLY RCURLY
+Block: LCURLY StatementList RCURLY										//{ $$ = $2; }
+	| LCURLY RCURLY																			//{ $$ = new Block(); }
 	;
 
 StatementList: Statement

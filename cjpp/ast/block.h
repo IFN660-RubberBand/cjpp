@@ -1,15 +1,11 @@
 
-/*
- * 
- *Block code for node
- *
- */
+#include "Node.h"
 
-class NBlock : public NStatement {
+class Block : public Statement {
 public:
     StatementList statements;
-    NBlock(
-            NStatementList
+    Block(
+            StatementList
             ) { }
     //virtual llvm::Value* codeGen(CodeGenContext& context);
 };
