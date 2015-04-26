@@ -32,14 +32,14 @@ endif
 
 all: $(main)
 
-$(main): $(main).yy.c $(main).tab.c
-	g++ -x c++ $(main).yy.c $(main).tab.c -o $(main)
+$(main): cjpp.yy.c cjpp.tab.c cjpp.tab.h ast/Node.h
+	g++ -x c++ -std=c++11 cjpp.yy.c cjpp.tab.c -o $(main)
 
-$(main).tab.c: $(main).y
-	yacc -d --verbose $(main).y -o $(main).tab.c
+cjpp.tab.c: cjpp.y
+	$(yacc) -d --verbose cjpp.y -o cjpp.tab.c
 
-$(main).yy.c: $(main).l
-	lex -o $(main).yy.c $(main).l
+cjpp.yy.c: cjpp.l
+	$(lex) -o cjpp.yy.c cjpp.l
 
-clear:
-	rm $(main).yy.c $(main).tab.c $(main).tab.h $(main).output $(main)
+clean:
+	rm cjpp.yy.c cjpp.tab.c cjpp.tab.h $(main)
