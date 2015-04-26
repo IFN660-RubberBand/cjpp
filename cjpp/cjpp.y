@@ -87,7 +87,7 @@ Statement:
 
 // 12.4 Expression Statement
 ExpressionStatement: 
-	Expression			{ $$ = new ExpressionStatement($1); }    
+	Expression SEMICOLON		{ $$ = new ExpressionStatement($1); }    
 	;
 
 	/* 11 - Expressions */
