@@ -85,12 +85,21 @@ class AssignmentExpression : public Expression {
 public:
     const Expression* left;	
     const Expression* expr;
+    int op;
     AssignmentExpression(const Expression* left, const Expression* expr)
 	: left(left), expr(expr)
+    {
+        op = NULL;
+    }
+    AssignmentExpression(const Expression* left, int op, const Expression* expr)
+	: left(left), expr(expr), op(op)
     {}
     void print(unsigned int tabs) const {
         left->print(tabs);
-	cout << " = ";
+	if(op != NULL)
+		cout << " " << (char) op << "= ";
+	else
+		cout << " = ";
 	expr->print(tabs);
     }		
 };
