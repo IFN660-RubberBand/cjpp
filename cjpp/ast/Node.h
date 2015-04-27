@@ -102,6 +102,26 @@ public:
     }	
 };
 
+
+class TernaryExpression : public Expression {
+public:
+    const Expression* test;
+    const Expression* left;	
+    const Expression* right;
+    TernaryExpression(const Expression* test, const Expression* left, const Expression* right)
+	: left(left), right(right), test(test)
+    {}
+    void print(unsigned int tabs) const {
+        test->print(tabs);
+	cout << " ? ";
+	left->print(tabs);
+	cout << " : ";
+	right->print(tabs);
+    }	
+};
+
+
+
 class UnaryExpression : public Expression {
 public:
     int op;

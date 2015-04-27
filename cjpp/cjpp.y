@@ -320,26 +320,26 @@ LogicalOrExpressionNoIn:
 
 // 11.12 Conditional Operator
 ConditionalExpression: 
-	LogicalOrExpression					{ $$ = $1; }
-	| LogicalOrExpression QUESTION AssignmentExpression COLON AssignmentExpression
+	LogicalOrExpression									{ $$ = $1; }
+	| LogicalOrExpression QUESTION AssignmentExpression COLON AssignmentExpression 		{ $$ = new TernaryExpression($1, $3, $5); }
 	;
 
 ConditionalExpressionNoIn: 
-	LogicalOrExpressionNoIn					{ $$ = $1; }
-	| LogicalOrExpressionNoIn QUESTION AssignmentExpression COLON AssignmentExpression
+	LogicalOrExpressionNoIn									{ $$ = $1; }
+	| LogicalOrExpressionNoIn QUESTION AssignmentExpression COLON AssignmentExpression	{ $$ = new TernaryExpression($1, $3, $5); }
 	;
 
 // 11.13 Assignment Operators
 AssignmentExpression: 
-	ConditionalExpression 					{ $$ = $1; }
-	| LeftHandSideExpression ASSIGN AssignmentExpression	{ $$ = new AssignmentExpression($1, $3); }
-	| LeftHandSideExpression AssignmentOperator AssignmentExpression { $$ = new AssignmentExpression($1, $2, $3); }	
+	ConditionalExpression 							{ $$ = $1; }
+	| LeftHandSideExpression ASSIGN AssignmentExpression			{ $$ = new AssignmentExpression($1, $3); }
+	| LeftHandSideExpression AssignmentOperator AssignmentExpression 	{ $$ = new AssignmentExpression($1, $2, $3); }	
 	;
 
 AssignmentExpressionNoIn: 
-	ConditionalExpressionNoIn			{ $$ = $1; }
-	| LeftHandSideExpression ASSIGN AssignmentExpressionNoIn	{ $$ = new AssignmentExpression($1, $3); }
-	| LeftHandSideExpression AssignmentOperator AssignmentExpressionNoIn { $$ = new AssignmentExpression($1, $2, $3); }
+	ConditionalExpressionNoIn						{ $$ = $1; }
+	| LeftHandSideExpression ASSIGN AssignmentExpressionNoIn		{ $$ = new AssignmentExpression($1, $3); }
+	| LeftHandSideExpression AssignmentOperator AssignmentExpressionNoIn 	{ $$ = new AssignmentExpression($1, $2, $3); }
 	;
 
 AssignmentOperator: 
