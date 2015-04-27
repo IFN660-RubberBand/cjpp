@@ -190,11 +190,22 @@ LeftHandSideExpression: NewExpression	{ $$ = $1; }
 // 11.3 Postfix Expressions
 PostfixExpression: 
 	LeftHandSideExpression		{ $$ = $1; }
+	| LeftHandSideExpression INC	{ $$ = new PostfixExpression($1, INC); }
+	| LeftHandSideExpression DEC	{ $$ = new PostfixExpression($1, DEC); }
 	;
 
 // 11.4 Unary Operators
 UnaryExpression: 
-	PostfixExpression		{ $$ = $1; }	
+	PostfixExpression		{ $$ = $1; }
+	| DELETE UnaryExpression 	{ $$ = new UnaryExpression(DELETE, $2); }
+	| VOID UnaryExpression 		{ $$ = new UnaryExpression(VOID, $2); }
+	| TYPEOF UnaryExpression 	{ $$ = new UnaryExpression(TYPEOF, $2); }
+	| INC UnaryExpression 		{ $$ = new UnaryExpression(INC, $2); }
+	| DEC UnaryExpression 		{ $$ = new UnaryExpression(DEC, $2); }
+	| PLUS UnaryExpression 		{ $$ = new UnaryExpression(PLUS, $2); }
+	| MINUS UnaryExpression 	{ $$ = new UnaryExpression(MINUS, $2); }
+	| BITNOT UnaryExpression 	{ $$ = new UnaryExpression(BITNOT, $2); }
+	| NOT UnaryExpression 		{ $$ = new UnaryExpression(NOT, $2); }
 	;
 
 // 11.5 Multiplicative Operators

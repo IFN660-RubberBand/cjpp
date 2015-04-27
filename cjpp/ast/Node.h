@@ -102,6 +102,32 @@ public:
     }	
 };
 
+class UnaryExpression : public Expression {
+public:
+    int op;
+    const Expression* expr;
+    UnaryExpression(int op, const Expression* expr)
+	: expr(expr), op(op)
+    {}
+    void print(unsigned int tabs) const {
+        cout << " " << (char) op << " ";
+	right->print(tabs);
+    }	
+};
+
+class PostfixExpression : public Expression {
+public:
+    int op;
+    const Expression* expr;
+    PostfixExpression(const Expression* expr, int op)
+	: expr(expr), op(op)
+    {}
+    void print(unsigned int tabs) const {
+        cout << " " << (char) op << " ";
+	right->print(tabs);
+    }	
+};
+
 class AssignmentExpression : public Expression {
 public:
     const Expression* left;	
