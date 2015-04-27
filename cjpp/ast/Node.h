@@ -111,7 +111,7 @@ public:
     {}
     void print(unsigned int tabs) const {
         cout << " " << (char) op << " ";
-	right->print(tabs);
+	expr->print(tabs);
     }	
 };
 
@@ -124,7 +124,7 @@ public:
     {}
     void print(unsigned int tabs) const {
         cout << " " << (char) op << " ";
-	right->print(tabs);
+	expr->print(tabs);
     }	
 };
 
