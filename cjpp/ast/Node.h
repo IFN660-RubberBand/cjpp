@@ -13,13 +13,24 @@ class Statement : public Node {
 
 };
 
-class Literal : public Node {
-	void print(unsigned int tabs) const {};
-};
-
 class Expression : public Node {
 
 };
+
+class Literal : public Node {
+public:
+
+};
+
+class NumericLiteral : public Literal {
+public:
+    double value;
+    NumericLiteral(const double value) : value(value) {}
+    void print(unsigned int tabs) const {
+        cout << to_string(value);
+    }
+};
+
 
 
 class Identifier : public Node {
@@ -53,6 +64,21 @@ public:
 class LeftHandsideExpression : public Expression {
 public:
     	
+};
+
+class BinaryExpression : public Expression {
+public:
+    int op;
+    const Expression* left;	
+    const Expression* right;
+    BinaryExpression(const Expression* left, int op, const Expression* right)
+	: left(left), right(right), op(op)
+    {}
+    void print(unsigned int tabs) const {
+        left->print(tabs);
+	cout << " " << (char) op << " ";
+	right->print(tabs);
+    }	
 };
 
 class AssignmentExpression : public Expression {

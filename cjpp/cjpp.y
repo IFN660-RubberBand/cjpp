@@ -2,13 +2,13 @@
 
 %{
 	#include <stdio.h>
-	//#include "ast/Node.h"
 	int yyerror(char const *s);
 	int yylex(void);
 	
 %}
 
 %code requires { #include "ast/Node.h" }
+%locations
 
 %union {
 	Expression* expr;
@@ -16,19 +16,24 @@
 	StatementList* stmtlist;
 	Literal* l;
 	Identifier* i;
+	char* str;
+	double num;
 }
 
 %type <stmtlist> Program SourceElements
 %type <stmt> Statement SourceElement ExpressionStatement
-%type <expr> Expression MemberExpression NewExpression BitwiseANDExpression BitwiseOrExpression PrimaryExpression LogicalAndExpression AssignmentExpression MultiplicativeExpression ShiftExpression UnaryExpression RelationalExpression LogicalOrExpression
+%type <expr> Expression MemberExpression NewExpression BitwiseANDExpression BitwiseOrExpression PrimaryExpression LogicalAndExpression   AssignmentExpression MultiplicativeExpression ShiftExpression UnaryExpression RelationalExpression LogicalOrExpression 
 BitwiseXORExpression ConditionalExpression AdditiveExpression EqualityExpression LeftHandSideExpression PostfixExpression 
 %type <i> Identifier 
-%type <l> Literal
+%type <l> NumericLiteral Literal
+%type <num> DecimalLiteral HexIntegerLiteral
 
 %start Program
 
 	/*  */
-%token NUMBER HEXNUMBER IDENTIFIER FALSE TRUE UNKNOWN NULLLTOKEN
+%token <num> NUMBER HEXNUMBER
+%token FALSE TRUE UNKNOWN NULLLTOKEN
+%token <str> IDENTIFIER
 
 	/*  */
 %token SEMICOLON COLON COMMA POINT QUESTION SINGLEQUOTE DOUBLEQUOTE BACKSLASH DOUBLE_STRING_LITERAL SINGLE_STRING_LITERAL
@@ -65,7 +70,7 @@ BitwiseXORExpression ConditionalExpression AdditiveExpression EqualityExpression
 
 	/* 14 - Program */
 Program: 
-        SourceElements			{ $$ = $1; }
+        SourceElements			{ $$ = $1; $$->print(0); }
 	;
 
 SourceElements: 
@@ -124,7 +129,8 @@ MultiplicativeExpression:
 
 // 11.6 Additive Operators
 AdditiveExpression: 
-	MultiplicativeExpression	{ $$ = $1; }
+	MultiplicativeExpression				{ $$ = $1; }
+	| AdditiveExpression PLUS MultiplicativeExpression	{ $$ = new BinaryExpression($1, PLUS, $3); }
 	;
 
 // 11.7 Bitwise Shift Operators
@@ -177,31 +183,31 @@ AssignmentExpression:
 
 // 11.14 Comma Operator
 Expression: 
-	AssignmentExpression              { $$ = $1; }
+	AssignmentExpression            { $$ = $1; }
 	;
 
 	/* END 11 - Expressions */
 
 	/* 7.8 - Literals */
 Literal: 
-	NumericLiteral			  { $$ = new Literal(); }
+	NumericLiteral			{ $$ = $1; }
 	;
 
 NumericLiteral: 
-	DecimalLiteral
-	| HexIntegerLiteral
+	DecimalLiteral			{ $$ = new NumericLiteral($1); }
+	| HexIntegerLiteral		{ $$ = new NumericLiteral($1); }
 	;
 
 DecimalLiteral:
-	NUMBER
+	NUMBER			        { $$ = $1; }
 	;
 
 HexIntegerLiteral:
-	HEXNUMBER
+	HEXNUMBER			{ $$ = $1; }
 	;
 
 Identifier:				
-	IDENTIFIER			{ $$ = new Identifier((char *) "test"); }
+	IDENTIFIER			{ $$ = new Identifier($1); }
 	;
 	/* END 7.6 Identifier Names and Identifiers */
 %%
