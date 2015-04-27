@@ -4,7 +4,7 @@
 	#include <stdio.h>
 	int yyerror(char const *s);
 	int yylex(void);
-	
+	#include "ast/iteration.h"
 %}
 
 %code requires { #include "ast/Node.h" }
@@ -14,6 +14,8 @@
 	Expression* expr;
 	Statement* stmt;
 	StatementList* stmtlist;
+	VariableDec* vardec;
+	VariableDecList* vardeclist;
 	Literal* l;
 	Identifier* i;
 	char* str;
@@ -21,11 +23,13 @@
 	int integer;
 }
 
-%type <stmtlist> Program SourceElements
-%type <stmt> Statement SourceElement ExpressionStatement
+%type <stmtlist> Program SourceElements StatementList
+%type <vardec> VariableDeclaration VariableDeclarationNoIn
+%type <vardeclist> VariableDeclarationList VariableDeclarationListNoIn
+%type <stmt> Statement SourceElement ExpressionStatement IterationStatement VariableStatement Block
 %type <expr> Expression ExpressionNoIn MemberExpression NewExpression BitwiseANDExpression BitwiseOrExpression PrimaryExpression LogicalAndExpression   AssignmentExpression MultiplicativeExpression ShiftExpression UnaryExpression RelationalExpression LogicalOrExpression 
 BitwiseXORExpression ConditionalExpression AdditiveExpression EqualityExpression LeftHandSideExpression PostfixExpression
-BitwiseANDExpressionNoIn BitwiseOrExpressionNoIn LogicalAndExpressionNoIn AssignmentExpressionNoIn  RelationalExpressionNoIn LogicalOrExpressionNoIn BitwiseXORExpressionNoIn ConditionalExpressionNoIn EqualityExpressionNoIn
+BitwiseANDExpressionNoIn BitwiseOrExpressionNoIn LogicalAndExpressionNoIn AssignmentExpressionNoIn  RelationalExpressionNoIn LogicalOrExpressionNoIn BitwiseXORExpressionNoIn ConditionalExpressionNoIn EqualityExpressionNoIn Initialiser InitialiserNoIn
 %type <i> Identifier 
 %type <l> NumericLiteral Literal
 %type <num> DecimalLiteral HexIntegerLiteral
@@ -90,7 +94,74 @@ SourceElement:
 	/* 12 - Statements */
 Statement: 
 	ExpressionStatement		{ $$ = $1; }		
+	| IterationStatement		{ $$ = $1; }
+	| VariableStatement		{ $$ = $1; }
+	| Block				{ $$ = $1; }
 	;
+
+Block: 
+	LCURLY StatementList RCURLY 	{ $$ = new Block($2); }
+	| LCURLY RCURLY 		{ $$ = new Block(NULL); }
+;
+
+StatementList: 
+	Statement			{ $$ = new StatementList($1); } 
+	| StatementList Statement	{ $$ = $1; $$->append($2);    }
+;
+
+// 12.2 Variable Statement
+VariableStatement: 
+	VAR VariableDeclarationList SEMICOLON			{ $$ = new VariableStatement($2); }
+	;
+
+VariableDeclarationList: 
+	VariableDeclaration					{ $$ = new VariableDecList($1); }
+	| VariableDeclarationList COMMA VariableDeclaration	{ $$ = $1; $$->append($3);    }
+	;
+
+VariableDeclarationListNoIn: 
+	VariableDeclarationNoIn					{ $$ = new VariableDecList($1); }
+	| VariableDeclarationListNoIn COMMA VariableDeclarationNoIn	{ $$ = $1; $$->append($3);    }
+	;
+
+VariableDeclaration: 
+	Identifier Initialiser	{ $$ = new VariableDec($1, $2); }
+	| Identifier		{ $$ = new VariableDec($1); }
+	;
+
+VariableDeclarationNoIn: 
+	Identifier InitialiserNoIn	{ $$ = new VariableDec($1, $2); }
+	| Identifier			{ $$ = new VariableDec($1); }
+	;
+
+Initialiser: 
+	ASSIGN AssignmentExpression	{ $$ = $2; }
+	;
+
+InitialiserNoIn: 
+	ASSIGN AssignmentExpressionNoIn	{ $$ = $2; }
+	;
+
+
+// 12.6 Iteration Statements
+IterationStatement: 
+	DO Statement WHILE LPAREN Expression RPAREN SEMICOLON 			{ $$ = new DoWhileIterationStatement($2, $5); }
+	| WHILE LPAREN Expression RPAREN Statement				{ $$ = new WhileIterationStatement($3, $5); }
+	| FOR LPAREN SEMICOLON SEMICOLON RPAREN Statement			{ $$ = new ForIterationStatement(NULL, NULL, NULL, $6); }
+	| FOR LPAREN SEMICOLON SEMICOLON Expression RPAREN Statement		{ $$ = new ForIterationStatement(NULL, NULL, $5, $7); }
+	| FOR LPAREN SEMICOLON Expression SEMICOLON RPAREN Statement		{ $$ = new ForIterationStatement(NULL, $4, NULL, $7); }
+	| FOR LPAREN SEMICOLON Expression SEMICOLON Expression RPAREN Statement	{ $$ = new ForIterationStatement(NULL, $4, $6, $8); }
+	| FOR LPAREN ExpressionNoIn SEMICOLON SEMICOLON RPAREN Statement			{ $$ = new ForIterationStatement($3, NULL, NULL, $7); }
+	| FOR LPAREN ExpressionNoIn SEMICOLON SEMICOLON Expression RPAREN Statement		{ $$ = new ForIterationStatement($3, NULL, $6, $8); }
+	| FOR LPAREN ExpressionNoIn SEMICOLON Expression SEMICOLON RPAREN Statement 		{ $$ = new ForIterationStatement($3, $5, NULL, $8); }
+	| FOR LPAREN ExpressionNoIn SEMICOLON Expression SEMICOLON Expression RPAREN Statement 	{ $$ = new ForIterationStatement($3, $5, $7, $9); }
+	| FOR LPAREN VAR VariableDeclarationListNoIn SEMICOLON SEMICOLON RPAREN Statement      	{ $$ = new ForVarIterationStatement($4, NULL, NULL, $8); }
+	| FOR LPAREN VAR VariableDeclarationListNoIn SEMICOLON SEMICOLON Expression RPAREN Statement { $$ = new ForVarIterationStatement($4, NULL, $7, $9); }
+	| FOR LPAREN VAR VariableDeclarationListNoIn SEMICOLON Expression SEMICOLON RPAREN Statement { $$ = new ForVarIterationStatement($4, $6, NULL, $9); }
+	| FOR LPAREN VAR VariableDeclarationListNoIn SEMICOLON Expression SEMICOLON Expression RPAREN Statement { $$ = new ForVarIterationStatement($4, $6, $8, $10); }
+	| FOR LPAREN LeftHandSideExpression IN Expression RPAREN Statement		{ $$ = new ForInIterationStatement($3, $5, $7); }
+	| FOR LPAREN VAR VariableDeclarationNoIn IN Expression RPAREN Statement 	{ $$ = new ForVarInIterationStatement($4, $6, $8); }
+;
 
 
 // 12.4 Expression Statement

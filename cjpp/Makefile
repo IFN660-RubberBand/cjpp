@@ -32,7 +32,7 @@ endif
 
 all: $(main)
 
-$(main): cjpp.yy.c cjpp.tab.c cjpp.tab.h ast/Node.h
+$(main): cjpp.yy.c cjpp.tab.c cjpp.tab.h ast/Node.h ast/iteration.h
 	g++ -x c++ -std=c++11 cjpp.yy.c cjpp.tab.c -o $(main)
 
 cjpp.tab.c: cjpp.y

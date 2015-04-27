@@ -1,5 +1,11 @@
 #include <iostream>
 #include <list>
+
+
+#ifndef _NODE
+#define _NODE
+
+#define indent(x) { for(unsigned int i = 0; i < x; i++) cout << "\t"; }
 using namespace std;
 
 class Node {
@@ -44,7 +50,24 @@ public:
     }
 };
 
-
+class VariableDec : public Node {
+public:
+    const Identifier* i;
+    const Expression* expr;
+    VariableDec(Identifier* i) : i(i)
+    {
+        expr = NULL;
+    }
+    VariableDec(Identifier* i, Expression* expr) : i(i), expr(expr)
+    {}		
+    void print(unsigned int tabs) const {
+        i->print(tabs);
+	if(expr != NULL) {
+            cout << " = ";
+            expr->print(tabs);
+        }
+    }
+};
 
 class ExpressionStatement : public Statement {
 public:
@@ -52,10 +75,8 @@ public:
     ExpressionStatement(const Expression* expr) : expr(expr)
     {}
     void print(unsigned int tabs) const {
-        for(unsigned int i = 0; i < tabs; i++) {
-             cout << "\t";
-	}
-        expr->print(tabs);
+        indent(tabs); 
+	expr->print(tabs);
 	cout << ";" << endl;
     }
 	
@@ -142,3 +163,85 @@ public:
     }	
 };
 
+
+class VariableDecList : public Node {
+public:
+    list<const VariableDec*>* stmts;	
+    VariableDecList(const VariableDec* v)
+    {
+         stmts = new list<const VariableDec*>();
+	 append(v);	
+    }
+    VariableDecList()
+    {
+         stmts = new list<const VariableDec*>();
+    }	
+    void append(const VariableDec* s)
+    {
+	 stmts->push_back(s);
+    }
+    void print(unsigned int tabs) const {
+         for(list<const VariableDec*>::iterator iter = stmts->begin();
+    	     iter != stmts->end();
+             iter++)
+	 {
+              (*iter)->print(tabs);  
+         }	
+    }	
+};
+
+class VariableStatement : public Statement {
+public:
+    VariableDecList* l;
+    VariableStatement(VariableDecList* l) : l(l)
+    {}
+    void print(unsigned int tabs) const {
+        indent(tabs); 
+	cout << "var ";
+	l->print(tabs);
+	cout << ";" << endl;
+    }
+};
+
+class Block : public Statement {
+public:
+    StatementList* l;
+    Block(StatementList* l) : l(l)
+    {}
+    void print(unsigned int tabs) const {
+	indent(tabs-1); 
+	cout << "{" << endl;
+	if(l != NULL) l->print(tabs);
+	indent(tabs-1); 
+	cout << "}" << endl;
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#endif
