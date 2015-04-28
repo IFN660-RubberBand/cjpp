@@ -1,10 +1,10 @@
 #include "Node.h"
 
-class ReturnStatement_node : public Statement_node{
+class ReturnStatement : public Statement{
 public:
-NExpression* expr;
-	NReturnStatement(const NExpression* e, const NStatement* return)
-	: NStatement(return), expr(e)
+const Expression* expr;
+	ReturnStatement(const Expression* e, const Statement* return)
+	: Statement(return), expr(e)
 	{}
 
 };
