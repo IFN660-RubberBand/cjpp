@@ -3,8 +3,8 @@
 class Node {
 public:
     virtual ~Node() {}
-    virtual Node *clone () = 0;
-    virtual int value () = 0;
+    //virtual Node *clone () = 0;
+    //virtual int value () = 0;
 };
 
 class Statement : public Node {
@@ -23,3 +23,4 @@ public:
     Identifier(char* name) : name(name)
     {}	
 }
+

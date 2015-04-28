@@ -2,7 +2,8 @@
 
 %{
 	#include <stdio.h>
-	/*#include "ast.h"*/
+	#include "ast/Node.h"
+	#include "ast/iteration.h"
 	int yyerror(char const *s);
 	int yylex(void);
 %}
@@ -40,6 +41,20 @@
 
 	/* Keywords */
 %token INSTANCEOF TYPEOF BREAK DO NEW VAR CASE ELSE RETURN VOID CATCH FINALLY CONTINUE FOR SWITCH WHILE THIS WITH DEBUGGER FUNCTION THROW DEFAULT IF TRY DELETE IN
+
+
+
+%union {
+	Expresssion* epxr;
+	Statement* stmt;
+	VariableDecList* vardeclist;
+	VariableDec* vardeclist;
+}
+
+%type<expr> Expression ExpressionNoIn LeftHandSideExpression AssignmentExpression AssignmentExpressionNoIn Initialiser InitialiserNoIn
+%type<stmt> IterationStatement
+%type<vardeclist> VariableDeclarationList VariableDeclarationListNoIn
+%type<vardec> VariableDeclaration VariableDeclarationNoIn
 
 %%
 
@@ -109,27 +124,34 @@ StatementList: Statement
 VariableStatement: VAR VariableDeclarationList SEMICOLON 				{printf("\t \"Variable Statement\"\t");}
 	;
 
-VariableDeclarationList: VariableDeclaration
-	| VariableDeclarationList COMMA VariableDeclaration
+VariableDeclarationList: 
+	VariableDeclaration					{ $$ = new VariableDecList($1); }
+	| VariableDeclarationList COMMA VariableDeclaration	{ $$ = $1; $$->append($3);    }
 	;
 
-VariableDeclarationListNoIn: VariableDeclarationNoIn
-	| VariableDeclarationListNoIn COMMA VariableDeclarationNoIn
+VariableDeclarationListNoIn: 
+	VariableDeclarationNoIn						{ $$ = new VariableDecList($1); }
+	| VariableDeclarationListNoIn COMMA VariableDeclarationNoIn	{ $$ = $1; $$->append($3);    }
 	;
 
-VariableDeclaration: IDENTIFIER Initialiser
-	| IDENTIFIER
+VariableDeclaration: 
+	Identifier Initialiser	{ $$ = new VariableDec($1, $2); }
+	| Identifier		{ $$ = new VariableDec($1); }
 	;
 
-VariableDeclarationNoIn: IDENTIFIER InitialiserNoIn
-	| IDENTIFIER
+VariableDeclarationNoIn: 
+	Identifier InitialiserNoIn	{ $$ = new VariableDec($1, $2); }
+	| Identifier			{ $$ = new VariableDec($1); }
 	;
 
-Initialiser: ASSIGN AssignmentExpression
+Initialiser: 
+	ASSIGN AssignmentExpression	{ $$ = $2; }
 	;
 
-InitialiserNoIn: ASSIGN AssignmentExpressionNoIn
+InitialiserNoIn: 
+	ASSIGN AssignmentExpressionNoIn	{ $$ = $2; }
 	;
+
 
 // 12.3 Empty Statement
 EmptyStatement: 																//{ $$ = new NEmptyStatement(); }
@@ -146,22 +168,24 @@ IfStatement: IF LPAREN Expression RPAREN Statement ELSE Statement 				//{ $$ = n
 	;
 
 // 12.6 Iteration Statements
-IterationStatement: DO Statement WHILE LPAREN Expression RPAREN SEMICOLON
-	| WHILE LPAREN Expression RPAREN Statement
-	| FOR LPAREN SEMICOLON SEMICOLON RPAREN Statement
-	| FOR LPAREN SEMICOLON SEMICOLON Expression RPAREN Statement
-	| FOR LPAREN SEMICOLON Expression SEMICOLON RPAREN Statement
-	| FOR LPAREN SEMICOLON Expression SEMICOLON Expression RPAREN Statement
-	| FOR LPAREN ExpressionNoIn SEMICOLON SEMICOLON RPAREN Statement
-	| FOR LPAREN ExpressionNoIn SEMICOLON SEMICOLON Expression RPAREN Statement
-	| FOR LPAREN ExpressionNoIn SEMICOLON Expression SEMICOLON Expression RPAREN Statement
-	| FOR LPAREN VAR VariableDeclarationListNoIn SEMICOLON SEMICOLON RPAREN Statement
-	| FOR LPAREN VAR VariableDeclarationListNoIn SEMICOLON SEMICOLON Expression RPAREN Statement
-	| FOR LPAREN VAR VariableDeclarationListNoIn SEMICOLON Expression SEMICOLON RPAREN Statement
-	| FOR LPAREN VAR VariableDeclarationListNoIn SEMICOLON Expression SEMICOLON Expression RPAREN Statement
-	| FOR LPAREN LeftHandSideExpression IN Expression RPAREN Statement
-	| FOR LPAREN VAR VariableDeclarationNoIn IN Expression RPAREN Statement
-	;
+IterationStatement: 
+	DO Statement WHILE LPAREN Expression RPAREN SEMICOLON 			{ $$ = new DoWhileIterationStatement($2, $5); }
+	| WHILE LPAREN Expression RPAREN Statement				{ $$ = new WhileIterationStatement($3, $5); }
+	| FOR LPAREN SEMICOLON SEMICOLON RPAREN Statement			{ $$ = new ForIterationStatement(NULL, NULL, NULL, $6); }
+	| FOR LPAREN SEMICOLON SEMICOLON Expression RPAREN Statement		{ $$ = new ForIterationStatement(NULL, NULL, $5, $7); }
+	| FOR LPAREN SEMICOLON Expression SEMICOLON RPAREN Statement		{ $$ = new ForIterationStatement(NULL, $4, NULL, $7); }
+	| FOR LPAREN SEMICOLON Expression SEMICOLON Expression RPAREN Statement	{ $$ = new ForIterationStatement(NULL, $4, $6, $8); }
+	| FOR LPAREN ExpressionNoIn SEMICOLON SEMICOLON RPAREN Statement			{ $$ = new ForIterationStatement($3, NULL, NULL, $7); }
+	| FOR LPAREN ExpressionNoIn SEMICOLON SEMICOLON Expression RPAREN Statement		{ $$ = new ForIterationStatement($3, NULL, $6, $8); }
+	| FOR LPAREN ExpressionNoIn SEMICOLON Expression SEMICOLON RPAREN Statement 		{ $$ = new ForIterationStatement($3, $5, NULL, $8); }
+	| FOR LPAREN ExpressionNoIn SEMICOLON Expression SEMICOLON Expression RPAREN Statement 	{ $$ = new ForIterationStatement($3, $5, $7, $9); }
+	| FOR LPAREN VAR VariableDeclarationListNoIn SEMICOLON SEMICOLON RPAREN Statement      	{ $$ = new ForVarIterationStatement($4, NULL, NULL, $8); }
+	| FOR LPAREN VAR VariableDeclarationListNoIn SEMICOLON SEMICOLON Expression RPAREN Statement { $$ = new ForVarIterationStatement($4, NULL, $7, $9); }
+	| FOR LPAREN VAR VariableDeclarationListNoIn SEMICOLON Expression SEMICOLON RPAREN Statement { $$ = new ForVarIterationStatement($4, $6, NULL, $9); }
+	| FOR LPAREN VAR VariableDeclarationListNoIn SEMICOLON Expression SEMICOLON Expression RPAREN Statement { $$ = new ForVarIterationStatement($4, $6, $8, $10); }
+	| FOR LPAREN LeftHandSideExpression IN Expression RPAREN Statement		{ $$ = new ForInIterationStatement($3, $5, $7); }
+	| FOR LPAREN VAR VariableDeclarationNoIn IN Expression RPAREN Statement 	{ $$ = new ForVarInIterationStatement($4, $6, $8); }
+;
 
 // 12.7 continue Statement
 ContinueStatement: CONTINUE SEMICOLON
@@ -485,6 +509,10 @@ DecimalLiteral:
 
 HexIntegerLiteral:
 	HEXNUMBER
+	;
+
+Identifier:
+	IDENTIFIER
 	;
 
 // todo
