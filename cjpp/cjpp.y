@@ -154,7 +154,7 @@ InitialiserNoIn:
 
 
 // 12.3 Empty Statement
-EmptyStatement: 																//{ $$ = new NEmptyStatement(); }
+EmptyStatement: 																//{ $$ = new EmptyStatement(); }
 	;
 
 // 12.4 Expression Statement
@@ -163,8 +163,8 @@ EmptyStatement: 																//{ $$ = new NEmptyStatement(); }
 //	;
 
 // 12.5 if Statement
-IfStatement: IF LPAREN Expression RPAREN Statement ELSE Statement 				//{ $$ = new NIfStatement($3, $5, $6); }
-	| IF LPAREN Expression RPAREN Statement 									//{ $$ = new NIfStatement($3, $5, null); }
+IfStatement: IF LPAREN Expression RPAREN Statement ELSE Statement 				//{ $$ = new IfStatement($3, $5, $6); }
+	| IF LPAREN Expression RPAREN Statement 									//{ $$ = new IfStatement($3, $5, null); }
 	;
 
 // 12.6 Iteration Statements
@@ -343,16 +343,16 @@ PostfixExpression: LeftHandSideExpression
 	;
 
 // 11.4 Unary Operators
-UnaryExpression: PostfixExpression										//{ $$ = new PostfixExpression_node($1); }
-	| DELETE UnaryExpression											//{ $$ = new UnaryExpression_node($2); }
-	| VOID UnaryExpression												//{ $$ = new UnaryExpression_node($2); }
-	| TYPEOF UnaryExpression											//{ $$ = new UnaryExpression_node($2); }
-	| INC UnaryExpression												//{ $$ = new UnaryExpression_node($2); }
-	| DEC UnaryExpression												//{ $$ = new UnaryExpression_node($2); }
-	| PLUS UnaryExpression												//{ $$ = new UnaryExpression_node($2); }
-	| MINUS UnaryExpression												//{ $$ = new UnaryExpression_node($2); }
-	| BITNOT UnaryExpression											//{ $$ = new UnaryExpression_node($2); }
-	| NOT UnaryExpression												//{ $$ = new UnaryExpression_node($2); }
+UnaryExpression: PostfixExpression										//{ $$ = new PostfixExpression($1); }
+	| DELETE UnaryExpression											//{ $$ = new UnaryExpression($2); }
+	| VOID UnaryExpression												//{ $$ = new UnaryExpression($2); }
+	| TYPEOF UnaryExpression											//{ $$ = new UnaryExpression($2); }
+	| INC UnaryExpression												//{ $$ = new UnaryExpression($2); }
+	| DEC UnaryExpression												//{ $$ = new UnaryExpression($2); }
+	| PLUS UnaryExpression												//{ $$ = new UnaryExpression($2); }
+	| MINUS UnaryExpression												//{ $$ = new UnaryExpression($2); }
+	| BITNOT UnaryExpression											//{ $$ = new UnaryExpression($2); }
+	| NOT UnaryExpression												//{ $$ = new UnaryExpression($2); }
 	;
 
 // 11.5 Multiplicative Operators

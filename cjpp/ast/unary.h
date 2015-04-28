@@ -1,9 +1,9 @@
-#include ""Node.h"
+#include "Node.h"
 
-class NUnaryExpression : public NExpression {
+class UnaryExpression : public Expression {
 public:
-	NUnaryExpression* unexpr;
-	NUnaryExpression(const NUnaryExpression* u)
+	const UnaryExpression* unexpr;
+	UnaryExpression(const UnaryExpression* u)
 	: unexpr(u)
 	{}
 };

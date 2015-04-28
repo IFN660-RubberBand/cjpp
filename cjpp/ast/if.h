@@ -1,9 +1,11 @@
 #include "Node.h"
+#include "StatementList.h"
 
-class NIfStatement : public NStatement {
+class IfStatement : public Statement {
 public:
-	NExpression* expr;
-	NIfStatement(const NExpression* e, const NStatement* ifstmt, const NStatement* elsestmt)
-	: NStatement(ifstmt), NStatement(elsestmt), expr(e)
+	StatementList* stmts;
+	const Expression* expr;
+	IfStatement(const Expression* e, StatementList* s)
+	: expr(e), stmts(s)
 	{}
 };

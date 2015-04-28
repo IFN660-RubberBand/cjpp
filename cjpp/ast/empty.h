@@ -1,3 +1,3 @@
 #include "Node.h"
-class NEmptyStatement : public NStatement {
+class EmptyStatement : public Statement {
 };
