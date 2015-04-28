@@ -1,11 +1,15 @@
 #include "ast.h"
 
-class BreakStatement : public Statement_node {
+class NBreakStatement : public NStatement {
+
 public:
-    Statement_node* stmt;
-    BreakStatement(const Statement_node* s) 
-    {
-         stmt = s;
-    }
+
+	NIdentifier* id;
+
+	NBreakStatement(const NIdentifier* i, const NStatement* break)
+
+	: NStatement(break), id(i)
+
+	{}
 
 };
