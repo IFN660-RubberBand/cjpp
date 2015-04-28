@@ -1,15 +1,11 @@
 #include "Node.h"
 
-//TODO implement somewhere else
-class VariableDeclList {};
-class LeftHandSideExpression : Expression {};
 
 class IterationStatement : public Statement {
 public:
     const Statement* stmt;
     IterationStatement(const Statement* s) : stmt(s) 
     {}
-
 };
 
 class DoWhileIterationStatement : public IterationStatement {
@@ -26,6 +22,7 @@ public:
     WhileIterationStatement(const Expression* e, const Statement* stmt)
 	: IterationStatement(stmt), expr(e) 
     {}
+
 };
 
 class ForIterationStatement : public IterationStatement {
@@ -40,28 +37,40 @@ public:
 
 class ForVarIterationStatement : public IterationStatement {
 public:
-    const VariableDeclList* vars;
+    VariableDecList* vars;
     const Expression* testexpr;
     const Expression* incexpr;
-    ForVarIterationStatement(const VariableDeclList* v, const Expression* test, const Expression* inc, const Statement* stmt)
+    ForVarIterationStatement(VariableDecList* v, const Expression* test, const Expression* inc, const Statement* stmt)
 	: IterationStatement(stmt), vars(v), testexpr(test), incexpr(inc) 
     {}
 };
 
 class ForInIterationStatement : public IterationStatement {
 public:
-    const LeftHandSideExpression* left;
+    const Expression* left;
     const Expression* expr;
-    ForInIterationStatement(const LeftHandSideExpression* l, const Expression* e, const Statement* stmt)
+    ForInIterationStatement(const Expression* l, const Expression* e, const Statement* stmt)
 	: IterationStatement(stmt), left(l), expr(e) 
     {}
 };
 
 class ForVarInIterationStatement : public IterationStatement {
 public:
-    const VariableDeclList* vars;
+    const VariableDec* var;
     const Expression* expr;
-    ForVarInIterationStatement(const VariableDeclList* v, const Expression* e, const Statement* stmt)
-	: IterationStatement(stmt), vars(v), expr(e) 
+    ForVarInIterationStatement(const VariableDec* v, const Expression* e, const Statement* stmt)
+	: IterationStatement(stmt), var(v), expr(e) 
     {}
 };
+
+
+
+
+
+
+
+
+
+
+
+
