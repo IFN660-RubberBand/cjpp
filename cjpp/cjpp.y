@@ -120,7 +120,7 @@ VariableDeclarationList:
 	;
 
 VariableDeclarationListNoIn: 
-	VariableDeclarationNoIn					{ $$ = new VariableDecList($1); }
+	VariableDeclarationNoIn						{ $$ = new VariableDecList($1); }
 	| VariableDeclarationListNoIn COMMA VariableDeclarationNoIn	{ $$ = $1; $$->append($3);    }
 	;
 
@@ -358,13 +358,13 @@ AssignmentOperator:
 
 // 11.14 Comma Operator
 Expression: 
-	AssignmentExpression            { $$ = $1; }
-	| Expression COMMA AssignmentExpression
+	AssignmentExpression            	{ $$ = $1; }
+	| Expression COMMA AssignmentExpression { $$ = $3; $$->prepend($1); }
 	;
 
 ExpressionNoIn: 
-	AssignmentExpressionNoIn         { $$ = $1; }
-	| ExpressionNoIn COMMA AssignmentExpressionNoIn
+	AssignmentExpressionNoIn         		{ $$ = $1; }
+	| ExpressionNoIn COMMA AssignmentExpressionNoIn { $$ = $3; $$->prepend($1); }
 	;
 
 	/* END 11 - Expressions */

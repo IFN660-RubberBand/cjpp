@@ -20,7 +20,19 @@ class Statement : public Node {
 };
 
 class Expression : public Node {
-
+public:
+    Expression* pointer;
+    Expression() : pointer(NULL) 
+    {};
+    void prepend(Expression* p) {
+        pointer = p;
+    }
+    void print(unsigned int tabs) const {
+        if(pointer != NULL) { 
+	    pointer->print(tabs);
+            cout << " , ";
+	}
+    }
 };
 
 class Literal : public Node {
@@ -69,23 +81,6 @@ public:
     }
 };
 
-class ExpressionStatement : public Statement {
-public:
-    const Expression* expr;
-    ExpressionStatement(const Expression* expr) : expr(expr)
-    {}
-    void print(unsigned int tabs) const {
-        indent(tabs); 
-	expr->print(tabs);
-	cout << ";" << endl;
-    }
-	
-};
-
-class LeftHandsideExpression : public Expression {
-public:
-    	
-};
 
 class BinaryExpression : public Expression {
 public:
@@ -96,6 +91,7 @@ public:
 	: left(left), right(right), op(op)
     {}
     void print(unsigned int tabs) const {
+	Expression::print(tabs);
         left->print(tabs);
 	cout << " " << (char) op << " ";
 	right->print(tabs);
@@ -112,6 +108,7 @@ public:
 	: left(left), right(right), test(test)
     {}
     void print(unsigned int tabs) const {
+	Expression::print(tabs);
         test->print(tabs);
 	cout << " ? ";
 	left->print(tabs);
@@ -130,7 +127,8 @@ public:
 	: expr(expr), op(op)
     {}
     void print(unsigned int tabs) const {
-        cout << " " << (char) op << " ";
+        Expression::print(tabs);
+	cout << " " << (char) op << " ";
 	expr->print(tabs);
     }	
 };
@@ -143,6 +141,7 @@ public:
 	: expr(expr), op(op)
     {}
     void print(unsigned int tabs) const {
+	Expression::print(tabs);
         cout << " " << (char) op << " ";
 	expr->print(tabs);
     }	
@@ -162,6 +161,7 @@ public:
 	: left(left), expr(expr), op(op)
     {}
     void print(unsigned int tabs) const {
+	Expression::print(tabs);
         left->print(tabs);
 	if(op != NULL)
 		cout << " " << (char) op << "= ";
@@ -179,7 +179,8 @@ public:
 	: i(i)
     {}	
     void print(unsigned int tabs) const {
-        i->print(tabs);
+        Expression::print(tabs);
+	i->print(tabs);
     }	
 };
 
@@ -208,6 +209,33 @@ public:
          }	
     }	
 };
+
+class ExpressionList : public Expression {
+public:
+    list<const Expression*>* stmts;	
+    ExpressionList(const Expression* s)
+    {
+         stmts = new list<const Expression*>();
+	 append(s);	
+    }
+    ExpressionList()
+    {
+         stmts = new list<const Expression*>();
+    }	
+    void append(const Expression* s) 
+    {
+	 stmts->push_back(s);
+    }
+    void print(unsigned int tabs) const {
+         for(list<const Expression*>::iterator iter = stmts->begin();
+    	     iter != stmts->end();
+             iter++)
+	 {
+              (*iter)->print(tabs);  
+         }	
+    }	
+};
+
 
 
 class VariableDecList : public Node {
@@ -263,7 +291,18 @@ public:
     }
 };
 
-
+class ExpressionStatement : public Statement {
+public:
+    const Expression* expr;
+    ExpressionStatement(const Expression* expr) : expr(expr)
+    {}
+    void print(unsigned int tabs) const {
+        indent(tabs); 
+	expr->print(tabs);
+	cout << ";" << endl;
+    }
+	
+};
 
 
 
