@@ -1,6 +1,9 @@
-#include "ast.h"
+#include "Node.h"
 
-class FinallyStatement_node : public Statement_node{
+class NFinallyStatement : public Statement_node{
 public:
-
+	NFinallyStatement(const NStatement* finally, const Nstatemnt* block)
+	:NStatement (finally), NStatement(block)
+	{}
+	
 };
