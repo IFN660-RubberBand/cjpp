@@ -1,5 +1,8 @@
 #include <iostream>
 
+#ifndef NODE
+#define NODE
+
 class Node {
 public:
     virtual ~Node() {}
@@ -23,4 +26,7 @@ public:
     Identifier(char* name) : name(name)
     {}	
 };
+
+
+#endif
 

@@ -1,5 +1,9 @@
 #include "Node.h"
+#include "VariableDec.h"
+#include "VariableDecList.h"
 
+#ifndef ITERATION
+#define ITERATION
 
 class IterationStatement : public Statement {
 public:
@@ -63,6 +67,7 @@ public:
     {}
 };
 
+#endif
 
 
 

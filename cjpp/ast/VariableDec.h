@@ -1,5 +1,9 @@
 #include "Node.h"
 
+#ifndef VARIABLEDEC
+#define VARIABLEDEC
+
+
 class VariableDec : public Node {
 public:
     const Identifier* i;
@@ -11,6 +15,9 @@ public:
     VariableDec(Identifier* i, Expression* expr) : i(i), expr(expr)
     {}		
 };
+
+
+#endif
 
 
 
