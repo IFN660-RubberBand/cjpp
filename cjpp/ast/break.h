@@ -1,4 +1,4 @@
-#include "ast.h"
+#include "Node.h"
 
 class NBreakStatement : public NStatement {
 

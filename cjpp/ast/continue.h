@@ -1,11 +1,17 @@
-#include "ast.h"
+#include "Node.h"
 
-class ContinueStatement : public Statement_node {
+
+
+class NContinueStatement : public NStatement {
+
 public:
-    Statement_node* stmt;
-    ContinueStatement(const Statement_node* s) 
-    {
-         stmt = s;
-    }
+
+	NIdentifier* id;
+
+	NContinueStatement(const NIdentifier* i, const NStatement* continue)
+
+	: NStatement(continue), id(i)
+
+	{}
 
 };
