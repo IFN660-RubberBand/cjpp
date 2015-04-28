@@ -1,9 +1,9 @@
 #include "Node.h"
 
-class NWithStatement : public Statement_node{
+class WithStatement : public Statement{
 public:
-	NExpression* expr;
-	NWithStatement ( const NExpression* e, const NExpression* withstmt)
-	: NStatement(withstmt)
+	const Expression* expr;
+	WithStatement ( const Expression* e, const Expression* withstmt)
+	: Statement(withstmt)
 	{}
 };
