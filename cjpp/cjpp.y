@@ -15,6 +15,7 @@
 	Statement* stmt;
 	StatementList* stmtlist;
 	VariableDec* vardec;
+	Program* prog;
 	VariableDecList* vardeclist;
 	Literal* l;
 	Identifier* i;
@@ -23,10 +24,10 @@
 	int integer;
 }
 
-%type <stmtlist> Program SourceElements StatementList
+%type <stmtlist> SourceElements StatementList
 %type <vardec> VariableDeclaration VariableDeclarationNoIn
 %type <vardeclist> VariableDeclarationList VariableDeclarationListNoIn
-%type <stmt> Statement SourceElement ExpressionStatement IterationStatement VariableStatement Block EmptyStatement
+%type <stmt> Statement SourceElement ExpressionStatement IterationStatement VariableStatement Block EmptyStatement 
 %type <expr> Expression ExpressionNoIn MemberExpression NewExpression BitwiseANDExpression BitwiseOrExpression PrimaryExpression LogicalAndExpression   AssignmentExpression MultiplicativeExpression ShiftExpression UnaryExpression RelationalExpression LogicalOrExpression 
 BitwiseXORExpression ConditionalExpression AdditiveExpression EqualityExpression LeftHandSideExpression PostfixExpression
 BitwiseANDExpressionNoIn BitwiseOrExpressionNoIn LogicalAndExpressionNoIn AssignmentExpressionNoIn  RelationalExpressionNoIn LogicalOrExpressionNoIn BitwiseXORExpressionNoIn ConditionalExpressionNoIn EqualityExpressionNoIn Initialiser InitialiserNoIn
@@ -34,6 +35,7 @@ BitwiseANDExpressionNoIn BitwiseOrExpressionNoIn LogicalAndExpressionNoIn Assign
 %type <l> NumericLiteral Literal
 %type <num> DecimalLiteral HexIntegerLiteral
 %type <integer> AssignmentOperator
+%type <prog> Program
 
 %start Program
 
@@ -77,7 +79,7 @@ BitwiseANDExpressionNoIn BitwiseOrExpressionNoIn LogicalAndExpressionNoIn Assign
 
 	/* 14 - Program */
 Program: 
-        SourceElements			{ $$ = $1; $$->print(0); }
+        SourceElements			{ $$ = new Program($1); $1->print(0); }
 	;
 
 SourceElements: 
@@ -94,10 +96,10 @@ SourceElement:
 	/* 12 - Statements */
 Statement: 
 	ExpressionStatement		{ $$ = $1; }		
-	| IterationStatement		{ $$ = $1; }
+	| IterationStatement	{ $$ = $1; }
 	| VariableStatement		{ $$ = $1; }
 	| EmptyStatement        { $$ = $1; }
-	| Block				{ $$ = $1; }
+	| Block					{ $$ = $1; }
 	;
 
 
