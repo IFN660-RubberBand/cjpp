@@ -1,6 +1,7 @@
 #include <iostream>
 #include <list>
-
+#include <string>
+#include <sstream>
 
 #ifndef _NODE
 #define _NODE
@@ -18,6 +19,16 @@ public:
 class Statement : public Node {
 
 };
+
+namespace patch 
+{
+    template < typename T > std::string to_string( const T& n)
+    {
+        std::ostringstream stm ;
+        stm << n;
+        return stm.str();
+    }
+}
 
 class Expression : public Node {
 public:
@@ -45,7 +56,7 @@ public:
     double value;
     NumericLiteral(const double value) : value(value) {}
     void print(unsigned int tabs) const {
-        cout << to_string(value);
+        std::cout << patch::to_string(value);
     }
 };
 
@@ -128,8 +139,9 @@ public:
     {}
     void print(unsigned int tabs) const {
         Expression::print(tabs);
-		cout << " " << (char) op << " ";
-		expr->print(tabs);
+	cout << " " << (char) op << " ";
+	expr->print(tabs);
+
     }	
 };
 
