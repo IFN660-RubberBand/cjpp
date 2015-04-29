@@ -29,7 +29,7 @@ public:
     }
     void print(unsigned int tabs) const {
         if(pointer != NULL) { 
-	    pointer->print(tabs);
+			pointer->print(tabs);
             cout << " , ";
 	}
     }
@@ -74,7 +74,7 @@ public:
     {}		
     void print(unsigned int tabs) const {
         i->print(tabs);
-	if(expr != NULL) {
+		if(expr != NULL) {
             cout << " = ";
             expr->print(tabs);
         }
@@ -162,14 +162,14 @@ public:
 	: left(left), op(op), expr(expr)
     {}
     void print(unsigned int tabs) const {
-	Expression::print(tabs);
+		Expression::print(tabs);
         left->print(tabs);
-	if(op != NULL)
-		cout << " " << (char) op << "= ";
-	else
-		cout << " = ";
-	expr->print(tabs);
-    }		
+		if(op != NULL)
+			cout << " " << (char) op << "= ";
+		else
+			cout << " = ";
+		expr->print(tabs);
+	}		
 };
 
 
@@ -256,11 +256,13 @@ public:
 	 stmts->push_back(s);
     }
     void print(unsigned int tabs) const {
-        for(list<const VariableDec*>::iterator iter = stmts->begin();
-    	    iter != stmts->end();
-            iter++)
+    	list<const VariableDec*>::iterator iter = stmts->begin();
+    	if(iter != stmts->end())
+    		(*iter)->print(tabs);
+        for(iter++ = stmts->begin(); iter != stmts->end(); iter++)
 		{
-        	(*iter)->print(tabs);  
+        	cout << " , ";
+			(*iter)->print(tabs);  
         }	
     }	
 };
@@ -272,9 +274,9 @@ public:
     {}
     void print(unsigned int tabs) const {
         indent(tabs); 
-	cout << "var ";
-	l->print(tabs);
-	cout << ";" << endl;
+		cout << "var ";
+		l->print(tabs);
+		cout << ";" << endl;
     }
 };
 
