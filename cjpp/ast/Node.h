@@ -202,12 +202,12 @@ public:
 	 stmts->push_back(s);
     }
     void print(unsigned int tabs) const {
-         for(list<const Statement*>::iterator iter = stmts->begin();
-    	     iter != stmts->end();
-             iter++)
-	 {
-              (*iter)->print(tabs);  
-         }	
+        for(list<const Statement*>::iterator iter = stmts->begin();
+    	    iter != stmts->end();
+            iter++)
+		{
+        	(*iter)->print(tabs);  
+        }	
     }	
 };
 
@@ -229,11 +229,11 @@ public:
     }
     void print(unsigned int tabs) const {
          for(list<const Expression*>::iterator iter = stmts->begin();
-    	     iter != stmts->end();
-             iter++)
-	 {
-              (*iter)->print(tabs);  
-         }	
+    	    iter != stmts->end();
+            iter++)
+	 	{
+        	(*iter)->print(tabs);  
+        }	
     }	
 };
 
@@ -244,8 +244,8 @@ public:
     list<const VariableDec*>* stmts;	
     VariableDecList(const VariableDec* v)
     {
-         stmts = new list<const VariableDec*>();
-	 append(v);	
+        stmts = new list<const VariableDec*>();
+	 	append(v);	
     }
     VariableDecList()
     {
@@ -256,12 +256,12 @@ public:
 	 stmts->push_back(s);
     }
     void print(unsigned int tabs) const {
-         for(list<const VariableDec*>::iterator iter = stmts->begin();
-    	     iter != stmts->end();
-             iter++)
-	 {
-              (*iter)->print(tabs);  
-         }	
+        for(list<const VariableDec*>::iterator iter = stmts->begin();
+    	    iter != stmts->end();
+            iter++)
+		{
+        	(*iter)->print(tabs);  
+        }	
     }	
 };
 
@@ -305,6 +305,14 @@ public:
 	
 };
 
+class EmptyStatement : public Statement {
+public:
+    void print(unsigned int tabs) const {
+    	indent(tabs); 
+		cout << ";" << endl;
+    }
+	
+};
 
 
 
