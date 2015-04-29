@@ -2,6 +2,8 @@
 
 %{
 	#include <stdio.h>
+	#include "ast/VariableDecList.h"
+	#include "ast/VariableDecList.h"
 	int yyerror(char const *s);
 	int yylex(void);
 	#include "ast/iteration.h"
