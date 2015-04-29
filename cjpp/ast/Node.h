@@ -84,11 +84,11 @@ public:
 
 class BinaryExpression : public Expression {
 public:
-    int op;
     const Expression* left;	
+	int op;
     const Expression* right;
     BinaryExpression(const Expression* left, int op, const Expression* right)
-	: left(left), right(right), op(op)
+	: left(left), op(op), right(right)
     {}
     void print(unsigned int tabs) const {
 	Expression::print(tabs);
@@ -105,7 +105,7 @@ public:
     const Expression* left;	
     const Expression* right;
     TernaryExpression(const Expression* test, const Expression* left, const Expression* right)
-	: left(left), right(right), test(test)
+	: test(test), left(left), right(right)
     {}
     void print(unsigned int tabs) const {
 	Expression::print(tabs);
@@ -124,7 +124,7 @@ public:
     int op;
     const Expression* expr;
     UnaryExpression(int op, const Expression* expr)
-	: expr(expr), op(op)
+	: op(op), expr(expr)
     {}
     void print(unsigned int tabs) const {
         Expression::print(tabs);
@@ -135,8 +135,8 @@ public:
 
 class PostfixExpression : public Expression {
 public:
-    int op;
     const Expression* expr;
+	int op;
     PostfixExpression(const Expression* expr, int op)
 	: expr(expr), op(op)
     {}
@@ -150,15 +150,16 @@ public:
 class AssignmentExpression : public Expression {
 public:
     const Expression* left;	
+	int op;
     const Expression* expr;
-    int op;
+    
     AssignmentExpression(const Expression* left, const Expression* expr)
 	: left(left), expr(expr)
     {
         op = NULL;
     }
     AssignmentExpression(const Expression* left, int op, const Expression* expr)
-	: left(left), expr(expr), op(op)
+	: left(left), op(op), expr(expr)
     {}
     void print(unsigned int tabs) const {
 	Expression::print(tabs);

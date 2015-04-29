@@ -161,9 +161,7 @@ identifier 		({letter}|{digit}|\$)({letter}|{digit}|[_.\-/$])*
 						int c;
 						while ((c = yyinput()) != 0)
 						{
-							if(c == '\n')
-								c;
-							else if(c == '*')
+							if(c == '*')
 							{
 								if((c = yyinput()) == '/')
 									break;
@@ -190,7 +188,7 @@ identifier 		({letter}|{digit}|\$)({letter}|{digit}|[_.\-/$])*
 
 /* error handling */
 void yyerror(char const *s){
-	printf("%d:%d\n%s", yylineno, s);
+	printf("%d:\n%s", yylineno, s);
 }
 
 /* wraping related files */
