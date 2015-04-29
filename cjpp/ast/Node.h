@@ -128,8 +128,8 @@ public:
     {}
     void print(unsigned int tabs) const {
         Expression::print(tabs);
-	cout << " " << (char) op << " ";
-	expr->print(tabs);
+	    expr->print(tabs);
+        cout << " " << (char) op << " ";
     }	
 };
 
