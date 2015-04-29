@@ -2,7 +2,7 @@
 
 %{ 	/* C */
 	#include "cjpp.tab.h"
-
+	#include <string>
 	void yyerror(char const *);
 	int yyparse(void);
 
