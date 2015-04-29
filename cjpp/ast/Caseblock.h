@@ -5,7 +5,7 @@
 class CaseblockStatement : public Statement {
 public:
 	Defaultclause defaultclause;
-	Caseclauses caseclause;
+	Caseclauses caseclauses;
 	Caseblock(Defaultclause dc, Caseclauses cc)
 	: Caseclauses(cc), Defaultclause(dc)
 	{}
