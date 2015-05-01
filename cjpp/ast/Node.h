@@ -102,10 +102,10 @@ public:
 	: left(left), op(op), right(right)
     {}
     void print(unsigned int tabs) const {
-	Expression::print(tabs);
+		Expression::print(tabs);
         left->print(tabs);
-	cout << " " << (char) op << " ";
-	right->print(tabs);
+		cout << " " << (char) op << " ";
+		right->print(tabs);
     }	
 };
 
@@ -119,12 +119,12 @@ public:
 	: test(test), left(left), right(right)
     {}
     void print(unsigned int tabs) const {
-	Expression::print(tabs);
+		Expression::print(tabs);
         test->print(tabs);
-	cout << " ? ";
-	left->print(tabs);
-	cout << " : ";
-	right->print(tabs);
+		cout << " ? ";
+		left->print(tabs);
+		cout << " : ";
+		right->print(tabs);
     }	
 };
 
@@ -139,8 +139,9 @@ public:
     {}
     void print(unsigned int tabs) const {
         Expression::print(tabs);
-	    expr->print(tabs);
-        cout << " " << (char) op << " ";
+	cout << " " << (char) op << " ";
+	expr->print(tabs);
+
     }	
 };
 
@@ -152,10 +153,10 @@ public:
 	: expr(expr), op(op)
     {}
     void print(unsigned int tabs) const {
-	Expression::print(tabs);
-        cout << " " << (char) op << " ";
-	expr->print(tabs);
-    }	
+		Expression::print(tabs);
+        expr->print(tabs);
+		cout << " " << (char) op << " ";
+	}	
 };
 
 class AssignmentExpression : public Expression {
@@ -180,6 +181,11 @@ public:
 		else
 			cout << " = ";
 		expr->print(tabs);
+	}
+	void generateCode() {
+		left->generateLeftHandCode();
+		cout << " = ";
+		left->generateRightHandCode(); 
 	}		
 };
 
@@ -192,7 +198,7 @@ public:
     {}	
     void print(unsigned int tabs) const {
         Expression::print(tabs);
-	i->print(tabs);
+		i->print(tabs);
     }	
 };
 
@@ -219,7 +225,16 @@ public:
 		{
         	(*iter)->print(tabs);  
         }	
-    }	
+    }
+    void generateCode() {
+        for(list<const Statement*>::iterator iter = stmts->begin();
+    	    iter != stmts->end();
+            iter++)
+		{
+        	(*iter)->generateCode();  
+        }	
+    }
+		
 };
 
 class ExpressionList : public Expression {
@@ -248,6 +263,21 @@ public:
     }	
 };
 
+class Program : public Node {
+public:
+	StatementList* l;	
+	Program(StatementList* l) : l(l) 
+	{}
+	void print(unsigned int tabs) const {
+		l->print(tabs);
+	}
+	generateCode() {
+		cout << "print int main(int argc, char* argv[]) {" << endl;
+		l->generateCode();
+		cout << "return 0" << endl << "}" << endl; 
+	}
+	
+};
 
 
 class VariableDecList : public Node {
@@ -297,11 +327,12 @@ public:
     Block(StatementList* l) : l(l)
     {}
     void print(unsigned int tabs) const {
-	indent(tabs-1); 
-	cout << "{" << endl;
-	if(l != NULL) l->print(tabs);
-	indent(tabs-1); 
-	cout << "}" << endl;
+		indent(tabs-1); 
+		cout << "{" << endl;
+		if(l != NULL) 
+			l->print(tabs);
+		indent(tabs-1); 
+		cout << "}" << endl;
     }
 };
 
@@ -312,9 +343,13 @@ public:
     {}
     void print(unsigned int tabs) const {
         indent(tabs); 
-	expr->print(tabs);
-	cout << ";" << endl;
+		expr->print(tabs);
+		cout << ";" << endl;
     }
+    void generateCode() {
+    	expr->generateCode()
+    	cout << ";" << endl;
+	}
 	
 };
 
