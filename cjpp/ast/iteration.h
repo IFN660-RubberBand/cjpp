@@ -1,3 +1,7 @@
+#ifndef _ITERATION
+#define _ITERATION 
+
+
 #include "Node.h"
 
 
@@ -6,6 +10,8 @@ public:
     const Statement* stmt;
     IterationStatement(const Statement* s) : stmt(s) 
     {}
+    void generateCode() const {
+	}
 };
 
 class DoWhileIterationStatement : public IterationStatement {
@@ -122,7 +128,7 @@ public:
 
 
 
-
+#endif
 
 
 

@@ -2,14 +2,15 @@
 
 %{
 	#include <stdio.h>
-	#include "ast/VariableDecList.h"
-	#include "ast/VariableDecList.h"
 	int yyerror(char const *s);
 	int yylex(void);
+	#include "ast/includefile.h"
 	#include "ast/iteration.h"
+	
+	Program* program;
 %}
 
-%code requires { #include "ast/Node.h" }
+%code requires { #include "ast/includefile.h" }
 %locations
 
 %union {
@@ -81,7 +82,7 @@ BitwiseANDExpressionNoIn BitwiseOrExpressionNoIn LogicalAndExpressionNoIn Assign
 
 	/* 14 - Program */
 Program: 
-        SourceElements			{ $$ = new Program($1); $1->print(0); }
+        SourceElements			{ program = new Program($1); program->print(); program->generateCode(); }
 	;
 
 SourceElements: 

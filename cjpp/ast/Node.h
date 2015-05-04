@@ -14,10 +14,8 @@ public:
     Node() {};
     virtual void print(unsigned int tabs) const = 0;
     virtual ~Node() {};
-};
-
-class Statement : public Node {
-
+	virtual	void generateLeftHandCode() const {}
+	virtual void generateRightHandCode() const {}
 };
 
 namespace patch 
@@ -42,12 +40,12 @@ public:
         if(pointer != NULL) { 
 			pointer->print(tabs);
             cout << " , ";
-	}
+		}
     }
+    virtual void generateCode() const {};
 };
 
 class Literal : public Node {
-public:
 
 };
 
@@ -58,6 +56,9 @@ public:
     void print(unsigned int tabs) const {
         std::cout << patch::to_string(value);
     }
+    void generateRightHandCode() const {
+    	cout << "new IntegerValue(" << patch::to_string(value) << ")";
+	}
 };
 
 
@@ -71,6 +72,12 @@ public:
     void print(unsigned int tabs) const {
         cout << name;
     }
+    void generateLeftHandCode() const {
+    	cout << "Value* " << name;
+	}
+	void generateRightHandCode() const {
+    	cout << name;
+	}
 };
 
 class VariableDec : public Node {
@@ -92,22 +99,6 @@ public:
     }
 };
 
-
-class BinaryExpression : public Expression {
-public:
-    const Expression* left;	
-	int op;
-    const Expression* right;
-    BinaryExpression(const Expression* left, int op, const Expression* right)
-	: left(left), op(op), right(right)
-    {}
-    void print(unsigned int tabs) const {
-		Expression::print(tabs);
-        left->print(tabs);
-		cout << " " << (char) op << " ";
-		right->print(tabs);
-    }	
-};
 
 
 class TernaryExpression : public Expression {
@@ -159,35 +150,7 @@ public:
 	}	
 };
 
-class AssignmentExpression : public Expression {
-public:
-    const Expression* left;	
-	int op;
-    const Expression* expr;
-    
-    AssignmentExpression(const Expression* left, const Expression* expr)
-	: left(left), expr(expr)
-    {
-        op = NULL;
-    }
-    AssignmentExpression(const Expression* left, int op, const Expression* expr)
-	: left(left), op(op), expr(expr)
-    {}
-    void print(unsigned int tabs) const {
-		Expression::print(tabs);
-        left->print(tabs);
-		if(op != NULL)
-			cout << " " << (char) op << "= ";
-		else
-			cout << " = ";
-		expr->print(tabs);
-	}
-	void generateCode() {
-		left->generateLeftHandCode();
-		cout << " = ";
-		left->generateRightHandCode(); 
-	}		
-};
+
 
 
 class PrimaryExpression : public Expression {
@@ -199,43 +162,15 @@ public:
     void print(unsigned int tabs) const {
         Expression::print(tabs);
 		i->print(tabs);
-    }	
+    }
+	void generateLeftHandCode()	const {
+		i->generateLeftHandCode();
+	}
+	void generateRightHandCode() const {
+		i->generateRightHandCode();	
+	}
 };
 
-class StatementList : public Node {
-public:
-    list<const Statement*>* stmts;	
-    StatementList(const Statement* s)
-    {
-         stmts = new list<const Statement*>();
-	 append(s);	
-    }
-    StatementList()
-    {
-         stmts = new list<const Statement*>();
-    }	
-    void append(const Statement* s) 
-    {
-	 stmts->push_back(s);
-    }
-    void print(unsigned int tabs) const {
-        for(list<const Statement*>::iterator iter = stmts->begin();
-    	    iter != stmts->end();
-            iter++)
-		{
-        	(*iter)->print(tabs);  
-        }	
-    }
-    void generateCode() {
-        for(list<const Statement*>::iterator iter = stmts->begin();
-    	    iter != stmts->end();
-            iter++)
-		{
-        	(*iter)->generateCode();  
-        }	
-    }
-		
-};
 
 class ExpressionList : public Expression {
 public:
@@ -261,22 +196,6 @@ public:
         	(*iter)->print(tabs);  
         }	
     }	
-};
-
-class Program : public Node {
-public:
-	StatementList* l;	
-	Program(StatementList* l) : l(l) 
-	{}
-	void print(unsigned int tabs) const {
-		l->print(tabs);
-	}
-	generateCode() {
-		cout << "print int main(int argc, char* argv[]) {" << endl;
-		l->generateCode();
-		cout << "return 0" << endl << "}" << endl; 
-	}
-	
 };
 
 
@@ -307,81 +226,6 @@ public:
         }	
     }	
 };
-
-class VariableStatement : public Statement {
-public:
-    VariableDecList* l;
-    VariableStatement(VariableDecList* l) : l(l)
-    {}
-    void print(unsigned int tabs) const {
-        indent(tabs); 
-		cout << "var ";
-		l->print(tabs);
-		cout << ";" << endl;
-    }
-};
-
-class Block : public Statement {
-public:
-    StatementList* l;
-    Block(StatementList* l) : l(l)
-    {}
-    void print(unsigned int tabs) const {
-		indent(tabs-1); 
-		cout << "{" << endl;
-		if(l != NULL) 
-			l->print(tabs);
-		indent(tabs-1); 
-		cout << "}" << endl;
-    }
-};
-
-class ExpressionStatement : public Statement {
-public:
-    const Expression* expr;
-    ExpressionStatement(const Expression* expr) : expr(expr)
-    {}
-    void print(unsigned int tabs) const {
-        indent(tabs); 
-		expr->print(tabs);
-		cout << ";" << endl;
-    }
-    void generateCode() {
-    	expr->generateCode()
-    	cout << ";" << endl;
-	}
-	
-};
-
-class EmptyStatement : public Statement {
-public:
-    void print(unsigned int tabs) const {
-    	indent(tabs); 
-		cout << ";" << endl;
-    }
-	
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
