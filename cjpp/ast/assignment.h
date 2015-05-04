@@ -18,6 +18,10 @@ public:
     AssignmentExpression(const Expression* left, int op, const Expression* expr)
 	: left(left), op(op), expr(expr)
     {}
+    ~AssignmentExpression() {
+    	delete left;
+    	delete expr;
+	}
     void print(unsigned int tabs) const {
 		Expression::print(tabs);
         left->print(tabs);

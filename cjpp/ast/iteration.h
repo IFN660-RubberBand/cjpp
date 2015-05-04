@@ -10,6 +10,9 @@ public:
     const Statement* stmt;
     IterationStatement(const Statement* s) : stmt(s) 
     {}
+    ~IterationStatement() {
+    	delete stmt;
+	}
     void generateCode() const {
 	}
 };
@@ -20,6 +23,9 @@ public:
     DoWhileIterationStatement(const Statement* stmt, const Expression* e)
 	: IterationStatement(stmt), expr(e)
     {}	
+    ~DoWhileIterationStatement() {
+    	delete expr;
+	}
     void print(unsigned int tabs) const {
 	indent(tabs); 
 	cout << "do" << endl;
@@ -37,6 +43,9 @@ public:
     WhileIterationStatement(const Expression* e, const Statement* stmt)
 	: IterationStatement(stmt), expr(e) 
     {}
+    ~WhileIterationStatement() {
+    	delete expr;
+	}
     void print(unsigned int tabs) const {
 	indent(tabs); 
 	cout << " while ( ";
@@ -56,6 +65,14 @@ public:
     ForIterationStatement(const Expression* init, const Expression* test, const Expression* inc, const Statement* stmt)
 	: IterationStatement(stmt), refexpr(init), testexpr(test), incexpr(inc)
     {}
+    ~ForIterationStatement() {
+    	if(refexpr != NULL)
+    		delete refexpr;
+    	if(testexpr != NULL)
+    		delete testexpr;
+    	if(incexpr != NULL)
+    		delete incexpr;
+	}
     void print(unsigned int tabs) const {
 	indent(tabs); 
 	cout << "for ( ";
@@ -77,6 +94,13 @@ public:
     ForVarIterationStatement(VariableDecList* v, const Expression* test, const Expression* inc, const Statement* stmt)
 	: IterationStatement(stmt), vars(v), testexpr(test), incexpr(inc) 
     {}
+    ~ForVarIterationStatement() {
+    	delete vars;
+    	if(testexpr != NULL)
+    		delete testexpr;
+    	if(incexpr != NULL)
+    		delete incexpr;
+	}
     void print(unsigned int tabs) const {
 	indent(tabs); 
 	cout << "for ( vars ";
@@ -97,6 +121,10 @@ public:
     ForInIterationStatement(const Expression* l, const Expression* e, const Statement* stmt)
 	: IterationStatement(stmt), left(l), expr(e) 
     {}
+    ~ForInIterationStatement() {
+    	delete left;
+    	delete expr;
+	}
     void print(unsigned int tabs) const {
 	indent(tabs); 
 	cout << "for ( ";
@@ -115,6 +143,10 @@ public:
     ForVarInIterationStatement(const VariableDec* v, const Expression* e, const Statement* stmt)
 	: IterationStatement(stmt), var(v), expr(e) 
     {}
+    ~ForVarInIterationStatement() {
+    	delete var;
+    	delete expr;
+	}
     void print(unsigned int tabs) const {
 	indent(tabs); 
 	cout << "for ( var ";

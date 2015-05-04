@@ -12,6 +12,10 @@ public:
     BinaryExpression(const Expression* left, int op, const Expression* right)
 	: left(left), op(op), right(right)
     {}
+    ~BinaryExpression() {
+    	delete left;
+    	delete right;
+	}
     void print(unsigned int tabs) const {
 		Expression::print(tabs);
         left->print(tabs);

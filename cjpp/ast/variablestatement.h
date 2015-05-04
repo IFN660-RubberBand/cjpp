@@ -10,6 +10,9 @@ public:
     VariableDecList* l;
     VariableStatement(VariableDecList* l) : l(l)
     {}
+    ~VariableStatement() {
+    	delete l;
+	}
     void print(unsigned int tabs) const {
         indent(tabs); 
 		cout << "var ";

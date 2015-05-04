@@ -8,6 +8,9 @@ public:
 	StatementList* l;	
 	Program(StatementList* l) : l(l) 
 	{}
+	~Program() {
+		delete l;
+	}
 	void print() const {
 		cout << endl << endl << "Print of the AST:" << endl;
 		l->print(0);

@@ -16,6 +16,13 @@ public:
     {
          stmts = new list<const Statement*>();
     }	
+    ~StatementList() {
+       	while(!stmts->empty()) {
+			delete stmts->front(); 
+			stmts->pop_front();
+		}
+		delete stmts;
+	}
     void append(const Statement* s) 
     {
 	 stmts->push_back(s);

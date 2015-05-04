@@ -33,6 +33,9 @@ public:
     Expression* pointer;
     Expression() : pointer(NULL) 
     {};
+    ~Expression() {
+    	delete pointer;
+	}
     void prepend(Expression* p) {
         pointer = p;
     }
@@ -68,7 +71,8 @@ public:
     char* name;
     
     Identifier(char* name) : name(name)
-    {}	
+    {}
+		
     void print(unsigned int tabs) const {
         cout << name;
     }
@@ -88,6 +92,11 @@ public:
     {
         expr = NULL;
     }
+    ~VariableDec() {
+    	delete i;
+		if(expr != NULL)
+			delete expr;
+	}
     VariableDec(Identifier* i, Expression* expr) : i(i), expr(expr)
     {}		
     void print(unsigned int tabs) const {
@@ -109,6 +118,11 @@ public:
     TernaryExpression(const Expression* test, const Expression* left, const Expression* right)
 	: test(test), left(left), right(right)
     {}
+    ~TernaryExpression() {
+    	delete test;
+    	delete left;
+    	delete right;
+	}
     void print(unsigned int tabs) const {
 		Expression::print(tabs);
         test->print(tabs);
@@ -128,6 +142,9 @@ public:
     UnaryExpression(int op, const Expression* expr)
 	: op(op), expr(expr)
     {}
+    ~UnaryExpression() {
+    	delete expr;
+	}
     void print(unsigned int tabs) const {
         Expression::print(tabs);
 	cout << " " << (char) op << " ";
@@ -143,6 +160,9 @@ public:
     PostfixExpression(const Expression* expr, int op)
 	: expr(expr), op(op)
     {}
+    ~PostfixExpression() {
+    	delete expr;
+	}
     void print(unsigned int tabs) const {
 		Expression::print(tabs);
         expr->print(tabs);
@@ -159,6 +179,9 @@ public:
     PrimaryExpression(const Node* i)
 	: i(i)
     {}	
+    ~PrimaryExpression() {
+    	delete i;
+	}
     void print(unsigned int tabs) const {
         Expression::print(tabs);
 		i->print(tabs);
@@ -184,6 +207,13 @@ public:
     {
          stmts = new list<const Expression*>();
     }	
+    ~ExpressionList() {
+    	while(!stmts->empty()) {
+			delete stmts->front(); 
+			stmts->pop_front();
+		}
+		delete stmts;
+	}
     void append(const Expression* s) 
     {
 	 stmts->push_back(s);
@@ -211,6 +241,13 @@ public:
     {
          stmts = new list<const VariableDec*>();
     }	
+     ~VariableDecList() {
+    	while(!stmts->empty()) {
+			delete stmts->front(); 
+			stmts->pop_front();
+		}
+		delete stmts;
+	}
     void append(const VariableDec* s)
     {
 	 stmts->push_back(s);

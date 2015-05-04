@@ -11,6 +11,9 @@ public:
     StatementList* l;
     Block(StatementList* l) : l(l)
     {}
+    ~Block() {
+    	delete l;
+	}
     void print(unsigned int tabs) const {
 		indent(tabs-1); 
 		cout << "{" << endl;

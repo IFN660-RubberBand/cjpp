@@ -9,6 +9,9 @@ public:
     const Expression* expr;
     ExpressionStatement(const Expression* expr) : expr(expr)
     {}
+    ~ExpressionStatement() {
+    	delete expr;
+	}
     void print(unsigned int tabs) const {
         indent(tabs); 
 		expr->print(tabs);
