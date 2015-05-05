@@ -4,9 +4,9 @@
 
 class CaseblockStatement : public Statement {
 public:
-	Defaultclause defaultclause;
-	Caseclauses caseclauses;
-	CaseblockStatement(Defaultclause dc, Caseclauses cc)
+	Defaultclause* defaultclause;
+	Caseclauses* caseclauses;
+	CaseblockStatement(Defaultclause* dc, Caseclauses* cc)
 	: Caseclauses(cc), Defaultclause(dc)
 	{}
 	
