@@ -5,7 +5,7 @@ class CaseclausesStatement : public Statement {
 public:
 	Caseclause* caseclause;
 	CaseclausesStatement(Caseclause* c)
-	: Caseclauses(c), 
+	: Caseclauses(c)
 	{}
 	
 };
