@@ -30,7 +30,7 @@
 %type <stmtlist> SourceElements StatementList
 %type <vardec> VariableDeclaration VariableDeclarationNoIn
 %type <vardeclist> VariableDeclarationList VariableDeclarationListNoIn
-%type <stmt> Statement SourceElement ExpressionStatement IterationStatement VariableStatement Block EmptyStatement 
+%type <stmt> Statement SourceElement ExpressionStatement IterationStatement VariableStatement Block EmptyStatement IfStatement
 %type <expr> Expression ExpressionNoIn MemberExpression NewExpression BitwiseANDExpression BitwiseOrExpression PrimaryExpression LogicalAndExpression   AssignmentExpression MultiplicativeExpression ShiftExpression UnaryExpression RelationalExpression LogicalOrExpression 
 BitwiseXORExpression ConditionalExpression AdditiveExpression EqualityExpression LeftHandSideExpression PostfixExpression
 BitwiseANDExpressionNoIn BitwiseOrExpressionNoIn LogicalAndExpressionNoIn AssignmentExpressionNoIn  RelationalExpressionNoIn LogicalOrExpressionNoIn BitwiseXORExpressionNoIn ConditionalExpressionNoIn EqualityExpressionNoIn Initialiser InitialiserNoIn
@@ -103,6 +103,7 @@ Statement:
 	| VariableStatement		{ $$ = $1; }
 	| EmptyStatement        { $$ = $1; }
 	| Block					{ $$ = $1; }
+	| IfStatement 			{ $$ = $1; }
 	;
 
 
@@ -110,6 +111,11 @@ EmptyStatement:
 	SEMICOLON		{ $$ = new EmptyStatement(); }
 	;
 	
+IfStatement:
+	IF LPAREN Expression RPAREN Statement 				{ $$ = new IfStatement($3, $5, NULL); }
+	| IF LPAREN Expression RPAREN Statement ELSE Statement 		{ $$ = new IfStatement($3, $5, $7); }
+	;
+
 Block: 
 	LCURLY StatementList RCURLY 	{ $$ = new Block($2); }
 	| LCURLY RCURLY 		{ $$ = new Block(NULL); }
