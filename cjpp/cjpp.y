@@ -82,7 +82,7 @@ BitwiseANDExpressionNoIn BitwiseOrExpressionNoIn LogicalAndExpressionNoIn Assign
 
 	/* 14 - Program */
 Program: 
-        SourceElements			{ program = new Program($1); program->print(); program->generateCode(); }
+        SourceElements			{ program = new Program($1); program->print(); program->generateCode(); delete program}
 	;
 
 SourceElements: 
