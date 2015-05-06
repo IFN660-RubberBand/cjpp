@@ -1,5 +1,5 @@
-#ifdef _EXPRESSION
-#define _EXPRESSION
+#ifndef _IF
+#define _IF
 
 #include "Node.h"
 
