@@ -18,9 +18,9 @@ public:
 	}
 	void generateCode() const {
 		cout << "Generated code:" << endl;
-		cout << "print int main(int argc, char* argv[]) {" << endl;
+		cout << "int main(int argc, char* argv[]) {" << endl;
 		l->generateCode();
-		cout << "return 0" << endl << "}" << endl; 
+		cout << "return 0;" << endl << "}" << endl; 
 	}
 	
 };

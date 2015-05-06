@@ -19,11 +19,12 @@ public:
 	}
 	void print(unsigned int tabs) const{
 		indent(tabs);
-		cout << "if (" << endl;
+		cout << "if (";
 		expr->print(tabs);
 		cout << ")" << endl;
 		ifstmt->print(tabs+1);
 		if (elsestmt != NULL) {
+			indent(tabs);
 			cout << "else" << endl;
 			elsestmt->print(tabs+1);
 		}

@@ -13,7 +13,7 @@ public:
     AssignmentExpression(const Expression* left, const Expression* expr)
 	: left(left), expr(expr)
     {
-        op = NULL;
+        op = 0;
     }
     AssignmentExpression(const Expression* left, int op, const Expression* expr)
 	: left(left), op(op), expr(expr)
@@ -25,7 +25,7 @@ public:
     void print(unsigned int tabs) const {
 		Expression::print(tabs);
         left->print(tabs);
-		if(op != NULL)
+		if(op != 0)
 			cout << " " << (char) op << "= ";
 		else
 			cout << " = ";
