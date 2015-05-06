@@ -29,10 +29,13 @@ ifeq ($(UNAME), MINGW32_NT-6.1)
 endif
 
 ########
+H_FILES := $(wildcard ast/*.h)
+
+
 
 all: $(main)
 
-$(main): cjpp.yy.c cjpp.tab.c cjpp.tab.h ast/Node.h ast/iteration.h
+$(main): cjpp.yy.c cjpp.tab.c cjpp.tab.h $(H_FILES)
 	g++ -x c++ -std=c++11 cjpp.yy.c cjpp.tab.c -o $(main)
 
 cjpp.tab.c: cjpp.y
