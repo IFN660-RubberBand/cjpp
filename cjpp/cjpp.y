@@ -74,7 +74,8 @@ BitwiseANDExpressionNoIn BitwiseOrExpressionNoIn LogicalAndExpressionNoIn Assign
 %token LPAREN RPAREN LBRACK RBRACK LCURLY RCURLY
 
 	/* Keywords */
-%token INSTANCEOF TYPEOF BREAK DO NEW VAR CASE ELSE RETURN VOID CATCH FINALLY CONTINUE FOR SWITCH WHILE THIS WITH DEBUGGER FUNCTION THROW DEFAULT IF TRY DELETE IN
+%token TYPEOF BREAK DO NEW VAR CASE ELSE RETURN VOID CATCH FINALLY CONTINUE FOR SWITCH WHILE THIS WITH DEBUGGER FUNCTION THROW DEFAULT IF TRY DELETE INSTANCEOF
+%left IN
 
 %%
 
@@ -276,7 +277,8 @@ EqualityExpression:
 	| EqualityExpression NIDENT RelationalExpression	{ $$ = new BinaryExpression($1, NIDENT, $3); }
 	;
 
-EqualityExpressionNoIn: RelationalExpressionNoIn		{ $$ = $1; }
+EqualityExpressionNoIn: 
+	RelationalExpressionNoIn				{ $$ = $1; }
 	| EqualityExpressionNoIn EQUAL RelationalExpressionNoIn	{ $$ = new BinaryExpression($1, EQUAL, $3); }
 	| EqualityExpressionNoIn NEQ RelationalExpressionNoIn	{ $$ = new BinaryExpression($1, NEQ, $3); }
 	| EqualityExpressionNoIn IDENT RelationalExpressionNoIn	{ $$ = new BinaryExpression($1, IDENT, $3); }
