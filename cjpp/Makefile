@@ -30,13 +30,13 @@ endif
 
 ########
 H_FILES := $(wildcard ast/*.h)
-
+CPP_FILES := $(wildcard helpclasses/*.cpp) $(wildcard ast/*.cpp)
 
 
 all: $(main)
 
 $(main): cjpp.yy.c cjpp.tab.c cjpp.tab.h $(H_FILES)
-	g++ -x c++ -std=c++11 cjpp.yy.c cjpp.tab.c -o $(main)
+	g++ -x c++ -std=c++11 cjpp.yy.c cjpp.tab.c $(CPP_FILES) -o $(main)
 
 cjpp.tab.c: cjpp.y
 	$(yacc) -d --verbose cjpp.y -o cjpp.tab.c
