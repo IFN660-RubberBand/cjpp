@@ -3,6 +3,7 @@
 
 #include "Node.h"
 #include "statement.h"
+#include "../helpclasses/TempVariableFactory.h"
 
 class ExpressionStatement : public Statement {
 public:
@@ -18,8 +19,10 @@ public:
 		cout << ";" << endl;
     }
     void generateCode() const {
-    	expr->generateCode();
-    	cout << ";" << endl;
+    	TempVariableFactory::reset();
+    	TempVariable* t = TempVariableFactory::getTemp();
+		expr->generateCode(t);
+		delete t;
 	}
 	
 };

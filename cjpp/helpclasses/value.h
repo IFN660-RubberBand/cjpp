@@ -37,7 +37,9 @@ public:
     	if(search != m->end()) {
         	return search->second;
     	} else {
-        	return new UndefinedValue();
+			Value* value = new UndefinedValue();
+        	//? (*m)[ident] = value;
+        	return value;
     	}
 	}
 

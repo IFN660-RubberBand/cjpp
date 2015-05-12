@@ -4,8 +4,11 @@
 #include <string>
 #include <sstream>
 
+
 #ifndef _NODE
 #define _NODE
+
+#include "../helpclasses/TempVariableFactory.h"
 
 #define indent(x) { for(unsigned int i = 0; i < x; i++) cout << "\t"; }
 using namespace std;
@@ -15,8 +18,8 @@ public:
     Node() {};
     virtual void print(unsigned int tabs) const = 0;
     virtual ~Node() {};
-	virtual	void generateLeftHandCode() const {}
-	virtual void generateRightHandCode() const {}
+	virtual	void generateLeftHandCode(TempVariable* result) const {}
+	virtual bool generateRightHandCode(TempVariable* result) const {}
 };
 
 namespace patch 
@@ -46,7 +49,7 @@ public:
             cout << " , ";
 		}
     }
-    virtual void generateCode() const {};
+    virtual bool generateCode(TempVariable* result) const {};
 };
 
 class Literal : public Node {
@@ -60,8 +63,9 @@ public:
     void print(unsigned int tabs) const {
         std::cout << patch::to_string(value);
     }
-    void generateRightHandCode() const {
-    	cout << "new IntegerValue(" << patch::to_string(value) << ")";
+    bool generateRightHandCode(TempVariable* result) const {
+		cout << result->toString() << " = new IntegerValue(" << patch::to_string(value) << ");" << endl;
+    	return true;
 	}
 };
 
@@ -77,11 +81,12 @@ public:
     void print(unsigned int tabs) const {
         cout << name;
     }
-    void generateLeftHandCode() const {
-    	cout << "Value* " << name;
+    void generateLeftHandCode(TempVariable* result) const {
+    	cout << "currentscope->set(\"" << name << "\", " << result->toString() << ");" << endl;
 	}
-	void generateRightHandCode() const {
-    	cout << name;
+	bool generateRightHandCode(TempVariable* result) const {
+		cout << result->toString() << " = currentscope->resolve(\"" << name << "\");" << endl;
+    	return false;
 	}
 };
 
@@ -187,11 +192,14 @@ public:
         Expression::print(tabs);
 		i->print(tabs);
     }
-	void generateLeftHandCode()	const {
-		i->generateLeftHandCode();
+	void generateLeftHandCode(TempVariable* result)	const {
+		i->generateLeftHandCode(result);
 	}
-	void generateRightHandCode() const {
-		i->generateRightHandCode();	
+	bool generateRightHandCode(TempVariable* result) const {
+		return i->generateRightHandCode(result);	
+	}
+	bool generateCode(TempVariable* result) const {
+		return i->generateRightHandCode(result);
 	}
 };
 

@@ -31,10 +31,13 @@ public:
 			cout << " = ";
 		expr->print(tabs);
 	}
-	void generateCode() const {
-		left->generateLeftHandCode();
-		cout << " = ";
-		expr->generateRightHandCode(); 
+	bool generateCode(TempVariable* result) const {
+		cout << endl << "//Assignment" << endl;
+		bool del = expr->generateCode(result);
+		if(!del)
+			cout << result->toString() << " = " << result->toString() << "->clone();" << endl; 
+		left->generateLeftHandCode(result);
+		return false;
 	}		
 };
 

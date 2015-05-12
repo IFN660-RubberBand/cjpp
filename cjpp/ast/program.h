@@ -26,9 +26,14 @@ public:
 		psbuf = myfile.rdbuf();
 		std::cout.rdbuf(psbuf);
 		//
+		cout << "#include \"helpclasses/value.h\"" << endl;
+		cout << "#include \"helpclasses/Scope.h\"" << endl;
 		cout << "int main(int argc, char* argv[]) {" << endl;
+		cout << "Scope* currentscope = new Scope();" << endl << endl << endl;
 		l->generateCode();
-		cout << "return 0;" << endl << "}" << endl; 
+		cout << endl << "currentscope->closeScope();" << endl;
+		cout << "delete currentscope;" << endl;
+		cout <<"return 0;" << endl << "}" << endl; 
 		std::cout.rdbuf(backup);
 		myfile.close();
 	}

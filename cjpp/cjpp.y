@@ -5,7 +5,7 @@
 	int yyerror(char const *s);
 	int yylex(void);
 	#include "ast/includefile.h"
-	#include "ast/iteration.h"
+	#include "ast/binaryexpression.h"
 	
 	Program* program;
 %}
