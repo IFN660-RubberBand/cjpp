@@ -2,7 +2,8 @@
 
 %{
 	#include <stdio.h>
-	#include "ast.h"
+	#include "ast/Node.h"
+	#include "ast/iteration.h"
 	int yyerror(char const *s);
 	int yylex(void);
 %}
@@ -41,17 +42,31 @@
 	/* Keywords */
 %token INSTANCEOF TYPEOF BREAK DO NEW VAR CASE ELSE RETURN VOID CATCH FINALLY CONTINUE FOR SWITCH WHILE THIS WITH DEBUGGER FUNCTION THROW DEFAULT IF TRY DELETE IN
 
+
+
+%union {
+	Expresssion* epxr;
+	Statement* stmt;
+	VariableDecList* vardeclist;
+	VariableDec* vardeclist;
+}
+
+%type<expr> Expression ExpressionNoIn LeftHandSideExpression AssignmentExpression AssignmentExpressionNoIn Initialiser InitialiserNoIn
+%type<stmt> IterationStatement
+%type<vardeclist> VariableDeclarationList VariableDeclarationListNoIn
+%type<vardec> VariableDeclaration VariableDeclarationNoIn
+
 %%
 
 	/* Rule */
 
 	/* 14 - Program */
-Program: SourceElements												{ $$ = new SourceElement_node($1); }
+Program: SourceElements												//{ $$ = new SourceElement_node($1); }
 	|
 	;
 
-SourceElements: SourceElement 										{ $$ = new SourceElement_node($1); }
-	| SourceElements SourceElement 									{ $$ = new SourceElement_node($1, $2); }
+SourceElements: SourceElement 										//{ $$ = new SourceElement_node($1); }
+	| SourceElements SourceElement 									//{ $$ = new SourceElement_node($1, $2); }
 	;
 
 SourceElement: Statement
@@ -64,9 +79,8 @@ FunctionDeclaration: FUNCTION IDENTIFIER LPAREN FormalParameterList RPAREN LCURL
 	| FUNCTION IDENTIFIER LPAREN RPAREN LCURLY FunctionBody RCURLY
 	;
 
-FunctionExpression: FUNCTION IDENTIFIER LPAREN FormalParameterList RPAREN LCURLY FunctionBody RCURLY
+FunctionExpression: FunctionDeclaration
 	| FUNCTION LPAREN FormalParameterList RPAREN LCURLY FunctionBody RCURLY
-	| FUNCTION IDENTIFIER LPAREN RPAREN LCURLY FunctionBody RCURLY
 	| FUNCTION LPAREN RPAREN LCURLY FunctionBody RCURLY
 	;
 
@@ -83,7 +97,7 @@ FunctionBody: SourceElements
 Statement: Block
 	| VariableStatement
 	| EmptyStatement
-	| ExpressionStatement
+	//| ExpressionStatement
 	| IfStatement
 	| IterationStatement
 	| ContinueStatement
@@ -98,8 +112,8 @@ Statement: Block
 	;
 
 // 12.1 Block
-Block: LCURLY StatementList RCURLY
-	| LCURLY RCURLY
+Block: LCURLY StatementList RCURLY										//{ $$ = $2; }
+	| LCURLY RCURLY																			//{ $$ = new Block(); }
 	;
 
 StatementList: Statement
@@ -110,59 +124,68 @@ StatementList: Statement
 VariableStatement: VAR VariableDeclarationList SEMICOLON 				{printf("\t \"Variable Statement\"\t");}
 	;
 
-VariableDeclarationList: VariableDeclaration
-	| VariableDeclarationList COMMA VariableDeclaration
+VariableDeclarationList: 
+	VariableDeclaration					{ $$ = new VariableDecList($1); }
+	| VariableDeclarationList COMMA VariableDeclaration	{ $$ = $1; $$->append($3);    }
 	;
 
-VariableDeclarationListNoIn: VariableDeclarationNoIn
-	| VariableDeclarationListNoIn COMMA VariableDeclarationNoIn
+VariableDeclarationListNoIn: 
+	VariableDeclarationNoIn						{ $$ = new VariableDecList($1); }
+	| VariableDeclarationListNoIn COMMA VariableDeclarationNoIn	{ $$ = $1; $$->append($3);    }
 	;
 
-VariableDeclaration: IDENTIFIER Initialiser
-	| IDENTIFIER
+VariableDeclaration: 
+	Identifier Initialiser	{ $$ = new VariableDec($1, $2); }
+	| Identifier		{ $$ = new VariableDec($1); }
 	;
 
-VariableDeclarationNoIn: IDENTIFIER InitialiserNoIn
-	| IDENTIFIER
+VariableDeclarationNoIn: 
+	Identifier InitialiserNoIn	{ $$ = new VariableDec($1, $2); }
+	| Identifier			{ $$ = new VariableDec($1); }
 	;
 
-Initialiser: ASSIGN AssignmentExpression
+Initialiser: 
+	ASSIGN AssignmentExpression	{ $$ = $2; }
 	;
 
-InitialiserNoIn: ASSIGN AssignmentExpressionNoIn
+InitialiserNoIn: 
+	ASSIGN AssignmentExpressionNoIn	{ $$ = $2; }
 	;
+
 
 // 12.3 Empty Statement
-EmptyStatement: 																{ $$ = new EmptyStatement_node(); }
+EmptyStatement: 																//{ $$ = new EmptyStatement(); }
 	;
 
 // 12.4 Expression Statement
 // todo
-ExpressionStatement: 
-	;
+//ExpressionStatement: 
+//	;
 
 // 12.5 if Statement
-IfStatement: IF LPAREN Expression RPAREN Statement ELSE Statement 				{ $$ = new IfStatement_node($3, $5, $6); }
-	| IF LPAREN Expression RPAREN Statement 									{ $$ = new IfStatement_node($3, $5); }
+IfStatement: IF LPAREN Expression RPAREN Statement ELSE Statement 				//{ $$ = new IfStatement($3, $5, $6); }
+	| IF LPAREN Expression RPAREN Statement 									//{ $$ = new IfStatement($3, $5, null); }
 	;
 
 // 12.6 Iteration Statements
-IterationStatement: DO Statement WHILE LPAREN Expression RPAREN SEMICOLON
-	| WHILE LPAREN Expression RPAREN Statement
-	| FOR LPAREN SEMICOLON SEMICOLON RPAREN Statement
-	| FOR LPAREN SEMICOLON SEMICOLON Expression RPAREN Statement
-	| FOR LPAREN SEMICOLON Expression SEMICOLON RPAREN Statement
-	| FOR LPAREN SEMICOLON Expression SEMICOLON Expression RPAREN Statement
-	| FOR LPAREN ExpressionNoIn SEMICOLON SEMICOLON RPAREN Statement
-	| FOR LPAREN ExpressionNoIn SEMICOLON SEMICOLON Expression RPAREN Statement
-	| FOR LPAREN ExpressionNoIn SEMICOLON Expression SEMICOLON Expression RPAREN Statement
-	| FOR LPAREN VAR VariableDeclarationListNoIn SEMICOLON SEMICOLON RPAREN Statement
-	| FOR LPAREN VAR VariableDeclarationListNoIn SEMICOLON SEMICOLON Expression RPAREN Statement
-	| FOR LPAREN VAR VariableDeclarationListNoIn SEMICOLON Expression SEMICOLON RPAREN Statement
-	| FOR LPAREN VAR VariableDeclarationListNoIn SEMICOLON Expression SEMICOLON Expression RPAREN Statement
-	| FOR LPAREN LeftHandSideExpression IN Expression RPAREN Statement
-	| FOR LPAREN VAR VariableDeclarationNoIn IN Expression RPAREN Statement
-	;
+IterationStatement: 
+	DO Statement WHILE LPAREN Expression RPAREN SEMICOLON 			{ $$ = new DoWhileIterationStatement($2, $5); }
+	| WHILE LPAREN Expression RPAREN Statement				{ $$ = new WhileIterationStatement($3, $5); }
+	| FOR LPAREN SEMICOLON SEMICOLON RPAREN Statement			{ $$ = new ForIterationStatement(NULL, NULL, NULL, $6); }
+	| FOR LPAREN SEMICOLON SEMICOLON Expression RPAREN Statement		{ $$ = new ForIterationStatement(NULL, NULL, $5, $7); }
+	| FOR LPAREN SEMICOLON Expression SEMICOLON RPAREN Statement		{ $$ = new ForIterationStatement(NULL, $4, NULL, $7); }
+	| FOR LPAREN SEMICOLON Expression SEMICOLON Expression RPAREN Statement	{ $$ = new ForIterationStatement(NULL, $4, $6, $8); }
+	| FOR LPAREN ExpressionNoIn SEMICOLON SEMICOLON RPAREN Statement			{ $$ = new ForIterationStatement($3, NULL, NULL, $7); }
+	| FOR LPAREN ExpressionNoIn SEMICOLON SEMICOLON Expression RPAREN Statement		{ $$ = new ForIterationStatement($3, NULL, $6, $8); }
+	| FOR LPAREN ExpressionNoIn SEMICOLON Expression SEMICOLON RPAREN Statement 		{ $$ = new ForIterationStatement($3, $5, NULL, $8); }
+	| FOR LPAREN ExpressionNoIn SEMICOLON Expression SEMICOLON Expression RPAREN Statement 	{ $$ = new ForIterationStatement($3, $5, $7, $9); }
+	| FOR LPAREN VAR VariableDeclarationListNoIn SEMICOLON SEMICOLON RPAREN Statement      	{ $$ = new ForVarIterationStatement($4, NULL, NULL, $8); }
+	| FOR LPAREN VAR VariableDeclarationListNoIn SEMICOLON SEMICOLON Expression RPAREN Statement { $$ = new ForVarIterationStatement($4, NULL, $7, $9); }
+	| FOR LPAREN VAR VariableDeclarationListNoIn SEMICOLON Expression SEMICOLON RPAREN Statement { $$ = new ForVarIterationStatement($4, $6, NULL, $9); }
+	| FOR LPAREN VAR VariableDeclarationListNoIn SEMICOLON Expression SEMICOLON Expression RPAREN Statement { $$ = new ForVarIterationStatement($4, $6, $8, $10); }
+	| FOR LPAREN LeftHandSideExpression IN Expression RPAREN Statement		{ $$ = new ForInIterationStatement($3, $5, $7); }
+	| FOR LPAREN VAR VariableDeclarationNoIn IN Expression RPAREN Statement 	{ $$ = new ForVarInIterationStatement($4, $6, $8); }
+;
 
 // 12.7 continue Statement
 ContinueStatement: CONTINUE SEMICOLON
@@ -195,20 +218,22 @@ CaseBlock: LCURLY CaseClauses RCURLY
 	| LCURLY DefaultClause RCURLY
 	;
 
-CaseClause: CASE Expression COLON
-	| CASE Expression COLON StatementList
+CaseClause: CASE Expression COLON StatementListOpt
 	;
 
 CaseClauses: CaseClause
 	| CaseClauses CaseClause
 	;
 
-DefaultClause: DEFAULT COLON
-	| DEFAULT COLON StatementList
+DefaultClause: DEFAULT COLON StatementListOpt
+	;
+
+StatementListOpt: 
+	| StatementList
 	;
 
 // 12.12 Labelled Statement
-LabelledStatement: IDENTIFIER COLON Statement
+LabelledStatement: IDENTIFIER COLON Statement 									//{ $$ = new NLabelledStatement($1, $3); }
 	;
 
 // 12.13 The throw Statement
@@ -228,7 +253,7 @@ TryStatement: TRY Block Catch
 	;
 
 // 12.15 The debugger Statement
-DebuggerStatement: DEBUGGER SEMICOLON
+DebuggerStatement: DEBUGGER SEMICOLON 											//{ $$ = new NDebuggerStatement($1); }
 	;
 	/* END 12 - Stetements */
 
@@ -318,16 +343,16 @@ PostfixExpression: LeftHandSideExpression
 	;
 
 // 11.4 Unary Operators
-UnaryExpression: PostfixExpression										{ $$ = new PostfixExpression_node($1); }
-	| DELETE UnaryExpression											{ $$ = new UnaryExpression_node($2); }
-	| VOID UnaryExpression												{ $$ = new UnaryExpression_node($2); }
-	| TYPEOF UnaryExpression											{ $$ = new UnaryExpression_node($2); }
-	| INC UnaryExpression												{ $$ = new UnaryExpression_node($2); }
-	| DEC UnaryExpression												{ $$ = new UnaryExpression_node($2); }
-	| PLUS UnaryExpression												{ $$ = new UnaryExpression_node($2); }
-	| MINUS UnaryExpression												{ $$ = new UnaryExpression_node($2); }
-	| BITNOT UnaryExpression											{ $$ = new UnaryExpression_node($2); }
-	| NOT UnaryExpression												{ $$ = new UnaryExpression_node($2); }
+UnaryExpression: PostfixExpression										//{ $$ = new PostfixExpression($1); }
+	| DELETE UnaryExpression											//{ $$ = new UnaryExpression($2); }
+	| VOID UnaryExpression												//{ $$ = new UnaryExpression($2); }
+	| TYPEOF UnaryExpression											//{ $$ = new UnaryExpression($2); }
+	| INC UnaryExpression												//{ $$ = new UnaryExpression($2); }
+	| DEC UnaryExpression												//{ $$ = new UnaryExpression($2); }
+	| PLUS UnaryExpression												//{ $$ = new UnaryExpression($2); }
+	| MINUS UnaryExpression												//{ $$ = new UnaryExpression($2); }
+	| BITNOT UnaryExpression											//{ $$ = new UnaryExpression($2); }
+	| NOT UnaryExpression												//{ $$ = new UnaryExpression($2); }
 	;
 
 // 11.5 Multiplicative Operators
@@ -484,6 +509,10 @@ DecimalLiteral:
 
 HexIntegerLiteral:
 	HEXNUMBER
+	;
+
+Identifier:
+	IDENTIFIER
 	;
 
 // todo
