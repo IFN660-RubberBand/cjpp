@@ -39,13 +39,16 @@ public:
     	}
 	}
 
-	void set(char* ident, Value* value) {
+	Value* set(char* ident, Value* value) {
 		auto search = m->find(ident);
     	if(search != m->end()) {
-			cout << "delete old object" << endl;	
-			//delete search->second;
+			if(search->second != value) {
+				delete search->second;
+			}
+			
 		}
         (*m)[ident] = value;
+        return value;
 	}
 	
 	

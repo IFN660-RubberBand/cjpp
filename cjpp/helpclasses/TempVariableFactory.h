@@ -14,7 +14,7 @@ public:
 		TempVariable* t = new TempVariable(current);
 		if(current == maxvar) {
 			++maxvar;
-			cout << "Variable* " << t->toString() << ";" << endl;
+			cout << "Value* " << t->toString() << ";" << endl;
 		}
 		current++;
 		return t;
