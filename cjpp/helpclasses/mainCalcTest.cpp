@@ -31,9 +31,10 @@ int main(){
 	cout << "Comparators" << endl << endl;
 	cout << "2 < 4: " << MathFuncs::lssthan(2, 4) << endl << endl;
 	cout << "2.4 < 2.5: " << MathFuncs::lssthan(2.4, 2.5) << endl << endl;
-	// cout << "2 > 4: " << MathFuncs::gtrthan(2, 4) << endl << endl;
-	// cout << "2 == 2: " << MathFuncs::equalto(2, 2) << endl << endl;
-	// cout << "2 <= 2: " << MathFuncs::leqthan(2, 2) << endl << endl;
+	cout << "2 > 4: " << MathFuncs::gtrthan(2, 4) << endl << endl;
+	cout << "2 == 2.0: " << MathFuncs::equalto(2, 2.0) << endl << endl;
+	cout << "2 <= 2: " << MathFuncs::leqthan(2, 2) << endl << endl;
+	cout << "\"2\" > 1: " << MathFuncs::gtrthan("2", 1) << endl << endl;
 	// cout << "integer === string: " << MathFuncs::cmp(2, "2", IDENT) << endl << endl;
 
 	printf("\nEND\n");

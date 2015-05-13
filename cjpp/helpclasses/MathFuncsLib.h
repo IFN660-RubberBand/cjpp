@@ -59,7 +59,7 @@ public:
 	template<typename L, typename R>
 	static auto do_cmp(L lval, R rval, true_type)
 	{
-		// need conversion if lval or rval are a char*
+		// need conversion if lval or rval are of type char*
 
 		float flval = atof(lval);
 		float frval = rval;
@@ -94,6 +94,76 @@ public:
 			|| is_convertible<R, string>{} >;
 	int result = do_cmp(lval, rval, dispatch_type());
 	if (result == -1)
+		return true;
+	else
+		return false;
+	}
+
+	template<typename L, typename R>
+	static auto gtrthan(L lval, R rval)
+	{
+		using dispatch_type = integral_constant<
+			bool, 
+			is_convertible<L, string>{}
+			|| is_convertible<R, string>{} >;
+	int result = do_cmp(lval, rval, dispatch_type());
+	if (result == 1)
+		return true;
+	else
+		return false;
+	}
+
+	template<typename L, typename R>
+	static auto leqthan(L lval, R rval)
+	{
+		using dispatch_type = integral_constant<
+			bool, 
+			is_convertible<L, string>{}
+			|| is_convertible<R, string>{} >;
+	int result = do_cmp(lval, rval, dispatch_type());
+	if ((result == -1) || (result == 0))
+		return true;
+	else
+		return false;
+	}
+
+	template<typename L, typename R>
+	static auto geqthan(L lval, R rval)
+	{
+		using dispatch_type = integral_constant<
+			bool, 
+			is_convertible<L, string>{}
+			|| is_convertible<R, string>{} >;
+	int result = do_cmp(lval, rval, dispatch_type());
+	if ((result == 1) || (result == 0))
+		return true;
+	else
+		return false;
+	}
+
+	template<typename L, typename R>
+	static auto equalto(L lval, R rval)
+	{
+		using dispatch_type = integral_constant<
+			bool, 
+			is_convertible<L, string>{}
+			|| is_convertible<R, string>{} >;
+	int result = do_cmp(lval, rval, dispatch_type());
+	if (result == 0)
+		return true;
+	else
+		return false;
+	}
+
+	template<typename L, typename R>
+	static auto neqto(L lval, R rval)
+	{
+		using dispatch_type = integral_constant<
+			bool, 
+			is_convertible<L, string>{}
+			|| is_convertible<R, string>{} >;
+	int result = do_cmp(lval, rval, dispatch_type());
+	if (result != 0)
 		return true;
 	else
 		return false;
