@@ -30,12 +30,13 @@ int main(){
     cout << "string - string: " << MathFuncs::sub("Hello", "World!") << endl;
     cout << "integer - integer: " <<MathFuncs::sub(2, 4) << endl;
 
-	cout << endl << "Comparators" << endl;
+	cout <<  endl << "Comparators" << endl << endl;
 	cout << "2 < 4: " << MathFuncs::lssthan(2, 4) << endl;
 	cout << "2.4 < 2.5: " << MathFuncs::lssthan(2.4, 2.5) << endl;
-	// cout << "2 > 4: " << MathFuncs::gtrthan(2, 4) << endl;
-	// cout << "2 == 2: " << MathFuncs::equalto(2, 2) << endl;
-	// cout << "2 <= 2: " << MathFuncs::leqthan(2, 2) << endl;
+	cout << "2 > 4: " << MathFuncs::gtrthan(2, 4) << endl;
+	cout << "2 == 2.0: " << MathFuncs::equalto(2, 2.0) << endl;
+	cout << "2 <= 2: " << MathFuncs::leqthan(2, 2) << endl;
+	cout << "\"2\" > 1: " << MathFuncs::gtrthan("2", 1) << endl;
 	// cout << "integer === string: " << MathFuncs::cmp(2, "2", IDENT) << endl;
 
 	printf("\nEND\n");
