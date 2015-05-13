@@ -52,10 +52,42 @@ public:
     			//cout << "tmp" << result << " = libcjpp_mult(" << tmp0 << ", " << tmp1 << ");" << endl; 
     			break;
     			
-    			
-    		//case DIVIDE:
-			//	break;
-				
+    		case DIVIDE:
+    			cout << result->toString() << " = new IntegerValue(" << t1->toString() << "->v / " << t2->toString() << "->v);" << endl;
+    			//cout << "tmp" << result << " = libcjpp_div(" << tmp0 << ", " << tmp1 << ");" << endl;
+    			break;
+
+    		case GTR:
+                cout << result->toString() << " = libcjpp_gtrthan(" << t1->toString() << ", " << t2->toString() << ");" << endl;
+                break;
+
+    		case LSS:
+                cout << result->toString() << " = libcjpp_lssthan(" << t1->toString() << ", " << t2->toString() << ");" << endl;
+                break;
+
+    		case LEQ:
+                cout << result->toString() << " = libcjpp_leqthan(" << t1->toString() << ", " << t2->toString() << ");" << endl;
+                break;
+                       
+    		case GEQ:
+                cout << result->toString() << " = libcjpp_geqthan(" << t1->toString() << ", " << t2->toString() << ");" << endl;
+                break;
+                       
+    		case EQUAL:
+                cout << result->toString() << " = libcjpp_equalto(" << t1->toString() << ", " << t2->toString() << ");" << endl;
+                break;
+                       
+    		case NEQ:
+                cout << result->toString() << " = libcjpp_neqto(" << t1->toString() << ", " << t2->toString() << ");" << endl;
+                break;
+                       
+            case NIDENT:
+                cout << result->toString() << " = libcjpp_nidentto(" << t1->toString() << ", " << t2->toString() << ");" << endl;
+                break;
+                       
+            case IDENT:
+    			cout << result->toString() << " = libcjpp_identto(" << t1->toString() << ", " << t2->toString() << ");" << endl;
+    			break;			
 				
 			default:
 				cout << "error: operation not implemented yet" << endl;			

@@ -22,16 +22,6 @@ public:
 	virtual bool generateRightHandCode(TempVariable* result) const {}
 };
 
-namespace patch 
-{
-    template < typename T > std::string to_string( const T& n)
-    {
-        std::ostringstream stm ;
-        stm << n;
-        return stm.str();
-    }
-}
-
 class Expression : public Node {
 public:
     Expression* pointer;
@@ -61,10 +51,10 @@ public:
     double value;
     NumericLiteral(const double value) : value(value) {}
     void print(unsigned int tabs) const {
-        std::cout << patch::to_string(value);
+        cout << to_string(value);
     }
     bool generateRightHandCode(TempVariable* result) const {
-		cout << result->toString() << " = new IntegerValue(" << patch::to_string(value) << ");" << endl;
+		cout << result->toString() << " = new IntegerValue(" << to_string(value) << ");" << endl;
     	return true;
 	}
 };
