@@ -153,8 +153,8 @@ identifier 		({letter}|{digit}|\$)({letter}|{digit}|[_.\-/$])*
 {identifier} 		{ fprintf(yyout, " IDENTIFIER(%s)", yytext); yylval.str=strdup(yytext); return IDENTIFIER; }
 
 	/* String literals */
-\"(\\.|[^"])*\"		{ fprintf(yyout, " DOUBLE_STRING_LITERAL(%s)", yytext);	return DOUBLE_STRING_LITERAL; }
-\'(\\.|[^'])*\'		{ fprintf(yyout, " SINGLE_STRING_LITERAL(%s)", yytext);	return SINGLE_STRING_LITERAL; }
+\"(\\.|[^"])*\"		{ fprintf(yyout, " DOUBLE_STRING_LITERAL(%s)", yytext);	yylval.str=strdup(yytext); return DOUBLE_STRING_LITERAL; }
+\'(\\.|[^'])*\'		{ fprintf(yyout, " SINGLE_STRING_LITERAL(%s)", yytext);	yylval.str=strdup(yytext); return SINGLE_STRING_LITERAL; }
 
 	/* Comments */
 "/*"				{
