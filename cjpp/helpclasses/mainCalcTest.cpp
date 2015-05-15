@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <iostream>
-#include "value.h"
 #include "MathFuncsLib.h"
 #include <typeinfo>
 
@@ -19,10 +18,18 @@ int main(){
 	int num2 = 2;
     
     Value* uValue = new UndefinedValue();
-    Value* iValue = new IntegerValue(42);
-    cout << "TEST" << endl;
-    cout << uValue->returnType() << endl;
-    cout << iValue->returnType() << endl;
+    Value* value40 = new IntegerValue(40);
+    Value* value2 = new IntegerValue(2);
+    
+    IntegerValue* iValue40 = dynamic_cast<IntegerValue*>(value40);
+    IntegerValue* iValue2 = dynamic_cast<IntegerValue*>(value2);
+    
+    //cout << "TEST: " << iValue40->returnType() << endl;
+    //cout << "TEST: " << iValue2->returnType() << endl;
+    
+    //cout << "MEMORY: " << &value40 << endl;
+    
+    cout << "new    integer + integer: " << MathFuncs::addV(value40, value2) << endl;
     
 
 	cout << endl << "> Additions" << endl;
@@ -43,7 +50,7 @@ int main(){
     cout << "string - string: " << MathFuncs::sub("Hello", "World!") << endl;
     cout << "integer - integer: " <<MathFuncs::sub(2, 4) << endl;
 
-	cout <<  endl << "Comparators" << endl << endl;
+	cout <<  endl << "Comparators" << endl;
 	cout << "2 < 4: " << MathFuncs::lssthan(2, 4) << endl;
 	cout << "2.4 < 2.5: " << MathFuncs::lssthan(2.4, 2.5) << endl;
 	cout << "2 > 4: " << MathFuncs::gtrthan(2, 4) << endl;

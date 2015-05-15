@@ -22,7 +22,8 @@ protected:
         ObjectType,     // 2
         FloatType,      // 3
         StringType,     // 4
-        BooleanType     // 5
+        BooleanType,    // 5
+        Last            // 0
     } DataType;
     
 public:
