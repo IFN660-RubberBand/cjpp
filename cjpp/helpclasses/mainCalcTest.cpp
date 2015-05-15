@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <iostream>
+#include "value.h"
 #include "MathFuncsLib.h"
 #include <typeinfo>
 
@@ -16,6 +17,13 @@ int main(){
 
 	int num1 = 4;
 	int num2 = 2;
+    
+    Value* uValue = new UndefinedValue();
+    Value* iValue = new IntegerValue(42);
+    cout << "TEST" << endl;
+    cout << uValue->returnType() << endl;
+    cout << iValue->returnType() << endl;
+    
 
 	cout << endl << "> Additions" << endl;
 	cout << "string + integer: " << MathFuncs::add("Hai", 4) << endl;

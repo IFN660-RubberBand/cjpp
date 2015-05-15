@@ -7,74 +7,131 @@
 #ifndef VALUE
 #define VALUE
 
+
+
 using namespace std;
 
-
-
+/**
+ * ...
+ */
 class Value {
-	virtual int returnType() = 0;
-};
-
-class UndefinedValue : public Value {
-};
-
-class IntegerValue : public Value {
 public:
-	int32_t v;
-	IntegerValue(int32_t v) : v(v)
-	{}
-	int returnType() return 1;
+    typedef enum{
+        UndefinedType,
+        IntegerType,
+        ObjectType,
+        FloatType,
+        StringType,
+        BooleanType
+    } DataType;
+    
+    virtual DataType returnType(){
+        return UndefinedType;
+    };
 };
 
-class ObjectValue : public Value {
+/**
+ * ...
+ */
+class UndefinedValue: public Value{
 public:
-	map<char*, Value*>* m;
+    DataType returnType(){
+        return Value::UndefinedType;
+    };
+};
+
+/**
+ * ...
+ */
+class IntegerValue: public Value{
+public:
+	int32_t val;
+    
+	IntegerValue(int32_t val) : val(val){}
+    
+    DataType returnType(){
+        return Value::IntegerType;
+    };
+};
+
+/**
+ * ...
+ */
+class ObjectValue: public Value{
+public:
+	map<char*, Value*>* objMap;
+    
 	ObjectValue() {
-		m = new map<char*, Value*>();
+		objMap = new map<char*, Value*>();
 	}
-	int returnType() return 0;
+    
+    DataType returnType(){
+        return Value::ObjectType;
+    };
+    
 	Value* resolve(char* ident) {
-		auto search = m->find(ident);
-    	if(search != m->end()) {
+		auto search = objMap->find(ident);
+        
+    	if(search != objMap->end()){
         	return search->second;
-    	} else {
+    	}else{
 			Value* value = new UndefinedValue();
-        	//? (*m)[ident] = value;
+        	//? (*objMap)[ident] = value;
         	return value;
     	}
 	}
 
-	void set(char* ident, Value* value) {
-		auto search = m->find(ident);
-    	if(search != m->end()) {
+	void set(char* ident, Value* value){
+		auto search = objMap->find(ident);
+    	if(search != objMap->end()) {
 			cout << "delete old object" << endl;	
 			//delete search->second;
 		}
-        (*m)[ident] = value;
+        (*objMap)[ident] = value;
 	}
 	
 };
 
-class FloatValue : public Value {
-	float v;
-	FloatValue(float v) : v(v) {}
-	int returnType() return 5;
+/**
+ * ...
+ */
+class FloatValue: public Value{
+public:
+	float val;
+    
+	FloatValue(float val) : val(val) {}
+    
+    DataType returnType(){
+        return Value::FloatType;
+    };
 };
 
-class StringValue : public Value {
+/**
+ * ...
+ */
+class StringValue: public Value{
 public:
-	char* v;
-	IntegerValue(char* v) : v(v)
-	{}
-	int returnType() return 3;
+	char* val;
+    
+	StringValue(char* val) : val(val){}
+    
+    DataType returnType(){
+        return Value::StringType;
+    };
 };
 
-class BooleanValue : public Value {
+/**
+ * ...
+ */
+class BooleanValue: public Value{
 public:
-	bool v;
-	IntegerValue(bool v) : v(v)
-	{}
-	int returnType() return 4;
+	bool val;
+    
+	BooleanValue(bool val) : val(val){}
+    
+    DataType returnType(){
+        return Value::BooleanType;
+    };
 };
 
 
