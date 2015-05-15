@@ -15,23 +15,24 @@ using namespace std;
  * ...
  */
 class Value {
-public:
+protected:
     typedef enum{
-        UndefinedType,
-        IntegerType,
-        ObjectType,
-        FloatType,
-        StringType,
-        BooleanType
+        UndefinedType,  // 0
+        IntegerType,    // 1
+        ObjectType,     // 2
+        FloatType,      // 3
+        StringType,     // 4
+        BooleanType     // 5
     } DataType;
     
+public:
     virtual DataType returnType(){
         return UndefinedType;
     };
 };
 
 /**
- * ...
+ * //todo: Define what a undefined value is.
  */
 class UndefinedValue: public Value{
 public:
@@ -41,14 +42,21 @@ public:
 };
 
 /**
- * ...
+ * Class representing the integer value.
  */
 class IntegerValue: public Value{
 public:
+    /**
+     * All JavaScript integer values are based on 32bits.
+     */
 	int32_t val;
     
 	IntegerValue(int32_t val) : val(val){}
     
+    /**
+     * Return the data type of IntegerValue class.
+     * @return Return the integer representing the IntegerType in the enumeration.
+     */
     DataType returnType(){
         return Value::IntegerType;
     };
@@ -65,10 +73,20 @@ public:
 		objMap = new map<char*, Value*>();
 	}
     
+    ObjectValue(char* ident, Value* value): ObjectValue() {
+        set(ident, value);
+    }
+    
+    /**
+     * @return Return the integer representing the ObjectValue in the enumeration.
+     */
     DataType returnType(){
         return Value::ObjectType;
     };
     
+    /**
+     * @return Return the found object within the resolved scope or else return integer representing the undefined value in the enumeration.
+     */
 	Value* resolve(char* ident) {
 		auto search = objMap->find(ident);
         
@@ -81,6 +99,9 @@ public:
     	}
 	}
 
+    /**
+     * ...
+     */
 	void set(char* ident, Value* value){
 		auto search = objMap->find(ident);
     	if(search != objMap->end()) {
@@ -101,6 +122,9 @@ public:
     
 	FloatValue(float val) : val(val) {}
     
+    /**
+     * @return Return the integer representing the FloatValue in the enumeration.
+     */
     DataType returnType(){
         return Value::FloatType;
     };
@@ -115,6 +139,9 @@ public:
     
 	StringValue(char* val) : val(val){}
     
+    /**
+     * @return Return the integer representing the StringValue in the enumeration.
+     */
     DataType returnType(){
         return Value::StringType;
     };
@@ -129,6 +156,9 @@ public:
     
 	BooleanValue(bool val) : val(val){}
     
+    /**
+     * @return Return the integer representing the BooleanValue in the enumeration.
+     */
     DataType returnType(){
         return Value::BooleanType;
     };
