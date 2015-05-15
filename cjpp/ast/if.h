@@ -30,6 +30,10 @@ public:
 		}
 	}
 	void generateCode() const {
+		cout << "if (!" << expr << ") " << "goto end" << endl << ifstmt << endl << "end:" << endl;
+		if (elsestmt != NULL) {
+			cout << elsestmt;
+		}
 	}
 };
 
