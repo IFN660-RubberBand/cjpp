@@ -35,7 +35,7 @@
 BitwiseXORExpression ConditionalExpression AdditiveExpression EqualityExpression LeftHandSideExpression PostfixExpression
 BitwiseANDExpressionNoIn BitwiseOrExpressionNoIn LogicalAndExpressionNoIn AssignmentExpressionNoIn  RelationalExpressionNoIn LogicalOrExpressionNoIn BitwiseXORExpressionNoIn ConditionalExpressionNoIn EqualityExpressionNoIn Initialiser InitialiserNoIn
 %type <i> Identifier 
-%type <l> NumericLiteral Literal
+%type <l> NumericLiteral StringLiteral Literal
 %type <num> DecimalLiteral HexIntegerLiteral
 %type <integer> AssignmentOperator
 %type <prog> Program
@@ -45,10 +45,10 @@ BitwiseANDExpressionNoIn BitwiseOrExpressionNoIn LogicalAndExpressionNoIn Assign
 	/*  */
 %token <num> NUMBER HEXNUMBER
 %token FALSE TRUE UNKNOWN NULLLTOKEN
-%token <str> IDENTIFIER
+%token <str> IDENTIFIER DOUBLE_STRING_LITERAL SINGLE_STRING_LITERAL
 
 	/*  */
-%token SEMICOLON COLON COMMA POINT QUESTION SINGLEQUOTE DOUBLEQUOTE BACKSLASH DOUBLE_STRING_LITERAL SINGLE_STRING_LITERAL
+%token SEMICOLON COLON COMMA POINT QUESTION SINGLEQUOTE DOUBLEQUOTE BACKSLASH
 
 	/* Operators */
 %left PLUS INC MINUS DEC MULTIPLY DIVIDE MOD
@@ -391,6 +391,7 @@ ExpressionNoIn:
 	/* 7.8 - Literals */
 Literal: 
 	NumericLiteral			{ $$ = $1; }
+	| StringLiteral 			{ $$ = $1; }
 	;
 
 NumericLiteral: 
@@ -404,6 +405,11 @@ DecimalLiteral:
 
 HexIntegerLiteral:
 	HEXNUMBER			{ $$ = $1; }
+	;
+
+StringLiteral:
+	DOUBLE_STRING_LITERAL 		{ $$ = new StringLiteral($1); }
+	| SINGLE_STRING_LITERAL 	{ $$ = new StringLiteral($1); }
 	;
 
 Identifier:				

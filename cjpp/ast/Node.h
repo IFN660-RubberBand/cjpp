@@ -59,6 +59,19 @@ public:
 	}
 };
 
+class StringLiteral : public Literal {
+public:
+    char* value;
+    StringLiteral(char* value) : value(value) {}
+    void print(unsigned int tabs) const {
+        cout << value;
+    }
+    bool generateRightHandCode(TempVariable* result) const {
+        cout << result->toString() << " = new StringValue(" << value << ");" << endl;
+        return true;
+    }
+};
+
 
 
 class Identifier : public Node {
