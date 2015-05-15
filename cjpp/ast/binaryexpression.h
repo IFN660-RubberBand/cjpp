@@ -28,6 +28,10 @@ public:
     }	
     
     bool generateCode(TempVariable* result) const {
+    	if(op == AND || op == OR) {
+    		return generateLazyCode(result);
+		}	
+    		
     		
 		TempVariable* t1 = TempVariableFactory::getTemp();
 		TempVariable* t2 = TempVariableFactory::getTemp();
@@ -102,6 +106,49 @@ public:
 		delete t2;	
 		return true;	
 	}
+	
+	bool generateLazyCode(TempVariable* result) const {
+		TempVariable* t1 = TempVariableFactory::getTemp();
+		TempVariable* t2 = TempVariableFactory::getTemp();
+				
+		//generate normal code for the left operand		
+    	bool del0 = left->generateCode(t1);
+    	
+    	
+    	//copy the result into the result temporary variable
+    	cout << result->toString() << " = " << t1->toString() << "->copy();" << endl;
+    	
+    		
+		if(op == OR)//if OR and TRUE jump to the end
+			cout << "if(" << result->toString() << "->isTrue()) " << "goto " << "end" << ";" << endl;
+		else if(op == AND)//if AND and FALSE jump to the end
+			cout << "if(!" << result->toString() << "->isTrue()) " << "goto " << "end" << ";" << endl;
+		
+		//generate code for the right operand
+		bool del1 = right->generateCode(t2);
+		
+		//delete result, we need to overwrite it
+		cout << "delete " << result->toString() << ";" << endl;
+		
+		//do the logic operation
+		if(op == OR)
+			cout << result->toString() << " = libcjpp_or(" << t1->toString() << ", " << t2->toString() << ");" << endl; 
+		else if(op == AND)
+			cout << result->toString() << " = libcjpp_and(" << t1->toString() << ", " << t2->toString() << ");" << endl; 	
+		
+		//second result not longer needed
+		if(del1)
+			cout << "delete " << t2->toString() << ";" << endl;
+		
+		//jump mark
+		cout << "end:" << endl;
+		if(del0)//Delete the old copy if no longer needed
+    		cout << "delete " << t1->toString() << ";" << endl;
+    		
+    	return true;	
+	}
+	
+	
 };
 
 
