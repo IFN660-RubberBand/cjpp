@@ -15,17 +15,23 @@ public:
     	delete l;
 	}
     void print(unsigned int tabs) const {
-		indent(tabs-1); 
+		unsigned int indention;
+		indention = (tabs == 0) ? 0 : tabs-1;
+		
+		if(tabs == 0)
+			++tabs;
+		
+		
+		indent(indention); 
 		cout << "{" << endl;
 		if(l != NULL) 
 			l->print(tabs);
-		indent(tabs-1); 
+		indent(indention); 
 		cout << "}" << endl;
     }
     void generateCode() const {
-    	cout << "{" << endl;
-    	l->generateCode();
-    	cout << "}" << endl;
+    	if(l != NULL)
+    		l->generateCode();
 	}
 };
 

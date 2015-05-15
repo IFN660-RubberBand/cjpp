@@ -85,7 +85,7 @@ public:
         cout << name;
     }
     void generateLeftHandCode(TempVariable* result) const {
-    	cout << "currentscope->set(\"" << name << "\", " << result->toString() << ");" << endl;
+    	cout << result->toString() << " = currentscope->set(\"" << name << "\", " << result->toString() << ");" << endl;
 	}
 	bool generateRightHandCode(TempVariable* result) const {
 		cout << result->toString() << " = currentscope->resolve(\"" << name << "\");" << endl;

@@ -36,9 +36,7 @@ public:
         }	
     }
     void generateCode() const {
-        for(list<const Statement*>::iterator iter = stmts->begin();
-    	    iter != stmts->end();
-            iter++)
+        for(auto iter = stmts->begin(); iter != stmts->end(); iter++)
 		{
         	(*iter)->generateCode();  
         }	

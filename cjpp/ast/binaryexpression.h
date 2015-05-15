@@ -4,6 +4,7 @@
 
 #include "Node.h"
 #include "../cjpp.tab.h"
+#include "../helpclasses/TempVariable.h"
 #include "../helpclasses/TempVariableFactory.h"
 
 class BinaryExpression : public Expression {
@@ -39,7 +40,8 @@ public:
 		switch(op) {
     		case PLUS:
     			//cout << "tmp" << result << " = new IntegerValue(" << tmp0 << "->v + " << tmp1 << "->v);" << endl; 
-    			cout << result->toString() << " = libcjpp_add(" << t1->toString() << ", " << t2->toString() << ");" << endl; 
+    			//cout << " " << *t1;
+				cout << result->toString() << " = libcjpp_add(" << t1->toString() << ", " << t2->toString() << ");" << endl; 
     			break;
     
 			case MINUS:

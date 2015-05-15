@@ -9,10 +9,8 @@ public:
 	int num;
 	TempVariable(int num) : num(num) {
 	}
-	std::ostream& operator<<(std::ostream &strm) {
-  		return strm << ("tmp");
-	}
-	string toString() {
+
+	string toString() const {
 		return "tmp" + to_string(num);
 	}
 	
