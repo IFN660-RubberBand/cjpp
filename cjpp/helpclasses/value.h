@@ -3,7 +3,8 @@
 #include <stdio.h>
 #include <string>
 #include <iostream>
-#include <cmath.h>
+#include <cmath>
+#include <string.h>
 
 #ifndef VALUE
 #define VALUE
@@ -33,6 +34,7 @@ public:
         return UndefinedType;
     }
     virtual bool toBoolean() = 0;
+    virtual Value* copy() = 0;
 };
 
 /**
@@ -43,8 +45,11 @@ public:
     DataType returnType(){
         return Value::UndefinedType;
     };
-    bool toBoolean {
+    bool toBoolean() {
 		return false;
+	}
+	Value* copy() {
+		return new UndefinedValue();
 	}
 };
 
@@ -53,8 +58,11 @@ public:
     DataType returnType(){
         return Value::NullType;
     };
-    bool toBoolean {
+    bool toBoolean() {
 		return false;
+	}
+	Value* copy() {
+		return new NullValue();
 	}
 };
 
@@ -77,10 +85,13 @@ public:
     DataType returnType(){
         return Value::IntegerType;
     }
-    bool toBoolean {
+    bool toBoolean() {
 		if(val == 0)
 			return false;
 		return true;	
+	}
+	Value* copy() {
+		return new IntegerValue(val);
 	}
 };
 
@@ -157,6 +168,9 @@ public:
     		return false;
     	return true;	
 	}
+	Value* copy() {
+		return new FloatValue(val);
+	}
 };
 
 /**
@@ -180,6 +194,9 @@ public:
     		return false;
     	return true;	
 	}
+	Value* copy() {
+		return new StringValue(strdup(val));
+	}
 };
 
 /**
@@ -200,6 +217,9 @@ public:
     
     bool toBoolean() {
     	return val;
+	}
+	Value* copy() {
+		return new BooleanValue(val);
 	}
 };
 

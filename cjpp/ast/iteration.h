@@ -3,6 +3,10 @@
 
 
 #include "Node.h"
+#include "../helpclasses/TempVariable.h"
+#include "../helpclasses/TempVariableFactory.h"
+#include "../helpclasses/JumpLabelFactory.h"
+#include "../helpclasses/JumpLabel.h"
 
 
 class IterationStatement : public Statement {
@@ -14,6 +18,7 @@ public:
     	delete stmt;
 	}
     void generateCode() const {
+    	cout << "not yet implementd iteration" << endl;
 	}
 };
 
@@ -35,6 +40,7 @@ public:
 	expr->print(tabs);
 	cout << " );";
     }
+
 };
 
 class WhileIterationStatement : public IterationStatement {
@@ -53,6 +59,35 @@ public:
 	cout << " ) " << endl;
 	stmt->print(tabs+1);
     }
+    
+    void generateCode() const {
+    	TempVariable* t = TempVariableFactory::getTemp();
+    	JumpLabel* check = JumpLabelFactory::getLabel();	
+		JumpLabel* end = JumpLabelFactory::getLabel();		
+		
+		cout << "//While-loop" << endl;
+		//generate check jump label	
+    	cout << check->toString() << ":" << endl;
+    	
+		//generate code for expression
+    	bool free = expr->generateCode(t);
+    	
+		cout << "if(!" << t->toString() << "->toBoolean()) " << "goto " << end->toString() << ";" << endl;
+		stmt->generateCode();
+		
+		//jump to start
+		cout << "goto " << check->toString() << ";" << endl; 
+		
+		//generate end jump label	
+    	cout << end->toString() << ":" << endl;
+    	if(free)
+    		cout << "delete " << t->toString() << ";" << endl;
+		
+		cout << "//end of While-loop" << endl;
+		delete t;
+		delete check;
+		delete end;
+	}
 };
 
 #define cprint(p,x) { if(p!=NULL) p->print(x); }
@@ -84,6 +119,59 @@ public:
 	cout << " ) " << endl;
 	stmt->print(tabs+1);
     }
+    
+    void generateCode() const {
+    	TempVariable* ref = TempVariableFactory::getTemp();
+    	TempVariable* test = TempVariableFactory::getTemp();
+    	TempVariable* inc = TempVariableFactory::getTemp();
+    	JumpLabel* end = JumpLabelFactory::getLabel();	
+		JumpLabel* check = JumpLabelFactory::getLabel();	
+		
+		cout << "//For-loop" << endl;
+		
+		//generate code for ref expression
+		if(refexpr != NULL) {
+			bool free_ref = refexpr->generateCode(ref);
+			if(free_ref)
+				cout << "delete " << ref->toString() << ";" << endl;
+		}	
+    	
+    	//label for check
+		cout << check->toString() << ":" << endl;
+		
+		//generate code for test expression
+		bool free_test = false;
+		if(testexpr != NULL) {
+			free_test = testexpr->generateCode(test);
+		}
+		
+		cout << "if(!" << test->toString() << "->toBoolean()) " << "goto " << end->toString() << ";" << endl;
+		
+		stmt->generateCode();
+		
+		//generate code for inc expression
+    	if(incexpr != NULL) {
+			bool free_inc = incexpr->generateCode(inc);
+			if(free_inc)
+				cout << "delete " << inc->toString() << ";" << endl;
+		}
+    	
+		//jump to check
+		cout << "goto " << check->toString() << ";" << endl; 
+		
+		//generate end jump label	
+    	cout << end->toString() << ":" << endl;
+		if(free_test)
+			cout << "delete " << test->toString() << ";" << endl;
+		
+		cout << "//end of For-loop" << endl;
+		
+		delete test;
+		delete ref;
+		delete inc;
+		delete check;
+		delete end;
+	}
 };
 
 class ForVarIterationStatement : public IterationStatement {
@@ -112,6 +200,59 @@ public:
 	cout << " ) " << endl;
 	stmt->print(tabs+1);
     }
+    
+     void generateCode() const {
+    	TempVariable* ref = TempVariableFactory::getTemp();
+    	TempVariable* test = TempVariableFactory::getTemp();
+    	TempVariable* inc = TempVariableFactory::getTemp();
+    	JumpLabel* end = JumpLabelFactory::getLabel();	
+		JumpLabel* check = JumpLabelFactory::getLabel();	
+		
+		cout << "//ForVar-loop" << endl;
+		
+		//generate code for ref expression
+		if(vars != NULL) {
+			bool free_ref = vars->generateCode(ref);
+			if(free_ref)
+				cout << "delete " << ref->toString() << ";" << endl;
+		}	
+    	
+    	//label for check
+		cout << check->toString() << ":" << endl;
+		
+		//generate code for test expression
+		bool free_test = false;
+		if(testexpr != NULL) {
+			free_test = testexpr->generateCode(test);
+		}
+		
+		cout << "if(!" << test->toString() << "->toBoolean()) " << "goto " << end->toString() << ";" << endl;
+		
+		stmt->generateCode();
+		
+		//generate code for inc expression
+    	if(incexpr != NULL) {
+			bool free_inc = incexpr->generateCode(inc);
+			if(free_inc)
+				cout << "delete " << inc->toString() << ";" << endl;
+		}
+    	
+		//jump to check
+		cout << "goto " << check->toString() << ";" << endl; 
+		
+		//generate end jump label	
+    	cout << end->toString() << ":" << endl;
+		if(free_test)
+			cout << "delete " << test->toString() << ";" << endl;
+		
+		cout << "//end of ForVar-loop" << endl;
+		
+		delete test;
+		delete ref;
+		delete inc;
+		delete check;
+		delete end;
+	}
 };
 
 class ForInIterationStatement : public IterationStatement {

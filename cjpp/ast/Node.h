@@ -18,8 +18,12 @@ public:
     Node() {};
     virtual void print(unsigned int tabs) const = 0;
     virtual ~Node() {};
-	virtual	void generateLeftHandCode(TempVariable* result) const {}
-	virtual bool generateRightHandCode(TempVariable* result) const {}
+	virtual	void generateLeftHandCode(TempVariable* result) const {
+		cout << "not implemented yet" << endl;
+	}
+	virtual bool generateRightHandCode(TempVariable* result) const {
+		cout << "not implemented yet" << endl;
+	}
 };
 
 class Expression : public Node {
@@ -39,7 +43,9 @@ public:
             cout << " , ";
 		}
     }
-    virtual bool generateCode(TempVariable* result) const {};
+    virtual bool generateCode(TempVariable* result) const {
+		cout << "not implemented yet" << endl;
+	};
 };
 
 class Literal : public Node {
@@ -292,7 +298,12 @@ public:
         	cout << " , ";
 			(*iter)->print(tabs);  
         }	
-    }	
+    }
+	
+	bool generateCode(TempVariable* result) {
+		cout << "vardecllist code not implemented yet" << endl;
+		return false;
+	}	
 };
 
 
