@@ -143,9 +143,12 @@ public:
 		bool free_test = false;
 		if(testexpr != NULL) {
 			free_test = testexpr->generateCode(test);
+			cout << "if(!" << test->toString() << "->toBoolean()) " << "goto " << end->toString() << ";" << endl;
+		} else {
+			cout << "//TODO infite loop case not implemented" << endl;
 		}
 		
-		cout << "if(!" << test->toString() << "->toBoolean()) " << "goto " << end->toString() << ";" << endl;
+		
 		
 		stmt->generateCode();
 		
@@ -224,9 +227,12 @@ public:
 		bool free_test = false;
 		if(testexpr != NULL) {
 			free_test = testexpr->generateCode(test);
+			cout << "if(!" << test->toString() << "->toBoolean()) " << "goto " << end->toString() << ";" << endl;
+		} else {
+			cout << "//TODO infinite loop case not implemented" << endl;
 		}
 		
-		cout << "if(!" << test->toString() << "->toBoolean()) " << "goto " << end->toString() << ";" << endl;
+		
 		
 		stmt->generateCode();
 		
