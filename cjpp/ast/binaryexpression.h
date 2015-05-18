@@ -6,6 +6,8 @@
 #include "../cjpp.tab.h"
 #include "../helpclasses/TempVariable.h"
 #include "../helpclasses/TempVariableFactory.h"
+#include "../helpclasses/JumpLabelFactory.h"
+#include "../helpclasses/JumpLabel.h"
 
 class BinaryExpression : public Expression {
 
@@ -109,7 +111,7 @@ public:
 	
 	bool generateLazyCode(TempVariable* result) const {
 		TempVariable* t1 = TempVariableFactory::getTemp();
-				
+		JumpLabel* l = JumpLabelFactory::getLabel();		
 		//generate normal code for the left operand		
     	bool del0 = left->generateCode(t1);
     	
@@ -122,9 +124,9 @@ public:
     	
     		
 		if(op == OR)//if OR and TRUE jump to the end
-			cout << "if(" << result->toString() << "->toBoolean()) " << "goto " << "end" << ";" << endl;
+			cout << "if(" << result->toString() << "->toBoolean()) " << "goto " << l->toString() << ";" << endl;
 		else if(op == AND)//if AND and FALSE jump to the end
-			cout << "if(!" << result->toString() << "->toBoolean()) " << "goto " << "end" << ";" << endl;
+			cout << "if(!" << result->toString() << "->toBoolean()) " << "goto " << l->toString() << ";" << endl;
 		
 		//delete result, we need to overwrite it
 		cout << "delete " << result->toString() << ";" << endl;
@@ -137,7 +139,10 @@ public:
 			cout << result->toString() << " = " << t1->toString() << "->copy();" << endl;
 		
 		//jump label
-		cout << "end:" << endl;
+		cout << l->toString() << ":" << endl;
+		
+		delete t1;
+		delete l;
     	return true;	
 	}
 	
