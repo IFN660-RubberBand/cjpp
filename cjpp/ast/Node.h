@@ -72,6 +72,25 @@ public:
     }
 };
 
+class BooleanLiteral : public Literal {
+public:
+    bool value;
+    BooleanLiteral(bool value) : value(value) {}
+    void print(unsigned int tabs) const {
+        if(value)
+			cout << "true";
+		else
+			cout << "false";	
+    }
+    bool generateRightHandCode(TempVariable* result) const {
+        cout << result->toString() << " = new BooleanValue(";
+		print(0);
+		cout << ");" << endl;
+        return true;
+    }
+};
+
+
 
 
 class Identifier : public Node {

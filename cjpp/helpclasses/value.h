@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string>
 #include <iostream>
+#include <cmath.h>
 
 #ifndef VALUE
 #define VALUE
@@ -23,13 +24,15 @@ protected:
         FloatType,      // 3
         StringType,     // 4
         BooleanType,    // 5
+        NullType,		// 6
         Last            // 0
     } DataType;
     
 public:
     virtual DataType returnType(){
         return UndefinedType;
-    };
+    }
+    virtual bool toBoolean() = 0;
 };
 
 /**
@@ -40,6 +43,19 @@ public:
     DataType returnType(){
         return Value::UndefinedType;
     };
+    bool toBoolean {
+		return false;
+	}
+};
+
+class NullValue: public Value{
+public:
+    DataType returnType(){
+        return Value::NullType;
+    };
+    bool toBoolean {
+		return false;
+	}
 };
 
 /**
@@ -60,7 +76,12 @@ public:
      */
     DataType returnType(){
         return Value::IntegerType;
-    };
+    }
+    bool toBoolean {
+		if(val == 0)
+			return false;
+		return true;	
+	}
 };
 
 /**
@@ -111,7 +132,9 @@ public:
 		}
         (*objMap)[ident] = value;
 	}
-	
+	bool toBoolean() {
+		return true;
+	}
 };
 
 /**
@@ -129,6 +152,11 @@ public:
     DataType returnType(){
         return Value::FloatType;
     };
+    bool toBoolean() {
+    	if(val == 0 || val == NAN)
+    		return false;
+    	return true;	
+	}
 };
 
 /**
@@ -146,6 +174,12 @@ public:
     DataType returnType(){
         return Value::StringType;
     };
+    
+    bool toBoolean() {
+    	if(val[0] == '\0')
+    		return false;
+    	return true;	
+	}
 };
 
 /**
@@ -163,6 +197,10 @@ public:
     DataType returnType(){
         return Value::BooleanType;
     };
+    
+    bool toBoolean() {
+    	return val;
+	}
 };
 
 
