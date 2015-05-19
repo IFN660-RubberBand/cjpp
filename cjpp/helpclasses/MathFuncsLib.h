@@ -1,16 +1,21 @@
 #include <string>
 #include <sstream>
 #include "value.h"
+//#include "Values.h"
 
 using namespace std;
 
-class MathFuncs: public Value{
+class MathFuncs{
 public:
-    static auto addV(Value* lval, Value* rval){
+    /*
+     Testing method
+     */
+    static Value* addV(Value* lval, Value* rval){
+        if(IntegerValue* vlval = dynamic_cast<IntegerValue*>(lval)){
+            return vlval;
+        }
         
-        
-        
-        return 0;
+        return new UndefinedValue();
     }
     
 	/* \deprecated { Uses template instead of objects }

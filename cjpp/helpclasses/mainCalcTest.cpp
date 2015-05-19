@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <iostream>
 #include "MathFuncsLib.h"
+//#include "Values.h"
 #include <typeinfo>
 
 using namespace std;
@@ -17,19 +18,25 @@ int main(){
 	int num1 = 4;
 	int num2 = 2;
     
-    Value* uValue = new UndefinedValue();
+    
+    
+//    Value* uValue = new UndefinedValue();
+//    Value* value40 = new FloatValue(40.4);
+//    Value* value2 = new StringValue("2");
     Value* value40 = new IntegerValue(40);
     Value* value2 = new IntegerValue(2);
+
+//    IntegerValue* iValue40 = dynamic_cast<IntegerValue*>(value40);
+//    IntegerValue* iValue2 = dynamic_cast<IntegerValue*>(value2);
     
-    IntegerValue* iValue40 = dynamic_cast<IntegerValue*>(value40);
-    IntegerValue* iValue2 = dynamic_cast<IntegerValue*>(value2);
+//    cout << "TEST: " << iValue40->returnType() << endl;
+//    cout << "TEST: " << iValue2->returnType() << endl;
     
-    //cout << "TEST: " << iValue40->returnType() << endl;
-    //cout << "TEST: " << iValue2->returnType() << endl;
+//    cout << "MEMORY: " << &value40 << endl;
     
-    //cout << "MEMORY: " << &value40 << endl;
+//    cout << "new    integer + integer: " << MathFuncs::addV(value40, value2) << endl;
     
-    cout << "new    integer + integer: " << MathFuncs::addV(value40, value2) << endl;
+    cout << "new    IntegerValue + IntegerValue: " << MathFuncs::addV(value40, value2)->val;
     
 
 	cout << endl << "> Additions" << endl;

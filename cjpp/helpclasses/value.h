@@ -1,13 +1,11 @@
+#ifndef VALUE
+#define VALUE
+
 #include <stdint.h>
 #include <map>
 #include <stdio.h>
 #include <string>
 #include <iostream>
-
-#ifndef VALUE
-#define VALUE
-
-
 
 using namespace std;
 
@@ -17,16 +15,17 @@ using namespace std;
 class Value {
 protected:
     typedef enum{
-        UndefinedType,  // 0
-        IntegerType,    // 1
-        ObjectType,     // 2
-        FloatType,      // 3
-        StringType,     // 4
-        BooleanType,    // 5
-        Last            // 0
+        UndefinedType   = 0,
+        IntegerType     = 1,
+        ObjectType      = 2,
+        FloatType       = 3,
+        StringType      = 4,
+        BooleanType     = 5
     } DataType;
     
 public:
+    int val;
+    
     virtual DataType returnType(){
         return UndefinedType;
     };
@@ -136,9 +135,9 @@ public:
  */
 class StringValue: public Value{
 public:
-	char* val;
+	string val;
     
-	StringValue(char* val) : val(val){}
+	StringValue(string val) : val(val){}
     
     /**
      * @return Return the integer representing the StringValue in the enumeration.
