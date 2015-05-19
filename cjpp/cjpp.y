@@ -35,7 +35,7 @@
 BitwiseXORExpression ConditionalExpression AdditiveExpression EqualityExpression LeftHandSideExpression PostfixExpression
 BitwiseANDExpressionNoIn BitwiseOrExpressionNoIn LogicalAndExpressionNoIn AssignmentExpressionNoIn  RelationalExpressionNoIn LogicalOrExpressionNoIn BitwiseXORExpressionNoIn ConditionalExpressionNoIn EqualityExpressionNoIn Initialiser InitialiserNoIn
 %type <i> Identifier 
-%type <l> NumericLiteral StringLiteral Literal
+%type <l> NumericLiteral StringLiteral Literal BinaryLiteral
 %type <num> DecimalLiteral HexIntegerLiteral
 %type <integer> AssignmentOperator
 %type <prog> Program
@@ -391,8 +391,13 @@ ExpressionNoIn:
 	/* 7.8 - Literals */
 Literal: 
 	NumericLiteral			{ $$ = $1; }
-	| StringLiteral 			{ $$ = $1; }
+	| StringLiteral 		{ $$ = $1; }
+	| BinaryLiteral			{ $$ = $1; }
 	;
+
+BinaryLiteral:
+	TRUE					{ $$ = new BooleanLiteral(true);  }
+	| FALSE 				{ $$ = new BooleanLiteral(false); }
 
 NumericLiteral: 
 	DecimalLiteral			{ $$ = new NumericLiteral($1); }

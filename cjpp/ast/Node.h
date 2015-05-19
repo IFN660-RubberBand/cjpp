@@ -18,8 +18,12 @@ public:
     Node() {};
     virtual void print(unsigned int tabs) const = 0;
     virtual ~Node() {};
-	virtual	void generateLeftHandCode(TempVariable* result) const {}
-	virtual bool generateRightHandCode(TempVariable* result) const {}
+	virtual	void generateLeftHandCode(TempVariable* result) const {
+		cout << "not implemented yet" << endl;
+	}
+	virtual bool generateRightHandCode(TempVariable* result) const {
+		cout << "not implemented yet" << endl;
+	}
 };
 
 class Expression : public Node {
@@ -39,7 +43,9 @@ public:
             cout << " , ";
 		}
     }
-    virtual bool generateCode(TempVariable* result) const {};
+    virtual bool generateCode(TempVariable* result) const {
+		cout << "not implemented yet" << endl;
+	};
 };
 
 class Literal : public Node {
@@ -71,6 +77,25 @@ public:
         return true;
     }
 };
+
+class BooleanLiteral : public Literal {
+public:
+    bool value;
+    BooleanLiteral(bool value) : value(value) {}
+    void print(unsigned int tabs) const {
+        if(value)
+			cout << "true";
+		else
+			cout << "false";	
+    }
+    bool generateRightHandCode(TempVariable* result) const {
+        cout << result->toString() << " = new BooleanValue(";
+		print(0);
+		cout << ");" << endl;
+        return true;
+    }
+};
+
 
 
 
@@ -273,7 +298,12 @@ public:
         	cout << " , ";
 			(*iter)->print(tabs);  
         }	
-    }	
+    }
+	
+	bool generateCode(TempVariable* result) {
+		cout << "vardecllist code not implemented yet" << endl;
+		return false;
+	}	
 };
 
 

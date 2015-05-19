@@ -6,6 +6,8 @@
 #include <stdio.h>
 #include <string>
 #include <iostream>
+#include <cmath>
+#include <string.h>
 
 using namespace std;
 
@@ -20,7 +22,8 @@ protected:
         ObjectType      = 2,
         FloatType       = 3,
         StringType      = 4,
-        BooleanType     = 5
+        BooleanType     = 5,
+        NullType        = 6
     } DataType;
     
 public:
@@ -28,7 +31,9 @@ public:
     
     virtual DataType returnType(){
         return UndefinedType;
-    };
+    }
+    virtual bool toBoolean() = 0;
+    virtual Value* copy() = 0;
 };
 
 /**
@@ -39,6 +44,25 @@ public:
     DataType returnType(){
         return Value::UndefinedType;
     };
+    bool toBoolean() {
+		return false;
+	}
+	Value* copy() {
+		return new UndefinedValue();
+	}
+};
+
+class NullValue: public Value{
+public:
+    DataType returnType(){
+        return Value::NullType;
+    };
+    bool toBoolean() {
+		return false;
+	}
+	Value* copy() {
+		return new NullValue();
+	}
 };
 
 /**
@@ -59,7 +83,15 @@ public:
      */
     DataType returnType(){
         return Value::IntegerType;
-    };
+    }
+    bool toBoolean() {
+		if(val == 0)
+			return false;
+		return true;	
+	}
+	Value* copy() {
+		return new IntegerValue(val);
+	}
 };
 
 /**
@@ -110,7 +142,9 @@ public:
 		}
         (*objMap)[ident] = value;
 	}
-	
+	bool toBoolean() {
+		return true;
+	}
 };
 
 /**
@@ -128,6 +162,14 @@ public:
     DataType returnType(){
         return Value::FloatType;
     };
+    bool toBoolean() {
+    	if(val == 0 || val == NAN)
+    		return false;
+    	return true;	
+	}
+	Value* copy() {
+		return new FloatValue(val);
+	}
 };
 
 /**
@@ -145,6 +187,15 @@ public:
     DataType returnType(){
         return Value::StringType;
     };
+    
+    bool toBoolean() {
+    	if(val[0] == '\0')
+    		return false;
+    	return true;	
+	}
+	Value* copy() {
+		return new StringValue(val);
+	}
 };
 
 /**
@@ -162,6 +213,13 @@ public:
     DataType returnType(){
         return Value::BooleanType;
     };
+    
+    bool toBoolean() {
+    	return val;
+	}
+	Value* copy() {
+		return new BooleanValue(val);
+	}
 };
 
 
