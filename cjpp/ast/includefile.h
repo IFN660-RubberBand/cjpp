@@ -14,6 +14,9 @@
 #include "assignment.h"
 #include "program.h"
 #include "if.h"
+#include "functiondeclaration.h"
+#include "identifierlist.h"
+#include "functionexpression.h"
 
 
 #endif
