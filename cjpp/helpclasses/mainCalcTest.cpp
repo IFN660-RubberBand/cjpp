@@ -28,6 +28,8 @@ int main(int argc, char* argv[]){
     Value* value40 = new IntegerValue(40);
     Value* value2 = new IntegerValue(2);
     Value* value10 = new StringValue("10");
+    Value* value24 = new FloatValue(2.4);
+    Value* value25 = new FloatValue(2.5);
 
 //    IntegerValue* iValue40 = dynamic_cast<IntegerValue*>(value40);
 //    IntegerValue* iValue2 = dynamic_cast<IntegerValue*>(value2);
@@ -70,6 +72,10 @@ int main(int argc, char* argv[]){
 	cout << "2 > 40: " << MathFuncs::gtrthan(value2, value40) << endl;
 	cout << "40 > 2: " << MathFuncs::gtrthan(value40, value2) << endl;
 	cout << "\"10\" < 2: " << MathFuncs::lssthan(value10, value2) << endl;
+	cout << "\"10\" > 2: " << MathFuncs::gtrthan(value10, value2) << endl;
+	cout << "2 == 2: " << MathFuncs::equalto(value2, value2) << endl;
+	cout << "2 != 40: " << MathFuncs::neqto(value2, value40) << endl;
+	cout << "2.4 < 2.5: " << MathFuncs::lssthan(value24, value25) << endl;
 
 	printf("\nEND\n");
 
