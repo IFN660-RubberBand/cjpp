@@ -22,6 +22,7 @@ protected:
         IntegerType     = 1,
         FloatType       = 2,
         BooleanType     = 3,
+
         UndefinedType   = 4,
         ObjectType      = 5,
         StringType      = 6,
@@ -59,6 +60,9 @@ public:
     };
 };
 
+/**
+ * ...
+ */
 class NaNValue: public Value{
 public:
     bool toBoolean() {
@@ -78,6 +82,9 @@ public:
     };
 };
 
+/**
+ * ...
+ */
 class NullValue: public Value{
 public:
     bool toBoolean() {

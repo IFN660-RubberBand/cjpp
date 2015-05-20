@@ -13,13 +13,15 @@ public:
 	 TESTING
 	 */
 	static Value* addV2(Value* lval, Value* rval){
-		if(lval->returnType() <= 3 || rval->returnType() <= 3){
-			cout << "WE CAN MAKE A CALCULATION" << endl;
-		}else{
-			return new NaNValue();
-		}
+		Value* sumval = new NullValue();
 
-		return new StringValue("DUD");
+		if(lval->returnType() <= 3 || rval->returnType() <= 3){
+			sumval =  new NumberValue(lval->toFloat() + rval->toFloat());
+		}else if(lval->returnType() <= 6 || rval->returnType() <= 6){
+			sumval =  new StringValue(lval->toString() + rval->toString());
+		}
+		
+		return sumval;
 	}
 
     /**

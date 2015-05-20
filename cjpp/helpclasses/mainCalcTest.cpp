@@ -30,7 +30,7 @@ int main(int argc, char* argv[]){
     Value* svalSpace = new StringValue(" ");
 
     cout << "> Addtion (new addV2 method)" << endl;
-    cout << "int + int: " << MathFuncs::addV2(nival40, nival2) << endl;
+    cout << "int + int: " << MathFuncs::addV2(nival40, nival2)->toFloat() << endl;
     
     // Scope* currentscope = new Scope();
 
