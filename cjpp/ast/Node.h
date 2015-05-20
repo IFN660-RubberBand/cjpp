@@ -116,6 +116,11 @@ public:
 		cout << result->toString() << " = currentscope->resolve(\"" << name << "\");" << endl;
     	return false;
 	}
+
+	char* toString() const
+	{
+		return name;	
+	}
 };
 
 class VariableDec : public Node {
@@ -140,6 +145,26 @@ public:
             expr->print(tabs);
         }
     }
+
+	bool generateCode(TempVariable* result) const{
+		if(expr == NULL)
+		{                 //No Intializer
+			
+			cout<< result->toString() << " = " << "new StringValue (" << "\"" << i->toString() << "\"" << ");" << endl;
+		}	
+		else
+		{		//With Initializer
+
+			TempVariable* temp;				
+			temp = TempVariableFactory::getTemp();
+			expr->generateCode(temp);
+			cout << "currentScope->set(" << "\"" << i->toString() << "\"" << "," << temp->toString() << ");" << endl ; 
+			cout << result->toString() << " = " << "new StringValue (" << "\"" << i->toString() << "\""<< ");" << endl;
+			delete temp;
+			
+		}
+		return true;
+	}
 };
 
 
@@ -301,8 +326,17 @@ public:
     }
 	
 	bool generateCode(TempVariable* result) {
-		cout << "vardecllist code not implemented yet" << endl;
-		return false;
+		list<const VariableDec*>::iterator iter = stmts->begin();
+	        for(iter = stmts->begin(); iter != stmts->end(); iter++)
+		{
+
+			bool res = (*iter)->generateCode(result);  
+			if(res)
+				cout << "delete " << result->toString() << ";" << endl ;
+        	}	
+		
+		
+
 	}	
 };
 
