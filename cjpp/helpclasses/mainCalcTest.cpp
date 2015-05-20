@@ -83,14 +83,14 @@ int main(int argc, char* argv[]){
 	cout <<  endl << "Comparators" << endl;
 	cout << "True is: " << true << endl;
 	cout << "False is: " << false << endl;
-	cout << "2 < 40: " << MathFuncs::lssthan(value2, value40)->val << endl;
-	cout << "2 > 40: " << MathFuncs::gtrthan(value2, value40)->val << endl;
-	cout << "40 > 2: " << MathFuncs::gtrthan(value40, value2)->val << endl;
-	cout << "\"10\" < 2: " << MathFuncs::lssthan(value10, value2)->val << endl;
-	cout << "\"10\" > 2: " << MathFuncs::gtrthan(value10, value2)->val << endl;
-	cout << "2 == 2: " << MathFuncs::equalto(value2, value2)->val << endl;
-	cout << "2 != 40: " << MathFuncs::neqto(value2, value40)->val << endl;
-	cout << "2.4 < 2.5: " << MathFuncs::lssthan(value24, value25)->val << endl;
+	cout << "2 < 40: " << MathFuncs::lssthan(value2, value40) << endl;
+	cout << "2 > 40: " << MathFuncs::gtrthan(value2, value40) << endl;
+	cout << "40 > 2: " << MathFuncs::gtrthan(value40, value2) << endl;
+	cout << "\"10\" < 2: " << MathFuncs::lssthan(value10, value2) << endl;
+	cout << "\"10\" > 2: " << MathFuncs::gtrthan(value10, value2) << endl;
+	cout << "2 == 2: " << MathFuncs::equalto(value2, value2) << endl;
+	cout << "2 != 40: " << MathFuncs::neqto(value2, value40) << endl;
+	cout << "2.4 < 2.5: " << MathFuncs::lssthan(value24, value25) << endl;
 
 	printf("\nEND\n");
 

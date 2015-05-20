@@ -2,7 +2,6 @@
 #include <sstream>
 #include "value.h"
 //#include "Values.h"
-#include <typeinfo>
 
 using namespace std;
 
@@ -174,93 +173,57 @@ public:
 		return 0;
 	}
 
-	static auto lssthan(Value* lval, Value* rval)
+	static bool lssthan(Value* lval, Value* rval)
 	{
-		int result = do_cmp(lval, rval);
-		if (result == -1)
-		{
-			BooleanValue* bval = new BooleanValue(true);
-			return bval;
-		}
-		else
-		{
-			BooleanValue* bval = new BooleanValue(false);
-			return bval;
-		}
+	int result = do_cmp(lval, rval);
+	if (result == -1)
+		return true;
+	else
+		return false;
 	}
 
-	static auto gtrthan(Value* lval, Value* rval)
+	static bool gtrthan(Value* lval, Value* rval)
 	{
-		int result = do_cmp(lval, rval);
-		if (result == 1)
-		{
-			BooleanValue* bval = new BooleanValue(true);
-			return bval;
-		}
-		else
-		{
-			BooleanValue* bval = new BooleanValue(false);
-			return bval;
-		}
+	int result = do_cmp(lval, rval);
+	if (result == 1)
+		return true;
+	else
+		return false;
 	}
 
-	static auto leqthan(Value* lval, Value* rval)
+	static bool leqthan(Value* lval, Value* rval)
 	{
 		int result = do_cmp(lval, rval);
 		if ( result == -1 || result == 0)
-		{
-			BooleanValue* bval = new BooleanValue(true);
-			return bval;
-		}
+			return true;
 		else
-		{
-			BooleanValue* bval = new BooleanValue(false);
-			return bval;
-		}
+			return false;
 	}
 
-	static auto geqthan(Value* lval, Value* rval)
+	static bool geqthan(Value* lval, Value* rval)
 	{
 		int result = do_cmp(lval, rval);
 		if (result == 1 || result == 0)
-		{
-			BooleanValue* bval = new BooleanValue(true);
-			return bval;
-		}
+			return true;
 		else
-		{
-			BooleanValue* bval = new BooleanValue(false);
-			return bval;
-		}
+			return false;
 	}
 
-	static auto equalto(Value* lval, Value* rval)
+	static bool equalto(Value* lval, Value* rval)
 	{
 		int result = do_cmp(lval, rval);
 		if (result == 0)
-		{
-			BooleanValue* bval = new BooleanValue(true);
-			return bval;
-		}
+			return true;
 		else
-		{
-			BooleanValue* bval = new BooleanValue(false);
-			return bval;
-		}
+			return false;
 	}
 
-	static auto neqto(Value* lval, Value* rval)
+	static bool neqto(Value* lval, Value* rval)
 	{
 		int result = do_cmp(lval, rval);
 		if (result != 0)
-		{
-			BooleanValue* bval = new BooleanValue(true);
-			return bval;
-		}
+			return true;
 		else
-		{
-			BooleanValue* bval = new BooleanValue(false);
-			return bval;
-		}
+			return false;
 	}
 };
