@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <string>
 #include <sstream>
 #include "value.h"
@@ -8,6 +9,19 @@ using namespace std;
 
 class MathFuncs{
 public:
+	/**
+	 TESTING
+	 */
+	static Value* addV2(Value* lval, Value* rval){
+		if(lval->returnType() <= 3 || rval->returnType() <= 3){
+			cout << "WE CAN MAKE A CALCULATION" << endl;
+		}else{
+			return new NaNValue();
+		}
+
+		return new StringValue("DUD");
+	}
+
     /**
      Addition function with returning Value.	
      */
@@ -23,7 +37,7 @@ public:
     static Value* do_addV(L lval, R rval, false_type){
         Value* val;
 
-        if(std::is_same<decltype(lval),float>::value || std::is_same<decltype(rval),float>::value){
+        if(is_same<decltype(lval),float>::value || is_same<decltype(rval),float>::value){
 			val = new FloatValue(((float)lval + rval));
         }else{
         	val = new IntegerValue(((int)lval + rval));
@@ -103,7 +117,9 @@ public:
 	static int do_cmp(Value* lval, Value* rval)
 	{
 		int ltype = lval->returnType();
+		cout << ltype << endl;
 		int rtype = rval->returnType();
+		cout << rtype << endl;
 		switch(ltype) {
 			case 1:
 				if ((rtype == 1) || (rtype == 3))

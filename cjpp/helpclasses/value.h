@@ -8,6 +8,7 @@
 #include <iostream>
 #include <cmath>
 #include <string.h>
+#include <boost/lexical_cast.hpp>
 
 using namespace std;
 
@@ -16,74 +17,149 @@ using namespace std;
  */
 class Value {
 protected:
-    typedef enum{
-        UndefinedType   = 0,
+    typedef enum {
+        NullType        = 0,
         IntegerType     = 1,
-        ObjectType      = 2,
-        FloatType       = 3,
-        StringType      = 4,
-        BooleanType     = 5,
-        NullType        = 6
+        FloatType       = 2,
+        BooleanType     = 3,
+        UndefinedType   = 4,
+        ObjectType      = 5,
+        StringType      = 6,
+        NaNType         = 7
     } DataType;
     
 public:
-    virtual DataType returnType() = 0;
     virtual bool toBoolean() = 0;
     virtual float toFloat() = 0;
+    virtual string toString() = 0;
     virtual Value* copy() = 0;
-    virtual ~Value(){};
+    virtual DataType returnType() = 0;
+    virtual ~Value() { delete this; };
 };
 
 /**
  * //todo: Define what a undefined value is.
  */
-class UndefinedValue: public Value{
+class UndefinedValue: public Value {
 public:
-    DataType returnType(){
-        return Value::UndefinedType;
-    };
+    bool toBoolean() {
+        return false;
+    }
     float toFloat() {
         return 0;
     }
-    bool toBoolean() {
-		return false;
-	}
+    string toString() {
+        return "Undefined";
+    }
 	Value* copy() {
 		return new UndefinedValue();
 	}
+    DataType returnType() {
+        return Value::UndefinedType;
+    };
+};
+
+class NaNValue: public Value{
+public:
+    bool toBoolean() {
+        return false;
+    }
+    float toFloat() {
+        return 0;
+    }
+    string toString() {
+        return "NaN";
+    }
+    Value* copy() {
+        return new NaNValue();
+    }
+    DataType returnType() {
+        return Value::NaNType;
+    };
 };
 
 class NullValue: public Value{
 public:
-    DataType returnType(){
-        return Value::NullType;
-    };
     bool toBoolean() {
 		return false;
 	}
     float toFloat() {
         return 0;
     }
+    string toString() {
+        return "null";
+    }
 	Value* copy() {
 		return new NullValue();
 	}
+    DataType returnType() {
+        return Value::NullType;
+    };
+};
+
+/**
+ * ...
+ */
+class NumberValue: public Value {
+public:
+    float val;
+    
+    NumberValue(float val) : val(val) {}
+    ~NumberValue(){
+        delete this;
+    }
+
+    bool toBoolean() {
+        if(val) {
+            return true;
+        }
+        return false;
+    }
+    float toFloat() {
+        return val;
+    }
+    string toString() {
+        return to_string(val);
+    }
+    Value* copy() {
+        return new NumberValue(val);
+    }
+    /**
+     * @return Return the integer representing the FloatValue in the enumeration.
+     */
+    DataType returnType() {
+        return Value::FloatType;
+    };
 };
 
 /**
  * Class representing the integer value.
  */
-class IntegerValue: public Value{
+class IntegerValue: public Value {
 public:
     /**
      * All JavaScript integer values are based on 32bits.
      */
-	int32_t val = 0;
+	int32_t val;
     
 	IntegerValue(int32_t val) : val(val){}
     ~IntegerValue(){
         delete this;
     }
-    
+    bool toBoolean() {
+		if(val)
+			return true;
+		return false;
+	}
+    float toFloat() {
+        return val;
+    }
+    string toString() {
+        return to_string(val);
+    }
+	Value* copy() {
+		return new IntegerValue(val);
+	}
     /**
      * Return the data type of IntegerValue class.
      * @return Return the integer representing the IntegerType in the enumeration.
@@ -91,23 +167,12 @@ public:
     DataType returnType(){
         return Value::IntegerType;
     }
-    bool toBoolean() {
-		if(val == 0)
-			return false;
-		return true;	
-	}
-    float toFloat() {
-        return val;
-    }
-	Value* copy() {
-		return new IntegerValue(val);
-	}
 };
 
 /**
  * ...
  */
-class ObjectValue: public Value{
+class ObjectValue: public Value {
 public:
 	map<char*, Value*>* objMap;
     
@@ -120,13 +185,6 @@ public:
     }
     
     /**
-     * @return Return the integer representing the ObjectValue in the enumeration.
-     */
-    DataType returnType(){
-        return Value::ObjectType;
-    };
-    
-    /**
      * @return Return the found object within the resolved scope or else return integer representing the undefined value in the enumeration.
      */
 	Value* resolve(char* ident) {
@@ -136,7 +194,6 @@ public:
         	return search->second;
     	}else{
 			Value* value = new UndefinedValue();
-        	//? (*objMap)[ident] = value;
         	return value;
     	}
 	}
@@ -144,105 +201,127 @@ public:
     /**
      * ...
      */
-	void set(char* ident, Value* value){
+	void set(char* ident, Value* value) {
 		auto search = objMap->find(ident);
+
     	if(search != objMap->end()) {
 			cout << "delete old object" << endl;	
 			//delete search->second;
 		}
         (*objMap)[ident] = value;
 	}
+    bool toBoolean() {
+        return true;
+    }
     float toFloat() {
         return 0;
     }
-	bool toBoolean() {
-		return true;
-	}
+    string toString() {
+        return "Object";
+    }
+    /**
+     * @return Return the integer representing the ObjectValue in the enumeration.
+     */
+    DataType returnType() {
+        return Value::ObjectType;
+    };
 };
 
 /**
  * ...
  */
-class FloatValue: public Value{
+class FloatValue: public Value {
 public:
 	float val;
     
 	FloatValue(float val) : val(val) {}
     
+    bool toBoolean() {
+    	if(val)
+    		return true;
+    	return false;
+	}
+    float toFloat() {
+        return val;
+    }
+    string toString(){
+        return to_string(val);
+    }
+	Value* copy() {
+		return new FloatValue(val);
+	}
     /**
      * @return Return the integer representing the FloatValue in the enumeration.
      */
     DataType returnType(){
         return Value::FloatType;
     };
-    bool toBoolean() {
-    	if(val == 0 || val == NAN)
-    		return false;
-    	return true;	
-	}
-    float toFloat() {
-        return val;
-    }
-	Value* copy() {
-		return new FloatValue(val);
-	}
 };
 
 /**
  * ...
  */
-class StringValue: public Value{
+class StringValue: public Value {
 public:
 	string val;
     
 	StringValue(string val) : val(val){}
-    
-    /**
-     * @return Return the integer representing the StringValue in the enumeration.
-     */
-    DataType returnType(){
-        return Value::StringType;
-    };
 
     bool toBoolean() {
-    	if(val[0] == '\0')
-    		return false;
-    	return true;	
+        try{
+            return boost::lexical_cast<int>(val);
+        }catch(const boost::bad_lexical_cast &){
+            return 0;
+        }
 	}
     float toFloat() {
-        return stof(val);
+        try{
+            return boost::lexical_cast<float>(val);
+        }catch(const boost::bad_lexical_cast &){
+            return NAN;
+        }
     }
-    
+    string toString() {
+        return val;
+    }
 	Value* copy() {
 		return new StringValue(val);
 	}
+    /**
+     * @return Return the integer representing the StringValue in the enumeration.
+     */
+    DataType returnType() {
+        return Value::StringType;
+    };
 };
 
 /**
  * ...
  */
-class BooleanValue: public Value{
+class BooleanValue: public Value {
 public:
 	bool val;
     
 	BooleanValue(bool val) : val(val){}
     
+    bool toBoolean() {
+    	return val;
+	}
+    float toFloat() {
+        return NAN;
+    }
+    string toString() {
+        return to_string(val);
+    }
+	Value* copy() {
+		return new BooleanValue(val);
+	}
     /**
      * @return Return the integer representing the BooleanValue in the enumeration.
      */
     DataType returnType(){
         return Value::BooleanType;
     };
-    
-    bool toBoolean() {
-    	return val;
-	}
-    float toFloat() {
-        return 0;
-    }
-	Value* copy() {
-		return new BooleanValue(val);
-	}
 };
 
 
