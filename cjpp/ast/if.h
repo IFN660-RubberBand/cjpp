@@ -29,12 +29,39 @@ public:
 			elsestmt->print(tabs+1);
 		}
 	}
+	
 	void generateCode() const {
-		cout << "if (!" << expr << ") " << "goto end" << endl << ifstmt << endl << "end:" << endl;
-		if (elsestmt != NULL) {
-			cout << elsestmt;
-		}
+		TempVariable* t = TempVariableFactory::getTemp();
+        JumpLabel* jumpElse= JumpLabelFactory::getLabel();
+        JumpLabel* jumpEnd= JumpLabelFactory::getLabel();
+
+		expr->generateCode(t);
+
+		cout << "if (!" << t->toString() << "->toBoolean()" << ") " << "goto " << jumpElse->toString() <<";"<< endl;
+        ifstmt->generateCode();
+
+
+        /*
+         *First need to check if else condition exists.  If not, jump straight to End:
+         */
+        cout<<jumpElse->toString()<<";"<<endl;
+        	if (elsestmt != NULL) {
+				elsestmt->generateCode();
+			} else {
+				cout << "goto" << jumpEnd->toString() <<";" << endl;
+			}
+
+
+		/*
+		 *End label
+		 */
+        cout<<jumpEnd->toString()<<";"<<endl;
+        delete t;
+        delete j;
+		
 	}
+
+
 };
 
 #endif

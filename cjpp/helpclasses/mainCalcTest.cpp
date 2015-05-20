@@ -3,6 +3,8 @@
 #include "MathFuncsLib.h"
 //#include "Values.h"
 #include <typeinfo>
+#include "value.h"
+#include "Scope.h"
 
 using namespace std;
 
@@ -13,7 +15,7 @@ using namespace std;
  * variable with a number as a value. The given output is not human readable so you need to convert the
  * compiled program using c++filt -t. Example: "./mainCalcTest | c++filt -t".
  */
-int main(){
+int main(int argc, char* argv[]){
 
 	int i40 = 40;
 	int i2 = 2;
@@ -22,6 +24,7 @@ int main(){
     string s40 = "40";
     string s2 = "2";
     
+    Scope* currentscope = new Scope();
     cout << "new string + string: " << MathFuncs::addV2(s40, i2)->val << endl;
     cout << "new float + int: " << dynamic_cast<FloatValue*>(MathFuncs::addV2(f40, i2))->val << endl;
     
@@ -32,8 +35,11 @@ int main(){
 //    Value* uValue = new UndefinedValue();
 //    Value* value40 = new FloatValue(40.4);
 //    Value* value2 = new StringValue("2");
-//    Value* value40 = new IntegerValue(*i40);
-//    Value* value2 = new IntegerValue(*i2);
+    Value* value40 = new IntegerValue(40);
+    Value* value2 = new IntegerValue(2);
+    Value* value10 = new StringValue("10");
+    Value* value24 = new FloatValue(2.4);
+    Value* value25 = new FloatValue(2.5);
 
 //    IntegerValue* iValue40 = dynamic_cast<IntegerValue*>(value40);
 //    IntegerValue* iValue2 = dynamic_cast<IntegerValue*>(value2);
@@ -47,6 +53,10 @@ int main(){
     
 //    IntegerValue* ival = dynamic_cast<IntegerValue*>(MathFuncs::addV(value40, value2));
 //    Value* vval = MathFuncs::addV(value40, value2);
+    cout << "new    IntegerValue + IntegerValue: " << MathFuncs::addV(value40, value2)->val << endl;
+    cout << value40 << endl;
+    cout << value40->val << endl;
+    cout << value40->returnType() << endl;
     
 //    cout << "new    IntegerValue + IntegerValue: " << MathFuncs::addV(value40, value2)->val;
 //    cout << "new    IntegerValue + IntegerValue: " << ival->val << endl;
@@ -71,13 +81,16 @@ int main(){
     cout << "integer - integer: " <<MathFuncs::sub(2, 4) << endl;
 
 	cout <<  endl << "Comparators" << endl;
-	cout << "2 < 4: " << MathFuncs::lssthan(2, 4) << endl;
-	cout << "2.4 < 2.5: " << MathFuncs::lssthan(2.4, 2.5) << endl;
-	cout << "2 > 4: " << MathFuncs::gtrthan(2, 4) << endl;
-	cout << "2 == 2.0: " << MathFuncs::equalto(2, 2.0) << endl;
-	cout << "2 <= 2: " << MathFuncs::leqthan(2, 2) << endl;
-	cout << "\"2\" > 1: " << MathFuncs::gtrthan("2", 1) << endl;
-	// cout << "integer === string: " << MathFuncs::cmp(2, "2", IDENT) << endl;
+	cout << "True is: " << true << endl;
+	cout << "False is: " << false << endl;
+	cout << "2 < 40: " << MathFuncs::lssthan(value2, value40) << endl;
+	cout << "2 > 40: " << MathFuncs::gtrthan(value2, value40) << endl;
+	cout << "40 > 2: " << MathFuncs::gtrthan(value40, value2) << endl;
+	cout << "\"10\" < 2: " << MathFuncs::lssthan(value10, value2) << endl;
+	cout << "\"10\" > 2: " << MathFuncs::gtrthan(value10, value2) << endl;
+	cout << "2 == 2: " << MathFuncs::equalto(value2, value2) << endl;
+	cout << "2 != 40: " << MathFuncs::neqto(value2, value40) << endl;
+	cout << "2.4 < 2.5: " << MathFuncs::lssthan(value24, value25) << endl;
 
 	printf("\nEND\n");
 

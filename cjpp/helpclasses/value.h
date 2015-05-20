@@ -29,6 +29,7 @@ protected:
 public:
     virtual DataType returnType() = 0;
     virtual bool toBoolean() = 0;
+    virtual float toFloat() = 0;
     virtual Value* copy() = 0;
 };
 
@@ -40,6 +41,9 @@ public:
     DataType returnType(){
         return Value::UndefinedType;
     };
+    float toFloat() {
+        return 0;
+    }
     bool toBoolean() {
 		return false;
 	}
@@ -56,6 +60,9 @@ public:
     bool toBoolean() {
 		return false;
 	}
+    float toFloat() {
+        return 0;
+    }
 	Value* copy() {
 		return new NullValue();
 	}
@@ -85,6 +92,9 @@ public:
 			return false;
 		return true;	
 	}
+    float toFloat() {
+        return val;
+    }
 	Value* copy() {
 		return new IntegerValue(val);
 	}
@@ -138,6 +148,9 @@ public:
 		}
         (*objMap)[ident] = value;
 	}
+    float toFloat() {
+        return 0;
+    }
 	bool toBoolean() {
 		return true;
 	}
@@ -163,6 +176,9 @@ public:
     		return false;
     	return true;	
 	}
+    float toFloat() {
+        return val;
+    }
 	Value* copy() {
 		return new FloatValue(val);
 	}
@@ -183,12 +199,16 @@ public:
     DataType returnType(){
         return Value::StringType;
     };
-    
+
     bool toBoolean() {
     	if(val[0] == '\0')
     		return false;
     	return true;	
 	}
+    float toFloat() {
+        return stof(val);
+    }
+    
 	Value* copy() {
 		return new StringValue(val);
 	}
@@ -213,6 +233,9 @@ public:
     bool toBoolean() {
     	return val;
 	}
+    float toFloat() {
+        return 0;
+    }
 	Value* copy() {
 		return new BooleanValue(val);
 	}
