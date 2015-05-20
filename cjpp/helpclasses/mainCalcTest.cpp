@@ -25,8 +25,8 @@ int main(int argc, char* argv[]){
     string s2 = "2";
     
     Scope* currentscope = new Scope();
-    cout << "new string + string: " << MathFuncs::addV2(s40, i2)->val << endl;
-    cout << "new float + int: " << dynamic_cast<FloatValue*>(MathFuncs::addV2(f40, i2))->val << endl;
+    cout << "new string + string: " << MathFuncs::addV(s40, i2)->val << endl;
+    cout << "new float + int: " << dynamic_cast<FloatValue*>(MathFuncs::addV(f40, i2))->val << endl;
     
     // Use of classed in Values.h
 //    IntValue* ival40 = new IntValue(&i40);

@@ -31,6 +31,7 @@ public:
     virtual bool toBoolean() = 0;
     virtual float toFloat() = 0;
     virtual Value* copy() = 0;
+    virtual ~Value(){};
 };
 
 /**
@@ -79,6 +80,9 @@ public:
 	int32_t val = 0;
     
 	IntegerValue(int32_t val) : val(val){}
+    ~IntegerValue(){
+        delete this;
+    }
     
     /**
      * Return the data type of IntegerValue class.
