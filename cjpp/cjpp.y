@@ -16,6 +16,8 @@
 %union {
 	Expression* expr;
 	Statement* stmt;
+	FunctionDeclaration* funcdec;
+	IdentifierList* identparmlist;
 	StatementList* stmtlist;
 	VariableDec* vardec;
 	Program* prog;
@@ -25,17 +27,20 @@
 	char* str;
 	double num;
 	int integer;
+	
 }
 
-%type <stmtlist> SourceElements StatementList
+%type <stmtlist> SourceElements StatementList FunctionBody
 %type <vardec> VariableDeclaration VariableDeclarationNoIn
 %type <vardeclist> VariableDeclarationList VariableDeclarationListNoIn
+%type <funcdec> FunctionDeclaration 
+%type <identparmlist> FormalParameterList 
 %type <stmt> Statement SourceElement ExpressionStatement IterationStatement VariableStatement Block EmptyStatement IfStatement
-%type <expr> Expression ExpressionNoIn MemberExpression NewExpression BitwiseANDExpression BitwiseOrExpression PrimaryExpression LogicalAndExpression   AssignmentExpression MultiplicativeExpression ShiftExpression UnaryExpression RelationalExpression LogicalOrExpression 
+%type <expr> Expression ExpressionNoIn MemberExpression NewExpression BitwiseANDExpression BitwiseOrExpression PrimaryExpression LogicalAndExpression   AssignmentExpression MultiplicativeExpression ShiftExpression UnaryExpression RelationalExpression LogicalOrExpression FunctionExpression
 BitwiseXORExpression ConditionalExpression AdditiveExpression EqualityExpression LeftHandSideExpression PostfixExpression
 BitwiseANDExpressionNoIn BitwiseOrExpressionNoIn LogicalAndExpressionNoIn AssignmentExpressionNoIn  RelationalExpressionNoIn LogicalOrExpressionNoIn BitwiseXORExpressionNoIn ConditionalExpressionNoIn EqualityExpressionNoIn Initialiser InitialiserNoIn
 %type <i> Identifier 
-%type <l> NumericLiteral StringLiteral Literal BinaryLiteral
+%type <l> NumericLiteral StringLiteral Literal BinaryLiteral ObjectLiteral
 %type <num> DecimalLiteral HexIntegerLiteral
 %type <integer> AssignmentOperator
 %type <prog> Program
@@ -93,9 +98,30 @@ SourceElements:
 
 SourceElement: 
         Statement			{ $$ = $1; }
+	|FunctionDeclaration		{ /*$$ = $1;*/ }
 	;
 	/* END 14 - Program */
 
+	/* 13 - Function definition */
+FunctionDeclaration: FUNCTION Identifier LPAREN FormalParameterList RPAREN LCURLY FunctionBody RCURLY { $$ = new FunctionDeclaration($2, $4, $7); }
+	| FUNCTION Identifier LPAREN RPAREN LCURLY FunctionBody RCURLY { $$ = new FunctionDeclaration($2, NULL, $6); }
+	;
+
+FunctionExpression: 
+	FUNCTION Identifier LPAREN FormalParameterList RPAREN LCURLY FunctionBody RCURLY { $$ = new FunctionExpression($2, $4, $7); }
+	| FUNCTION Identifier LPAREN RPAREN LCURLY FunctionBody RCURLY			{ $$ = new FunctionExpression($2,NULL, $6); }
+	| FUNCTION LPAREN FormalParameterList RPAREN LCURLY FunctionBody RCURLY { $$ = new FunctionExpression(NULL, $3, $6); }
+	| FUNCTION LPAREN RPAREN LCURLY FunctionBody RCURLY			{ $$ = new FunctionExpression(NULL, NULL, $5); }
+	;
+
+FormalParameterList: Identifier			{ $$ = new IdentifierList($1); }				
+	| FormalParameterList Identifier	{ $$ = $1; $$->append($2);    }
+	;
+
+FunctionBody: SourceElements			{ $$ = $1; }
+	|					{ $$ = NULL; }
+	;
+	/* END 13 - Function definition */
 
 	/* 12 - Statements */
 Statement: 
@@ -200,6 +226,7 @@ MemberExpression: PrimaryExpression	{ $$ = $1; }
 	;
 
 NewExpression: MemberExpression		{ $$ = $1; }
+	| FunctionExpression		{ $$ = $1; }
 	;
 
 LeftHandSideExpression: NewExpression	{ $$ = $1; }
@@ -393,8 +420,12 @@ Literal:
 	NumericLiteral			{ $$ = $1; }
 	| StringLiteral 		{ $$ = $1; }
 	| BinaryLiteral			{ $$ = $1; }
+	| ObjectLiteral			{ $$ = $1; }
 	;
 
+ObjectLiteral:
+	LCURLY RCURLY           { $$ = new ObjectLiteral(NULL);  }
+	
 BinaryLiteral:
 	TRUE					{ $$ = new BooleanLiteral(true);  }
 	| FALSE 				{ $$ = new BooleanLiteral(false); }
