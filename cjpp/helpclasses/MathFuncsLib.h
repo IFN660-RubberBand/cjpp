@@ -84,6 +84,12 @@ public:
 			case 1:
 				if ((rtype == 1) || (rtype == 3))
 					return comparenumbers(lval, rval);
+				else if (rtype == 4)
+				{
+					float newrval = rval->toFloat();
+					Value* tmprval = new FloatValue(newrval);
+					return comparenumbers(lval, tmprval);
+				}
 				break;
 			case 2:
 				break;

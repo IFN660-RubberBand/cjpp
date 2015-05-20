@@ -39,7 +39,10 @@ int main(int argc, char* argv[]){
     
 //    cout << "new    integer + integer: " << MathFuncs::addV(value40, value2) << endl;
     
-    cout << "new    IntegerValue + IntegerValue: " << MathFuncs::addV(value40, value2)->val;
+    cout << "new    IntegerValue + IntegerValue: " << MathFuncs::addV(value40, value2)->val << endl;
+    cout << value40 << endl;
+    cout << value40->val << endl;
+    cout << value40->returnType() << endl;
     
 
 	cout << endl << "> Additions" << endl;
@@ -61,6 +64,8 @@ int main(int argc, char* argv[]){
     cout << "integer - integer: " <<MathFuncs::sub(2, 4) << endl;
 
 	cout <<  endl << "Comparators" << endl;
+	cout << "True is: " << true << endl;
+	cout << "False is: " << false << endl;
 	cout << "2 < 40: " << MathFuncs::lssthan(value2, value40) << endl;
 	cout << "2 > 40: " << MathFuncs::gtrthan(value2, value40) << endl;
 	cout << "40 > 2: " << MathFuncs::gtrthan(value40, value2) << endl;
