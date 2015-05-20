@@ -39,23 +39,23 @@ public:
 
 		cout << "if (!" << t->toString() << "->toBoolean()" << ") " << "goto " << jumpElse->toString() <<";"<< endl;
         ifstmt->generateCode();
-
+		cout << "goto " << jumpEnd->toString() << ";" << endl;
 
         /*
          *First need to check if else condition exists.  If not, jump straight to End:
          */
-        cout<<jumpElse->toString()<<";"<<endl;
+        cout<<jumpElse->toString()<<":"<<endl;
         	if (elsestmt != NULL) {
 				elsestmt->generateCode();
 			} else {
-				cout << "goto" << jumpEnd->toString() <<";" << endl;
+				cout << "goto " << jumpEnd->toString() <<";" << endl;
 			}
 
 
 		/*
 		 *End label
 		 */
-        cout<<jumpEnd->toString()<<";"<<endl;
+        cout<<jumpEnd->toString()<<":"<<endl;
         delete t;
         delete j;
 		
