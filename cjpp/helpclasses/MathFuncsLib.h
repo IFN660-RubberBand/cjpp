@@ -11,16 +11,16 @@ public:
      TESTING
      */
     template<typename L, typename R>
-    static auto addV2(L lval, R rval){
+    static auto addV(L lval, R rval){
         using dispatch_type = integral_constant<
         bool,
         is_convertible<L, string>{}
         || is_convertible<R, string>{} >;
-        return do_addV2(lval, rval, dispatch_type());
+        return do_addV(lval, rval, dispatch_type());
     }
     
     template<typename L, typename R>
-    static auto do_addV2(L lval, R rval, false_type){
+    static auto do_addV(L lval, R rval, false_type){
         Value* val;
         
         if(strcmp(typeid(lval).name(), "float") || strcmp(typeid(rval).name(), "float")){
@@ -33,18 +33,11 @@ public:
     }
     
     template<typename L, typename R>
-    static StringValue* do_addV2(L lval, R rval, true_type){
+    static StringValue* do_addV(L lval, R rval, true_type){
         ostringstream oss;
         oss << lval << rval;
         StringValue* sval = new StringValue(oss.str());
         return sval;
-    }
-    
-    /*
-     Testing method
-     */
-    static Value* addV(Value* lval, Value* rval){
-        return 0;
     }
     
 	/* \deprecated { Uses template instead of objects }
@@ -131,6 +124,7 @@ public:
 			default:
 				break;
 		}
+		return 0;
 	}
 
 	static int comparenumbers(Value* lval, Value* rval, int ltype, int rtype)
