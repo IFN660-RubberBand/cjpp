@@ -44,7 +44,7 @@ public:
         /*
          *First need to check if else condition exists.  If not, jump straight to End:
          */
-        cout<<jumpElse->toString()<<":"<<endl;
+        cout<<jumpElse->toString()<<":"<<endl; //Else Label
         	if (elsestmt != NULL) {
 				elsestmt->generateCode();
 			} else {
@@ -55,7 +55,7 @@ public:
 		/*
 		 *End label
 		 */
-        cout<<jumpEnd->toString()<<":"<<endl;
+        cout<<jumpEnd->toString()<<":"<<endl; 
         delete t;
         delete j;
 		
