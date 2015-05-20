@@ -71,29 +71,36 @@ public:
     static string do_sub(L lval, R rval, true_type){
         return "NaN";
     }
-    
-	/* \deprecated { Uses template instead of objects }
-	* Comparators
-	*/
-	template<typename L, typename R>
-	static auto do_cmp(L lval, R rval, true_type)
+
+	/*
+	 *	Comparators usings the object value
+	 *
+	 *
+	 */
+
+	static int do_cmp(Value* lval, Value* rval, int ltype, int rtype)
 	{
-		// need conversion if lval or rval are of type char*
+		switch(ltype) {
+			case 1:
+				if ((rtype == 1) || (rtype == 3))
+					return comparenumbers(lval, rval);
+				break;
+			case 2:
+				break;
+			case 3:
+				break;
+			case 4:
+				break;
+			case 5:
+				break;
+			case 6:
+				break;
+			default:
+				break;
+		}
+	}
 
-		float flval = atof(lval);
-		float frval = rval;
-
-		float sign = flval - frval;
-		if (sign > 0)
-			return 1;
-		else if (sign < 0)
-			return -1;
-		else
-			return 0;
-	}	
-
-	template<typename L, typename R>
-	static auto do_cmp(L lval, R rval, false_type)
+	static int comparenumbers(Value* lval, Value* rval)
 	{
 		float sign = lval - rval;
 		if (sign > 0)
@@ -101,88 +108,31 @@ public:
 		else if (sign < 0)
 			return -1;
 		else
-			return 0;
+			return 0;	
 	}
 
-	template<typename L, typename R>
-	static auto lssthan(L lval, R rval)
+	static int comparestring(Value* lval, Value* rval)
 	{
-		using dispatch_type = integral_constant<
-			bool, 
-			is_convertible<L, string>{}
-			|| is_convertible<R, string>{} >;
-	int result = do_cmp(lval, rval, dispatch_type());
+		return 0;
+	}
+
+	static bool lssthan(Value* lval, Value* rval)
+	{
+	int ltype = lval->returnType();
+	int rtype = rval->returnType();
+	int result = do_cmp(lval, rval, ltype, rtype);
 	if (result == -1)
 		return true;
 	else
 		return false;
 	}
 
-	template<typename L, typename R>
-	static auto gtrthan(L lval, R rval)
+	static bool gtrthan(Value* lval, Value* rval)
 	{
-		using dispatch_type = integral_constant<
-			bool, 
-			is_convertible<L, string>{}
-			|| is_convertible<R, string>{} >;
-	int result = do_cmp(lval, rval, dispatch_type());
+	int ltype = lval->returnType();
+	int rtype = rval->returnType();
+	int result = do_cmp(lval, rval, ltype, rtype);
 	if (result == 1)
-		return true;
-	else
-		return false;
-	}
-
-	template<typename L, typename R>
-	static auto leqthan(L lval, R rval)
-	{
-		using dispatch_type = integral_constant<
-			bool, 
-			is_convertible<L, string>{}
-			|| is_convertible<R, string>{} >;
-	int result = do_cmp(lval, rval, dispatch_type());
-	if ((result == -1) || (result == 0))
-		return true;
-	else
-		return false;
-	}
-
-	template<typename L, typename R>
-	static auto geqthan(L lval, R rval)
-	{
-		using dispatch_type = integral_constant<
-			bool, 
-			is_convertible<L, string>{}
-			|| is_convertible<R, string>{} >;
-	int result = do_cmp(lval, rval, dispatch_type());
-	if ((result == 1) || (result == 0))
-		return true;
-	else
-		return false;
-	}
-
-	template<typename L, typename R>
-	static auto equalto(L lval, R rval)
-	{
-		using dispatch_type = integral_constant<
-			bool, 
-			is_convertible<L, string>{}
-			|| is_convertible<R, string>{} >;
-	int result = do_cmp(lval, rval, dispatch_type());
-	if (result == 0)
-		return true;
-	else
-		return false;
-	}
-
-	template<typename L, typename R>
-	static auto neqto(L lval, R rval)
-	{
-		using dispatch_type = integral_constant<
-			bool, 
-			is_convertible<L, string>{}
-			|| is_convertible<R, string>{} >;
-	int result = do_cmp(lval, rval, dispatch_type());
-	if (result != 0)
 		return true;
 	else
 		return false;
