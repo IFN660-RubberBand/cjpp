@@ -57,7 +57,8 @@ public:
 		 */
         cout<<jumpEnd->toString()<<":"<<endl; 
         delete t;
-        delete j;
+        delete jumpElse;
+		delete jumpEnd;
 		
 	}
 
