@@ -53,10 +53,10 @@ int main(int argc, char* argv[]){
     
 //    IntegerValue* ival = dynamic_cast<IntegerValue*>(MathFuncs::addV(value40, value2));
 //    Value* vval = MathFuncs::addV(value40, value2);
-    cout << "new    IntegerValue + IntegerValue: " << MathFuncs::addV(value40, value2)->val << endl;
-    cout << value40 << endl;
-    cout << value40->val << endl;
-    cout << value40->returnType() << endl;
+//    cout << "new    IntegerValue + IntegerValue: " << MathFuncs::addV(value40, value2)->val << endl;
+//    cout << value40 << endl;
+//    cout << value40->val << endl;
+//    cout << value40->returnType() << endl;
     
 //    cout << "new    IntegerValue + IntegerValue: " << MathFuncs::addV(value40, value2)->val;
 //    cout << "new    IntegerValue + IntegerValue: " << ival->val << endl;
