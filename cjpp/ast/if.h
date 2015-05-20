@@ -30,10 +30,16 @@ public:
 		}
 	}
 	void generateCode() const {
-		cout << "if (!" << expr << ") " << "goto end" << endl << ifstmt << endl << "end:" << endl;
-		if (elsestmt != NULL) {
-			cout << elsestmt;
-		}
+		TempVariable* t = TempVariableFactory::getTemp();
+        JumpLabel* j= JumpLabelFactory::getLabel();
+		expr->generateCode(t);
+
+		cout << "if (!" << t->toString() << "->toBoolean()" << ") " << "goto " << j->toString() <<";"<< endl;
+        ifstmt->generateCode();
+        cout<<j->toString()<<";"<<endl;
+        delete t;
+        delete j;
+		
 	}
 };
 
