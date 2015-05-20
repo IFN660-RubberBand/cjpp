@@ -8,32 +8,31 @@ using namespace std;
 class MathFuncs{
 public:
     /**
-     TESTING
+     Addition function with returning Value.	
      */
     template<typename L, typename R>
     static auto addV(L lval, R rval){
         using dispatch_type = integral_constant<
-        bool,
-        is_convertible<L, string>{}
-        || is_convertible<R, string>{} >;
+        	bool,
+        	is_convertible<L, string>{} || is_convertible<R, string>{} >;
         return do_addV(lval, rval, dispatch_type());
     }
     
     template<typename L, typename R>
-    static auto do_addV(L lval, R rval, false_type){
+    static Value* do_addV(L lval, R rval, false_type){
         Value* val;
-        
-        if(strcmp(typeid(lval).name(), "float") || strcmp(typeid(rval).name(), "float")){
-            val = new FloatValue(((float)lval + rval));
+
+        if(std::is_same<decltype(lval),float>::value || std::is_same<decltype(rval),float>::value){
+			val = new FloatValue(((float)lval + rval));
         }else{
-            val = new IntegerValue(((int)lval + rval));
+        	val = new IntegerValue(((int)lval + rval));
         }
         
         return val;
     }
     
     template<typename L, typename R>
-    static StringValue* do_addV(L lval, R rval, true_type){
+    static Value* do_addV(L lval, R rval, true_type){
         ostringstream oss;
         oss << lval << rval;
         StringValue* sval = new StringValue(oss.str());
