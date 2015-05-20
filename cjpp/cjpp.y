@@ -35,7 +35,7 @@
 BitwiseXORExpression ConditionalExpression AdditiveExpression EqualityExpression LeftHandSideExpression PostfixExpression
 BitwiseANDExpressionNoIn BitwiseOrExpressionNoIn LogicalAndExpressionNoIn AssignmentExpressionNoIn  RelationalExpressionNoIn LogicalOrExpressionNoIn BitwiseXORExpressionNoIn ConditionalExpressionNoIn EqualityExpressionNoIn Initialiser InitialiserNoIn
 %type <i> Identifier 
-%type <l> NumericLiteral StringLiteral Literal BinaryLiteral
+%type <l> NumericLiteral StringLiteral Literal BinaryLiteral ObjectLiteral
 %type <num> DecimalLiteral HexIntegerLiteral
 %type <integer> AssignmentOperator
 %type <prog> Program
