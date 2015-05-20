@@ -40,13 +40,19 @@ public:
         return MyType;
     }
     Value* create(){
-        return ValueT();
+        return new ValueT();
     }
 };
 
 class IntValue: public ValueFactory<IntValueE, IntValue>{
 public:
     int32_t* val;
+    
+    IntValue(){}
+    
+    IntValue(int* ival){
+        this->set(ival);
+    }
     
     void set(int* ival){
         val = static_cast<int32_t*>(ival);

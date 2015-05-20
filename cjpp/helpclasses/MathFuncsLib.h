@@ -7,15 +7,44 @@ using namespace std;
 
 class MathFuncs{
 public:
+    /**
+     TESTING
+     */
+    template<typename L, typename R>
+    static auto addV2(L lval, R rval){
+        using dispatch_type = integral_constant<
+        bool,
+        is_convertible<L, string>{}
+        || is_convertible<R, string>{} >;
+        return do_addV2(lval, rval, dispatch_type());
+    }
+    
+    template<typename L, typename R>
+    static auto do_addV2(L lval, R rval, false_type){
+        Value* val;
+        
+        if(strcmp(typeid(lval).name(), "float") || strcmp(typeid(rval).name(), "float")){
+            val = new FloatValue(((float)lval + rval));
+        }else{
+            val = new IntegerValue(((int)lval + rval));
+        }
+        
+        return val;
+    }
+    
+    template<typename L, typename R>
+    static StringValue* do_addV2(L lval, R rval, true_type){
+        ostringstream oss;
+        oss << lval << rval;
+        StringValue* sval = new StringValue(oss.str());
+        return sval;
+    }
+    
     /*
      Testing method
      */
     static Value* addV(Value* lval, Value* rval){
-        if(IntegerValue* vlval = dynamic_cast<IntegerValue*>(lval)){
-            return vlval;
-        }
-        
-        return new UndefinedValue();
+        return 0;
     }
     
 	/* \deprecated { Uses template instead of objects }

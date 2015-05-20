@@ -15,16 +15,25 @@ using namespace std;
  */
 int main(){
 
-	int num1 = 4;
-	int num2 = 2;
+	int i40 = 40;
+	int i2 = 2;
+    float f40 = 40.1;
+    float f2 = 2.1;
+    string s40 = "40";
+    string s2 = "2";
     
+    cout << "new string + string: " << MathFuncs::addV2(s40, i2)->val << endl;
+    cout << "new float + int: " << dynamic_cast<FloatValue*>(MathFuncs::addV2(f40, i2))->val << endl;
     
+    // Use of classed in Values.h
+//    IntValue* ival40 = new IntValue(&i40);
+//    IntValue* ival2 = new IntValue(&i2);
     
 //    Value* uValue = new UndefinedValue();
 //    Value* value40 = new FloatValue(40.4);
 //    Value* value2 = new StringValue("2");
-    Value* value40 = new IntegerValue(40);
-    Value* value2 = new IntegerValue(2);
+//    Value* value40 = new IntegerValue(*i40);
+//    Value* value2 = new IntegerValue(*i2);
 
 //    IntegerValue* iValue40 = dynamic_cast<IntegerValue*>(value40);
 //    IntegerValue* iValue2 = dynamic_cast<IntegerValue*>(value2);
@@ -36,8 +45,12 @@ int main(){
     
 //    cout << "new    integer + integer: " << MathFuncs::addV(value40, value2) << endl;
     
-    cout << "new    IntegerValue + IntegerValue: " << MathFuncs::addV(value40, value2)->val;
+//    IntegerValue* ival = dynamic_cast<IntegerValue*>(MathFuncs::addV(value40, value2));
+//    Value* vval = MathFuncs::addV(value40, value2);
     
+//    cout << "new    IntegerValue + IntegerValue: " << MathFuncs::addV(value40, value2)->val;
+//    cout << "new    IntegerValue + IntegerValue: " << ival->val << endl;
+//    cout << "new    IntegerValue + IntegerValue: " << vval->val;
 
 	cout << endl << "> Additions" << endl;
 	cout << "string + integer: " << MathFuncs::add("Hai", 4) << endl;

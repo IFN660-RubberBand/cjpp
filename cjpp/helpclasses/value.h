@@ -27,11 +27,7 @@ protected:
     } DataType;
     
 public:
-    int val;
-    
-    virtual DataType returnType(){
-        return UndefinedType;
-    }
+    virtual DataType returnType() = 0;
     virtual bool toBoolean() = 0;
     virtual Value* copy() = 0;
 };
@@ -73,7 +69,7 @@ public:
     /**
      * All JavaScript integer values are based on 32bits.
      */
-	int32_t val;
+	int32_t val = 0;
     
 	IntegerValue(int32_t val) : val(val){}
     
