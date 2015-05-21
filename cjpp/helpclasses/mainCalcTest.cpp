@@ -25,6 +25,7 @@ int main(int argc, char* argv[]){
     Value* nfval2two = new NumberValue(2.2);
     Value* sval40 = new StringValue("40");
     Value* sval2 = new StringValue("2");
+    Value* sval0 = new StringValue("0");
     Value* svalHello = new StringValue("Hello");
     Value* svalWorld = new StringValue("World");
     Value* svalSpace = new StringValue(" ");
@@ -91,17 +92,18 @@ int main(int argc, char* argv[]){
     cout << "string - string: " << MathFuncs::sub("Hello", "World!") << endl;
     cout << "integer - integer: " <<MathFuncs::sub(2, 4) << endl;
 
-	// cout <<  endl << "Comparators" << endl;
+	cout <<  endl << "Comparators" << endl;
 	// cout << "True is: " << true << endl;
 	// cout << "False is: " << false << endl;
-	// cout << "2 < 40: " << MathFuncs::lssthan(value2, value40)->val << endl;
-	// cout << "2 > 40: " << MathFuncs::gtrthan(value2, value40)->val << endl;
-	// cout << "40 > 2: " << MathFuncs::gtrthan(value40, value2)->val << endl;
-	// cout << "\"10\" < 2: " << MathFuncs::lssthan(value10, value2)->val << endl;
-	// cout << "\"10\" > 2: " << MathFuncs::gtrthan(value10, value2)->val << endl;
-	// cout << "2 == 2: " << MathFuncs::equalto(value2, value2)->val << endl;
-	// cout << "2 != 40: " << MathFuncs::neqto(value2, value40)->val << endl;
-	// cout << "2.4 < 2.5: " << MathFuncs::lssthan(value24, value25)->val << endl;
+	cout << "2 < 40: " << MathFuncs::lssthan(nival2, nival40)->val << endl;
+	cout << "2 > 40: " << MathFuncs::gtrthan(nival2, nival40)->val << endl;
+	cout << "40 > 2: " << MathFuncs::gtrthan(nival40, nival2)->val << endl;
+	cout << "\"40\" < 2: " << MathFuncs::lssthan(sval40, nival2)->val << endl;
+	cout << "\"40\" > 2: " << MathFuncs::gtrthan(sval40, nival2)->val << endl;
+    cout << "\"0\" < 2: " << MathFuncs::lssthan(sval0, nival2)->val << endl;
+	cout << "2 == 2: " << MathFuncs::equalto(nival2, nival2)->val << endl;
+	cout << "2 != 40: " << MathFuncs::neqto(nival2, nival40)->val << endl;
+	cout << "2.1 < 2.2: " << MathFuncs::lssthan(nfval2one, nfval2two)->val << endl;
 
 	printf("\nEND\n");
 

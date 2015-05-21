@@ -4,6 +4,7 @@
 #include "value.h"
 //#include "Values.h"
 #include <typeinfo>
+#include <cmath>
 
 using namespace std;
 
@@ -119,59 +120,21 @@ public:
 	static int do_cmp(Value* lval, Value* rval)
 	{
 		int ltype = lval->returnType();
-		cout << ltype << endl;
 		int rtype = rval->returnType();
-		cout << rtype << endl;
-		switch(ltype) {
-			case 1:
-				if ((rtype == 1) || (rtype == 3))
-					return comparenumbers(lval, rval, ltype, rtype);
-				break;
-			case 2:
-				break;
-			case 3:
-				if ((rtype == 1) || (rtype == 3))
-					return comparenumbers(lval, rval, ltype, rtype);
-				break;
-			case 4:
-				break;
-			case 5:
-				break;
-			case 6:
-				break;
-			default:
-				break;
+		if ((ltype <= 2) && (rtype <= 2))
+		{
+			return comparenumbers(lval, rval);
+		}
+		else if ((ltype <= 2 || ltype == 6) && (rtype <=2 || rtype ==6))
+		{
+			return comparestring(lval, rval, ltype, rtype);
 		}
 		return 0;
 	}
 
-	static int comparenumbers(Value* lval, Value* rval, int ltype, int rtype)
+	static int comparenumbers(Value* lval, Value* rval)
 	{
-		float lValue = 0;
-		float rValue = 0;
-
-		if (ltype == 1)
-		{
-			IntegerValue* lvalue = dynamic_cast<IntegerValue*>(lval);
-			lValue = lvalue->val;
-		}
-		if (ltype == 3)
-		{
-			FloatValue* lvalue = dynamic_cast<FloatValue*>(lval);
-			lValue = lvalue->val;
-		}
-		if (rtype == 1)
-		{
-			IntegerValue* rvalue = dynamic_cast<IntegerValue*>(rval);
-			rValue = rvalue->val;
-		}
-		if (rtype == 3)
-		{
-			FloatValue* rvalue = dynamic_cast<FloatValue*>(rval);
-			rValue = rvalue->val;
-		}
-		
-		float sign = lValue - rValue;
+		float sign = lval->toFloat() - rval->toFloat();
 		if (sign > 0)
 			return 1;
 		else if (sign < 0)
@@ -180,8 +143,13 @@ public:
 			return 0;	
 	}
 
-	static int comparestring(Value* lval, Value* rval)
+	static int comparestring(Value* lval, Value* rval, int ltype, int rtype)
 	{
+		if ((ltype == 6 && lval->toFloat() != NAN) || (rtype == 6 && rval->toFloat() != NAN))
+		{
+			return comparenumbers(lval, rval);
+		}
+
 		return 0;
 	}
 
