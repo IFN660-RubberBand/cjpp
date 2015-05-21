@@ -1,0 +1,16 @@
+#include "helpclasses/value.h"
+#include "helpclasses/Scope.h"
+#include "helpclasses/MathFuncsLib.h"
+
+// http://rubberband.wikenso.com/pages/required-compiler-features
+
+
+int main(int argc, char* argv[]) {
+	Scope* currentscope = new Scope();
+
+
+	
+	currentscope->closeScope();
+	delete currentscope;
+	return 0;
+}
