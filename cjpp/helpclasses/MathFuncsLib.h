@@ -153,92 +153,136 @@ public:
 		return 0;
 	}
 
-	static auto lssthan(Value* lval, Value* rval)
+	static Value* lssthan(Value* lval, Value* rval)
 	{
 		int result = do_cmp(lval, rval);
 		if (result == -1)
 		{
-			BooleanValue* bval = new BooleanValue(true);
+			Value* bval = new BooleanValue(true);
 			return bval;
 		}
 		else
 		{
-			BooleanValue* bval = new BooleanValue(false);
+			Value* bval = new BooleanValue(false);
 			return bval;
 		}
 	}
 
-	static auto gtrthan(Value* lval, Value* rval)
+	static Value* gtrthan(Value* lval, Value* rval)
 	{
 		int result = do_cmp(lval, rval);
 		if (result == 1)
 		{
-			BooleanValue* bval = new BooleanValue(true);
+			Value* bval = new BooleanValue(true);
 			return bval;
 		}
 		else
 		{
-			BooleanValue* bval = new BooleanValue(false);
+			Value* bval = new BooleanValue(false);
 			return bval;
 		}
 	}
 
-	static auto leqthan(Value* lval, Value* rval)
+	static Value* leqthan(Value* lval, Value* rval)
 	{
 		int result = do_cmp(lval, rval);
 		if ( result == -1 || result == 0)
 		{
-			BooleanValue* bval = new BooleanValue(true);
+			Value* bval = new BooleanValue(true);
 			return bval;
 		}
 		else
 		{
-			BooleanValue* bval = new BooleanValue(false);
+			Value* bval = new BooleanValue(false);
 			return bval;
 		}
 	}
 
-	static auto geqthan(Value* lval, Value* rval)
+	static Value* geqthan(Value* lval, Value* rval)
 	{
 		int result = do_cmp(lval, rval);
 		if (result == 1 || result == 0)
 		{
-			BooleanValue* bval = new BooleanValue(true);
+			Value* bval = new BooleanValue(true);
 			return bval;
 		}
 		else
 		{
-			BooleanValue* bval = new BooleanValue(false);
+			Value* bval = new BooleanValue(false);
 			return bval;
 		}
 	}
 
-	static auto equalto(Value* lval, Value* rval)
+	static Value* equalto(Value* lval, Value* rval)
 	{
 		int result = do_cmp(lval, rval);
 		if (result == 0)
 		{
-			BooleanValue* bval = new BooleanValue(true);
+			Value* bval = new BooleanValue(true);
 			return bval;
 		}
 		else
 		{
-			BooleanValue* bval = new BooleanValue(false);
+			Value* bval = new BooleanValue(false);
 			return bval;
 		}
 	}
 
-	static auto neqto(Value* lval, Value* rval)
+	static Value* neqto(Value* lval, Value* rval)
 	{
 		int result = do_cmp(lval, rval);
 		if (result != 0)
 		{
-			BooleanValue* bval = new BooleanValue(true);
+			Value* bval = new BooleanValue(true);
 			return bval;
 		}
 		else
 		{
-			BooleanValue* bval = new BooleanValue(false);
+			Value* bval = new BooleanValue(false);
+			return bval;
+		}
+	}
+
+	static Value* identto(Value* lval, Value* rval)
+	{
+		int result = 1;
+		int ltype = lval->returnType();
+		int rtype = rval->returnType();
+		if ((ltype <= 2 && rtype <= 2) || (ltype == 6 && rtype == 6))
+		{
+			result = do_cmp(lval, rval);
+		}
+		if (result == 0)
+		{
+			Value* bval = new BooleanValue(true);
+			return bval;
+		}
+		else
+		{
+			Value* bval = new BooleanValue(false);
+			return bval;
+		}
+	}
+
+	static Value* nidentto(Value* lval, Value* rval)
+	{
+		int result = 0;
+		int ltype = lval->returnType();
+		int rtype = rval->returnType();
+		result = do_cmp(lval, rval);
+		if (result != 0)
+		{
+			Value* bval = new BooleanValue(true);
+			return bval;
+		}
+		else if (result == 0 && ((ltype <= 2 && rtype <=2) || (ltype == 6 && rtype == 6)))
+		{
+			Value* bval = new BooleanValue(false);
+			return bval;
+		}
+		else
+		{
+			Value* bval = new BooleanValue(true);
 			return bval;
 		}
 	}

@@ -95,15 +95,19 @@ int main(int argc, char* argv[]){
 	cout <<  endl << "Comparators" << endl;
 	// cout << "True is: " << true << endl;
 	// cout << "False is: " << false << endl;
-	cout << "2 < 40: " << MathFuncs::lssthan(nival2, nival40)->val << endl;
-	cout << "2 > 40: " << MathFuncs::gtrthan(nival2, nival40)->val << endl;
-	cout << "40 > 2: " << MathFuncs::gtrthan(nival40, nival2)->val << endl;
-	cout << "\"40\" < 2: " << MathFuncs::lssthan(sval40, nival2)->val << endl;
-	cout << "\"40\" > 2: " << MathFuncs::gtrthan(sval40, nival2)->val << endl;
-    cout << "\"0\" < 2: " << MathFuncs::lssthan(sval0, nival2)->val << endl;
-	cout << "2 == 2: " << MathFuncs::equalto(nival2, nival2)->val << endl;
-	cout << "2 != 40: " << MathFuncs::neqto(nival2, nival40)->val << endl;
-	cout << "2.1 < 2.2: " << MathFuncs::lssthan(nfval2one, nfval2two)->val << endl;
+	cout << "2 < 40: " << MathFuncs::lssthan(nival2, nival40)->toBoolean() << endl;
+	cout << "2 > 40: " << MathFuncs::gtrthan(nival2, nival40)->toBoolean() << endl;
+	cout << "40 > 2: " << MathFuncs::gtrthan(nival40, nival2)->toBoolean() << endl;
+	cout << "\"40\" < 2: " << MathFuncs::lssthan(sval40, nival2)->toBoolean() << endl;
+	cout << "\"40\" > 2: " << MathFuncs::gtrthan(sval40, nival2)->toBoolean() << endl;
+    cout << "\"0\" < 2: " << MathFuncs::lssthan(sval0, nival2)->toBoolean() << endl;
+	cout << "2 == 2: " << MathFuncs::equalto(nival2, nival2)->toBoolean() << endl;
+	cout << "2 != 40: " << MathFuncs::neqto(nival2, nival40)->toBoolean() << endl;
+	cout << "2.1 < 2.2: " << MathFuncs::lssthan(nfval2one, nfval2two)->toBoolean() << endl;
+    cout << "\"40\" === 40: " << MathFuncs::identto(sval40, nival40)->toBoolean() << endl;
+    cout << "2 === 2: " << MathFuncs::identto(nival2, nival2)->toBoolean() << endl;
+    cout << "\"40\" !== 40: " << MathFuncs::nidentto(sval40, nival40)->toBoolean() << endl;
+    cout << "2 !== 2: " << MathFuncs::nidentto(nival2, nival2)->toBoolean() << endl;
 
 	printf("\nEND\n");
 
