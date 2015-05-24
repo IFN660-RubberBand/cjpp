@@ -1,0 +1,34 @@
+#include "helpclasses/value.h"
+#include "helpclasses/Scope.h"
+#include "helpclasses/MathFuncsLib.h"
+
+// http://rubberband.wikenso.com/pages/required-compiler-features
+
+int main(int argc, char* argv[]) {
+	Scope* currentscope = new Scope();
+	
+	Value* tmp0;
+	Value* tmp1;
+	Value* tmp2;
+	Value* tmp3;
+	Value* tmp4;
+
+	tmp0 = new IntegerValue(1);
+	tmp0 = currentscope->set("x", tmp0);
+
+	top:
+	tmp2 = new IntegerValue(2);
+	tmp3 = MathFuncs::lssthan(tmp0, tmp2);
+	if(!tmp3) goto alt;
+	tmp4 = new StringValue("x is less than two");
+	tmp4 = currentscope->set("y", tmp4);
+	goto end;
+	alt:
+	tmp4 = new StringValue("x is more than two");
+	tmp4 = currentscope->set("y", tmp4);
+	end:
+
+	currentscope->closeScope();
+	delete currentscope;
+	return 0;
+}

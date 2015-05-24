@@ -1,0 +1,32 @@
+#include "helpclasses/value.h"
+#include "helpclasses/Scope.h"
+#include "helpclasses/MathFuncsLib.h"
+
+// http://rubberband.wikenso.com/pages/required-compiler-features
+
+
+int main(int argc, char* argv[]) {
+	Scope* currentscope = new Scope();
+
+
+	Value* tmp0;
+	Value* tmp1;
+	Value* tmp2;
+	Value* tmp3;
+	Value* tmp4;
+	
+	tmp3 = new IntegerValue(1);
+	tmp4 = new IntegerValue(2);
+	tmp1 = MathFuncs::div(tmp3, tmp4);
+	delete tmp3;
+	delete tmp4;
+	tmp2 = new IntegerValue(5);
+	tmp0 = MathFuncs::add(tmp1, tmp2);
+	delete tmp1;
+	delete tmp2;
+	tmp0 = currentscope->set("x", tmp0);
+	
+	currentscope->closeScope();
+	delete currentscope;
+	return 0;
+}
