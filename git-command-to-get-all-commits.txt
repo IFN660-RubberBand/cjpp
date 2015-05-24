@@ -1,0 +1,1 @@
+git log --pretty="%H" --author=you | while read commit_hash; do git show $commit_hash; done > log.txt

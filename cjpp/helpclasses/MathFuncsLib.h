@@ -10,13 +10,13 @@ using namespace std;
 
 class MathFuncs{
 public:
-	/**
-	 TESTING
+	/*
+	 Current addition function.
 	 */
 	static Value* addV2(Value* lval, Value* rval){
 		Value* sumval = new NullValue();
 
-		if(lval->returnType() <= 3 || rval->returnType() <= 3){
+		if(lval->returnType() <= 3 && rval->returnType() <= 3){
 			sumval =  new NumberValue(lval->toFloat() + rval->toFloat());
 		}else if(lval->returnType() <= 6 || rval->returnType() <= 6){
 			sumval =  new StringValue(lval->toString() + rval->toString());
@@ -25,7 +25,28 @@ public:
 		return sumval;
 	}
 
-    /**
+	/*
+	 Current subtraction function.
+	 */
+	static Value* subV(Value* lval, Value* rval){
+		return new NumberValue(lval->toFloat() - rval->toFloat());
+	}
+
+	/*
+	 Current multiplication function.
+	 */
+	static Value* multV(Value* lval, Value* rval){
+		return new NumberValue(lval->toFloat() * rval->toFloat());
+	}
+
+	/*
+	 Current division function.
+	 */
+	static Value* divV(Value* lval, Value* rval){
+		return new NumberValue(lval->toFloat() / rval->toFloat());
+	}
+
+    /* \deprecated { Uses template instead of objects }
      Addition function with returning Value.	
      */
     template<typename L, typename R>
@@ -36,6 +57,8 @@ public:
         return do_addV(lval, rval, dispatch_type());
     }
     
+    /* \deprecated { Uses template instead of objects }
+     */
     template<typename L, typename R>
     static Value* do_addV(L lval, R rval, false_type){
         Value* val;
@@ -49,6 +72,8 @@ public:
         return val;
     }
     
+    /* \deprecated { Uses template instead of objects }
+     */
     template<typename L, typename R>
     static Value* do_addV(L lval, R rval, true_type){
         ostringstream oss;
