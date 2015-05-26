@@ -66,35 +66,35 @@ public:
     			break;
 
     		case GTR:
-                cout << result->toString() << " = libcjpp_gtrthan(" << t1->toString() << ", " << t2->toString() << ");" << endl;
+                cout << result->toString() << " = MathFuncs::gtrthan(" << t1->toString() << ", " << t2->toString() << ");" << endl;
                 break;
 
     		case LSS:
-                cout << result->toString() << " = libcjpp_lssthan(" << t1->toString() << ", " << t2->toString() << ");" << endl;
+                cout << result->toString() << " = MathFuncs::lssthan(" << t1->toString() << ", " << t2->toString() << ");" << endl;
                 break;
 
     		case LEQ:
-                cout << result->toString() << " = libcjpp_leqthan(" << t1->toString() << ", " << t2->toString() << ");" << endl;
+                cout << result->toString() << " = MathFuncs::leqthan(" << t1->toString() << ", " << t2->toString() << ");" << endl;
                 break;
                        
     		case GEQ:
-                cout << result->toString() << " = libcjpp_geqthan(" << t1->toString() << ", " << t2->toString() << ");" << endl;
+                cout << result->toString() << " = MathFuncs::geqthan(" << t1->toString() << ", " << t2->toString() << ");" << endl;
                 break;
                        
     		case EQUAL:
-                cout << result->toString() << " = libcjpp_equalto(" << t1->toString() << ", " << t2->toString() << ");" << endl;
+                cout << result->toString() << " = MathFuncs::equalto(" << t1->toString() << ", " << t2->toString() << ");" << endl;
                 break;
                        
     		case NEQ:
-                cout << result->toString() << " = libcjpp_neqto(" << t1->toString() << ", " << t2->toString() << ");" << endl;
+                cout << result->toString() << " = MathFuncs::neqto(" << t1->toString() << ", " << t2->toString() << ");" << endl;
                 break;
                        
             case NIDENT:
-                cout << result->toString() << " = libcjpp_nidentto(" << t1->toString() << ", " << t2->toString() << ");" << endl;
+                cout << result->toString() << " = MathFuncs::nidentto(" << t1->toString() << ", " << t2->toString() << ");" << endl;
                 break;
                        
             case IDENT:
-    			cout << result->toString() << " = libcjpp_identto(" << t1->toString() << ", " << t2->toString() << ");" << endl;
+    			cout << result->toString() << " = MathFuncs::identto(" << t1->toString() << ", " << t2->toString() << ");" << endl;
     			break;			
 				
 			default:

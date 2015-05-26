@@ -8,7 +8,9 @@
 int main(int argc, char* argv[]) {
 	Scope* currentscope = new Scope();
 
-
+	Value* tmp0;
+	tmp0 = new StringValue("Hello World");
+	cout << tmp0->toString() << endl;
 	
 	currentscope->closeScope();
 	delete currentscope;

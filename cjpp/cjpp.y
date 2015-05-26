@@ -27,18 +27,18 @@
 	char* str;
 	double num;
 	int integer;
-	
+
 }
 
 %type <stmtlist> SourceElements StatementList FunctionBody
 %type <vardec> VariableDeclaration VariableDeclarationNoIn
 %type <vardeclist> VariableDeclarationList VariableDeclarationListNoIn
 %type <funcdec> FunctionDeclaration 
-%type <identparmlist> FormalParameterList 
+%type <identparmlist> FormalParameterList
 %type <stmt> Statement SourceElement ExpressionStatement IterationStatement VariableStatement Block EmptyStatement IfStatement
 %type <expr> Expression ExpressionNoIn MemberExpression NewExpression BitwiseANDExpression BitwiseOrExpression PrimaryExpression LogicalAndExpression   AssignmentExpression MultiplicativeExpression ShiftExpression UnaryExpression RelationalExpression LogicalOrExpression FunctionExpression
 BitwiseXORExpression ConditionalExpression AdditiveExpression EqualityExpression LeftHandSideExpression PostfixExpression
-BitwiseANDExpressionNoIn BitwiseOrExpressionNoIn LogicalAndExpressionNoIn AssignmentExpressionNoIn  RelationalExpressionNoIn LogicalOrExpressionNoIn BitwiseXORExpressionNoIn ConditionalExpressionNoIn EqualityExpressionNoIn Initialiser InitialiserNoIn
+BitwiseANDExpressionNoIn BitwiseOrExpressionNoIn LogicalAndExpressionNoIn AssignmentExpressionNoIn  RelationalExpressionNoIn LogicalOrExpressionNoIn BitwiseXORExpressionNoIn ConditionalExpressionNoIn EqualityExpressionNoIn Initialiser InitialiserNoIn CallExpression
 %type <i> Identifier 
 %type <l> NumericLiteral StringLiteral Literal BinaryLiteral ObjectLiteral
 %type <num> DecimalLiteral HexIntegerLiteral
@@ -223,13 +223,20 @@ PrimaryExpression:
 
 // 11.2 Left-Hand-Side Expressions
 MemberExpression: PrimaryExpression	{ $$ = $1; }
+	| FunctionExpression { $$ = $1; }
 	;
 
-NewExpression: MemberExpression		{ $$ = $1; }
-	| FunctionExpression		{ $$ = $1; }
+NewExpression: 
+	MemberExpression		{ $$ = $1; }
 	;
 
 LeftHandSideExpression: NewExpression	{ $$ = $1; }
+	| CallExpression 			{ $$ = $1; }
+	;
+
+CallExpression: 
+	MemberExpression LPAREN RPAREN 		{ $$ = new CallExpression($1, NULL); }
+	| MemberExpression LPAREN Expression RPAREN 			{ $$ = new CallExpression($1, $3); }
 	;
 
 // 11.3 Postfix Expressions

@@ -44,7 +44,7 @@ public:
 		}
     }
     virtual bool generateCode(TempVariable* result) const {
-		cout << "not implemented yet" << endl;
+		cout << "expression not implemented yet" << endl;
 	};
 };
 
@@ -349,6 +349,21 @@ public:
 		
 
 	}	
+};
+
+class MemberExpression : public Expression {
+public:
+    const Expression* expr;
+    MemberExpression(const Expression* expr)
+    : expr(expr)
+    {}
+    ~MemberExpression() {
+        delete expr;
+    }
+    void print(unsigned int tabs) const {
+        Expression::print(tabs);
+        expr->print(tabs);
+    }   
 };
 
 
