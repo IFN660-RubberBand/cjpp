@@ -30,7 +30,7 @@ endif
 
 ########
 H_FILES := $(wildcard ast/*.h)
-CPP_FILES := $(wildcard helpclasses/*.cpp) $(wildcard ast/*.cpp)
+CPP_FILES := $(filter-out helpclasses/mainCalcTest.cpp, $(wildcard helpclasses/*.cpp)) $(wildcard ast/*.cpp)
 
 
 all: $(main)

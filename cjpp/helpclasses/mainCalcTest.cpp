@@ -70,23 +70,23 @@ int main(int argc, char* argv[]){
     cout << "float / string: \t" << MathFuncs::divV(nfval40one, svalWorld)->toString() << endl;
     cout << "string / float: \t" << MathFuncs::divV(svalWorld, nfval40one)->toString() << endl;
 
-	cout << endl << "> Additions (old add method)" << endl;
-	cout << "string + integer: " << MathFuncs::add("Hai", 4) << endl;
-	cout << "integer + string: " << MathFuncs::add(4, "Hai") << endl;
-	cout << "string + double: " << MathFuncs::add("Hai", 4.2) << endl;
-	cout << "double + string: " << MathFuncs::add(4, "Hai") << endl;
-	cout << "string + string: " << MathFuncs::add("Hello", "World!") << endl;
-	cout << "integer + integer: " <<MathFuncs::add(2, 4) << endl;
-    cout << "double + integer: " <<MathFuncs::add(2.0, 4) << endl;
-    cout << "integer + double: " <<MathFuncs::add(2, 4.0) << endl;
+	// cout << endl << "> Additions (old add method)" << endl;
+	// cout << "string + integer: " << MathFuncs::add("Hai", 4) << endl;
+	// cout << "integer + string: " << MathFuncs::add(4, "Hai") << endl;
+	// cout << "string + double: " << MathFuncs::add("Hai", 4.2) << endl;
+	// cout << "double + string: " << MathFuncs::add(4, "Hai") << endl;
+	// cout << "string + string: " << MathFuncs::add("Hello", "World!") << endl;
+	// cout << "integer + integer: " <<MathFuncs::add(2, 4) << endl;
+ //    cout << "double + integer: " <<MathFuncs::add(2.0, 4) << endl;
+ //    cout << "integer + double: " <<MathFuncs::add(2, 4.0) << endl;
     
-    cout << endl << "> Subtraction (old add method)" << endl;
-    cout << "string - integer: " << MathFuncs::sub("Hai", 4) << endl;
-    cout << "integer - string: " << MathFuncs::sub(4, "Hai") << endl;
-    cout << "string - double: " << MathFuncs::sub("Hai", 4.2) << endl;
-    cout << "double - string: " << MathFuncs::sub(4, "Hai") << endl;
-    cout << "string - string: " << MathFuncs::sub("Hello", "World!") << endl;
-    cout << "integer - integer: " <<MathFuncs::sub(2, 4) << endl;
+    // cout << endl << "> Subtraction (old add method)" << endl;
+    // cout << "string - integer: " << MathFuncs::sub("Hai", 4) << endl;
+    // cout << "integer - string: " << MathFuncs::sub(4, "Hai") << endl;
+    // cout << "string - double: " << MathFuncs::sub("Hai", 4.2) << endl;
+    // cout << "double - string: " << MathFuncs::sub(4, "Hai") << endl;
+    // cout << "string - string: " << MathFuncs::sub("Hello", "World!") << endl;
+    // cout << "integer - integer: " <<MathFuncs::sub(2, 4) << endl;
 
 	cout <<  endl << "Comparators" << endl;
 	// cout << "True is: " << true << endl;
