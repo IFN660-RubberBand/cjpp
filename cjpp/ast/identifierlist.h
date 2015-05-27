@@ -35,8 +35,16 @@ public:
         }	
     }
     void generateCode() const {
-        	
+	for(list<const Identifier*>::iterator iter = ident->begin();
+    	    iter != ident->end();
+            iter++)
+		{
+        	(*iter)->print(0);  
+        }	
+
     }
+
+	
 		
 };
 

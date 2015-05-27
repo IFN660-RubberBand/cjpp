@@ -28,6 +28,8 @@ public:
 void print(unsigned int tabs) const {
 	indent(tabs);
 	cout << "function ";
+
+
 	ident->print(tabs);
 	cout<<" (";
 
@@ -41,7 +43,16 @@ void print(unsigned int tabs) const {
     }	
     
     bool generateCode(TempVariable* result) const {
-		
+			
+	cout << "Value* " << ident->toString() << "(Value* ";
+	formalparmlist->generateCode();
+	cout << ")" << endl;
+	cout << "{" << endl;
+	funcbody->generateCode();
+	cout << "}" << endl;
+
+	cout << "currentScope->set(" << "\"" << ident->toString() <<"\"" << ", " << "new FunctionValue(" << ident->toString() <<"));" << endl ; 
+	
     		
 	}
 
