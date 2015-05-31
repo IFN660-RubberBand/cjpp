@@ -44,9 +44,13 @@ void print(unsigned int tabs) const {
     
     bool generateCode(TempVariable* result) const {
 			
-	cout << "Value* " << ident->toString() << "(Value* ";
+	cout << "Value* " << ident->toString() << "(List <Value*> params)" << endl;
+	cout << "currentscope=currentscope->newScope();" << endl;
+	cout << "currentscope->set(\"";
 	formalparmlist->generateCode();
-	cout << ")" << endl;
+ 	cout << "\", params->getNext());" << endl;
+	
+	
 	cout << "{" << endl;
 	funcbody->generateCode();
 	cout << "}" << endl;
