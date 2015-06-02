@@ -31,7 +31,7 @@ public:
 		string name = ident->toString();
 
 		if (logfunc == name) {
-			cout << "cout << " << t->toString() << " << endl;" << endl;
+			cout << "cout << " << t->toString() << "->toString() << endl;" << endl;
 		}
 		else {
 			cout << "currentscope->resolve(\"" << ident->toString() << "\", " << t->toString() << ")" << endl; 
