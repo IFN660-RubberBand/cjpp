@@ -113,9 +113,6 @@ public:
     float val;
     
     NumberValue(float val) : val(val) {}
-    ~NumberValue(){
-        delete this;
-    }
 
     bool toBoolean() {
         if(val) {
@@ -151,9 +148,7 @@ public:
 	int32_t val;
     
 	IntegerValue(int32_t val) : val(val){}
-    ~IntegerValue(){
-        delete this;
-    }
+
     bool toBoolean() {
 		if(val)
 			return true;
@@ -334,9 +329,9 @@ public:
 
 class FunctionValue: public Value {
 public:
-	Value* (*ptr) (list<Value*>*);
+	Value* (*ptr) (Scope, list<Value*>*);
 	
-	FunctionValue(Value* (*ptr) (list<Value*>*))	: ptr(ptr) {}
+	FunctionValue(Value* (*ptr) (Scope, list<Value*>*))	: ptr(ptr) {}
 	
 	bool toBoolean() {
     	return true;
