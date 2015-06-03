@@ -10,6 +10,7 @@
 
 #include "../helpclasses/TempVariableFactory.h"
 
+
 #define indent(x) { for(unsigned int i = 0; i < x; i++) cout << "\t"; }
 using namespace std;
 
@@ -358,23 +359,5 @@ public:
 
 	}	
 };
-
-class MemberExpression : public Expression {
-public:
-    const Expression* expr;
-    MemberExpression(const Expression* expr)
-    : expr(expr)
-    {}
-    ~MemberExpression() {
-        delete expr;
-    }
-    void print(unsigned int tabs) const {
-        Expression::print(tabs);
-        expr->print(tabs);
-    }   
-};
-
-
-
 
 #endif
