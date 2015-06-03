@@ -49,7 +49,7 @@ bool generateCode(TempVariable* result) const {
 		
 		bool del0 = mexpr->generateCode(t1);
 		
-		if(args != NULL) {
+		if(args != NULL)
 			cout << result->toString() << " = FunctionLib::call("<< t1->toString() << ", " << "l);" << endl;
 		else 
 			cout << result->toString() << " = FunctionLib::call("<< t1->toString() << ", " << "NULL);" << endl;
