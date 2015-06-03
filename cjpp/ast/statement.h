@@ -5,7 +5,9 @@
 
 class Statement : public Node {
 public:
-	virtual void generateCode() const = 0;
+	virtual void generateCode() const {
+		cout << "statement not implemented yet" << endl;
+	}
 };
 
 #endif
