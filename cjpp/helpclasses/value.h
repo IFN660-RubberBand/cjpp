@@ -9,6 +9,7 @@
 #include <cmath>
 #include <string.h>
 #include <boost/lexical_cast.hpp>
+#include <list>
 
 using namespace std;
 
@@ -35,7 +36,7 @@ public:
     virtual string toString() = 0;
     virtual Value* copy() = 0;
     virtual DataType returnType() = 0;
-    virtual ~Value() { delete this; };
+    virtual ~Value() { delete this; }
 };
 
 /**
@@ -57,7 +58,7 @@ public:
 	}
     DataType returnType() {
         return Value::UndefinedType;
-    };
+    }
 };
 
 /**
@@ -79,7 +80,7 @@ public:
     }
     DataType returnType() {
         return Value::NaNType;
-    };
+    }
 };
 
 /**
@@ -101,7 +102,7 @@ public:
 	}
     DataType returnType() {
         return Value::NullType;
-    };
+    }
 };
 
 /**
@@ -136,7 +137,7 @@ public:
      */
     DataType returnType() {
         return Value::FloatType;
-    };
+    }
 };
 
 /**
@@ -231,7 +232,7 @@ public:
      */
     DataType returnType() {
         return Value::ObjectType;
-    };
+    }
 };
 
 /**
@@ -262,7 +263,7 @@ public:
      */
     DataType returnType(){
         return Value::FloatType;
-    };
+    }
 };
 
 /**
@@ -299,7 +300,7 @@ public:
      */
     DataType returnType() {
         return Value::StringType;
-    };
+    }
 };
 
 /**
@@ -328,14 +329,14 @@ public:
      */
     DataType returnType(){
         return Value::BooleanType;
-    };
+    }
 };
 
 class FunctionValue: public Value {
 public:
-	Value* (*ptr) (List<Value*>*);
+	Value* (*ptr) (list<Value*>*);
 	
-	FunctionValue(Value* (*ptr) (List<Value*>*))	: ptr(ptr) {}
+	FunctionValue(Value* (*ptr) (list<Value*>*))	: ptr(ptr) {}
 	
 	bool toBoolean() {
     	return true;
