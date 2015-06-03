@@ -1,28 +1,29 @@
-#ifndef FUNCTIONDECLARATION1
-#define FUNCTIONDECLARATION1
+#ifndef FUNCTIONDECLARATION
+#define FUNCTIONDECLARATION
 
 
 #include "Node.h"
 #include "../helpclasses/TempVariable.h"
 #include "../helpclasses/TempVariableFactory.h"
 #include "identifierlist.h"
-#include "statementlist.h"
 #include "statement.h"
+#include "sourceelementlist.h"
 
-class FunctionDeclaration : public Expression {
+
+class FunctionDeclaration : public SourceElement {
 
 public:
     const Identifier* ident;	
     const IdentifierList* formalparmlist;
-    const StatementList* funcbody;
+    const SourceElementList* funcbody;
   
-    FunctionDeclaration(const Identifier* ident, const IdentifierList* formalparmlist, const StatementList* funcbody)
+    FunctionDeclaration(const Identifier* ident, const IdentifierList* formalparmlist, const SourceElementList* funcbody)
 	: ident(ident), formalparmlist(formalparmlist), funcbody(funcbody)
     {}
     ~FunctionDeclaration() {
     	delete ident;
     	delete formalparmlist;
-	delete funcbody;
+		delete funcbody;
 	}
     
 void print(unsigned int tabs) const {
@@ -42,7 +43,7 @@ void print(unsigned int tabs) const {
 		
     }	
     
-    bool generateCode(TempVariable* result) const {
+    void generateFunctions() const {
 			
 	cout << "Value* " << ident->toString() << "(List <Value*> params)" << endl;
 	cout << "currentscope=currentscope->newScope();" << endl;
@@ -61,8 +62,16 @@ void print(unsigned int tabs) const {
 	}
 
 	
+	bool isStatement() const{
+		return false;
+	}
 	
+	bool isFunction() const {
+		return true;
+	}
 	
+	void generateCode() const 
+	{}
 };
 
 

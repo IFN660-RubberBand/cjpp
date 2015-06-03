@@ -14,8 +14,8 @@ class FunctionExpression : public Expression {
 public:
     const Identifier* ident;	
     const IdentifierList* formalparmlist;
-    const StatementList* funcbody; //This has to be replaced with Source element list
-    FunctionExpression(const Identifier* ident, const IdentifierList* formalparmlist, const StatementList* funcbody)
+    const SourceElementList* funcbody; //This has to be replaced with Source element list
+    FunctionExpression(const Identifier* ident, const IdentifierList* formalparmlist, const SourceElementList* funcbody)
 	: ident(ident), formalparmlist(formalparmlist), funcbody(funcbody)
     {}
     ~FunctionExpression() {

@@ -26,6 +26,14 @@ public:
 	}
 };
 
+class SourceElement : public Node {
+public:
+	virtual void generateCode() const = 0;
+	virtual void generateFunctions() const = 0;
+	virtual bool isStatement() const = 0;
+	virtual bool isFunction() const = 0;
+};
+
 class Expression : public Node {
 public:
     Expression* pointer;

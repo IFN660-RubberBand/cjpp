@@ -19,6 +19,7 @@
 	FunctionDeclaration* funcdec;
 	IdentifierList* identparmlist;
 	StatementList* stmtlist;
+	SourceElementList* sourceelementlist;
 	VariableDec* vardec;
 	Program* prog;
 	VariableDecList* vardeclist;
@@ -27,10 +28,11 @@
 	char* str;
 	double num;
 	int integer;
-
+	
 }
 
-%type <stmtlist> SourceElements StatementList FunctionBody
+%type <stmtlist> StatementList
+%type <sourceelementlist> SourceElements FunctionBody
 %type <vardec> VariableDeclaration VariableDeclarationNoIn
 %type <vardeclist> VariableDeclarationList VariableDeclarationListNoIn
 %type <funcdec> FunctionDeclaration 
@@ -92,18 +94,19 @@ Program:
 	;
 
 SourceElements: 
-        SourceElement 			{ $$ = new StatementList($1); } 							
+    SourceElement 					{ $$ = new SourceElementList($1); } 							
 	| SourceElements SourceElement 	{ $$ = $1; $$->append($2);    }								
 	;
 
 SourceElement: 
-        Statement			{ $$ = $1; }
+    Statement			{ $$ = $1; }
 	|FunctionDeclaration		{ /*$$ = $1;*/ }
 	;
 	/* END 14 - Program */
 
 	/* 13 - Function definition */
-FunctionDeclaration: FUNCTION Identifier LPAREN FormalParameterList RPAREN LCURLY FunctionBody RCURLY { $$ = new FunctionDeclaration($2, $4, $7); }
+FunctionDeclaration: 
+	FUNCTION Identifier LPAREN FormalParameterList RPAREN LCURLY FunctionBody RCURLY { $$ = new FunctionDeclaration($2, $4, $7); }
 	| FUNCTION Identifier LPAREN RPAREN LCURLY FunctionBody RCURLY { $$ = new FunctionDeclaration($2, NULL, $6); }
 	;
 
@@ -118,7 +121,8 @@ FormalParameterList: Identifier			{ $$ = new IdentifierList($1); }
 	| FormalParameterList Identifier	{ $$ = $1; $$->append($2);    }
 	;
 
-FunctionBody: SourceElements			{ $$ = $1; }
+FunctionBody: 
+	SourceElements			{ $$ = $1; }
 	|					{ $$ = NULL; }
 	;
 	/* END 13 - Function definition */
