@@ -45,19 +45,19 @@ public:
 		
 		switch(op) {
     		case PLUS:
-    			cout << result->toString() << " = libcjpp_add(" << t1->toString() << ", " << t2->toString() << ");" << endl; 
+    			cout << result->toString() << " = MathFuncs::addV2(" << t1->toString() << ", " << t2->toString() << ");" << endl; 
     			break;
     
 			case MINUS:
-				cout << result->toString() << " = libcjpp_sub(" << t1->toString() << ", " << t2->toString() << ");" << endl; 
+				cout << result->toString() << " = MathFuncs::sub(" << t1->toString() << ", " << t2->toString() << ");" << endl; 
 				break;	
     		
     		case MULTIPLY:
-    			cout << result->toString() << " = libcjpp_mul(" << t1->toString() << ", " << t2->toString() << ");" << endl; 
+    			cout << result->toString() << " = MathFuncs::mul(" << t1->toString() << ", " << t2->toString() << ");" << endl; 
     			break;
     			
     		case DIVIDE:
-    			cout << result->toString() << " = libcjpp_div(" << t1->toString() << ", " << t2->toString() << ");" << endl;
+    			cout << result->toString() << " = MathFuncs::div(" << t1->toString() << ", " << t2->toString() << ");" << endl;
     			break;
 
     		case GTR:

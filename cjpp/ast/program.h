@@ -27,7 +27,7 @@ public:
 		std::cout.rdbuf(psbuf);
 		
 		cout << "#include \"helpclasses/value.h\"" << endl;
-		cout << "#include \"helpclasses/Scope.h\"" << endl 
+		cout << "#include \"helpclasses/Scope.h\"" << endl;
 		cout << "#include \"helpclasses/MathFuncsLib.h\"" << endl;
 		cout << "#include \"helpclasses/FunctionLib.h\"" << endl << endl;
 		

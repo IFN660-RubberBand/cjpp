@@ -39,7 +39,7 @@
 %type <memexpr> MemberExpression
 %type <funcdec> FunctionDeclaration 
 %type <identparmlist> FormalParameterList
-%type <stmt> Statement SourceElement ExpressionStatement IterationStatement VariableStatement Block EmptyStatement IfStatement
+%type <stmt> Statement SourceElement ExpressionStatement IterationStatement VariableStatement Block EmptyStatement IfStatement ReturnStatement
 %type <expr> Expression ExpressionNoIn NewExpression BitwiseANDExpression BitwiseOrExpression PrimaryExpression LogicalAndExpression   AssignmentExpression MultiplicativeExpression ShiftExpression UnaryExpression RelationalExpression LogicalOrExpression FunctionExpression
 BitwiseXORExpression ConditionalExpression AdditiveExpression EqualityExpression LeftHandSideExpression PostfixExpression
 BitwiseANDExpressionNoIn BitwiseOrExpressionNoIn LogicalAndExpressionNoIn AssignmentExpressionNoIn  RelationalExpressionNoIn LogicalOrExpressionNoIn BitwiseXORExpressionNoIn ConditionalExpressionNoIn EqualityExpressionNoIn Initialiser InitialiserNoIn CallExpression
@@ -138,6 +138,7 @@ Statement:
 	| EmptyStatement        { $$ = $1; }
 	| Block					{ $$ = $1; }
 	| IfStatement 			{ $$ = $1; }
+	| ReturnStatement 		{ $$ = $1; }
 	;
 
 
@@ -148,6 +149,10 @@ EmptyStatement:
 IfStatement:
 	IF LPAREN Expression RPAREN Statement 				{ $$ = new IfStatement($3, $5, NULL); }
 	| IF LPAREN Expression RPAREN Statement ELSE Statement 		{ $$ = new IfStatement($3, $5, $7); }
+	;
+
+ReturnStatement: RETURN SEMICOLON 		{ $$ = new ReturnStatement(NULL); }
+	| RETURN Expression SEMICOLON 		{ $$ = new ReturnStatement($2); }
 	;
 
 Block: 
