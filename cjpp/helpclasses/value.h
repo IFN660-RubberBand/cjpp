@@ -36,7 +36,7 @@ public:
     virtual string toString() = 0;
     virtual Value* copy() = 0;
     virtual DataType returnType() = 0;
-    virtual ~Value() { delete this; }
+    virtual ~Value() {  }
 };
 
 /**

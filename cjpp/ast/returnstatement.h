@@ -23,7 +23,7 @@ public:
 	void generateCode() const {
 		TempVariable* t = TempVariableFactory::getTemp();
 		expr->generateCode(t); 
-		cout << "return " << t->toString() << endl;
+		cout << "return " << t->toString() << ";" << endl;
 		delete t;
 	}
 };
