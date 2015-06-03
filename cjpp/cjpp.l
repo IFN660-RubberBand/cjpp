@@ -26,7 +26,7 @@ num1 		([-+]?{digit}+\.?([eE][-+]?{digit}+)?)
 num2 		([-+]?{digit}*\.{digit}+([eE][-+]?{digit}+)?)
 number 		{num1}|{num2}
 
-identifier 		({letter}|{digit}|\$)({letter}|{digit}|[_.\-/$])*
+identifier 		({letter}|{digit}|\$)({letter}|{digit}|[_\-/$])*
 
 %%
 
