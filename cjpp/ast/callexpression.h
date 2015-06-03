@@ -5,38 +5,36 @@
 
 class CallExpression : public Expression {
 public:
-	const Identifier* ident;
+	const Expression* mexpr;
 	const Expression* args;
-	CallExpression(const Identifier* ident, const Expression* args)
-	: ident(ident), args(args)
+	CallExpression(const Expression* mexpr, const Expression* args)
+	: mexpr(mexpr), args(args)
 	{}
 	~CallExpression() {
-		delete ident;
+		delete mexpr;
 		delete args;
 	}
+
 	void print(unsigned int tabs) const {
 		Expression::print(tabs);
 		cout << "function call ";
-		ident->print(tabs);
+		mexpr->print(tabs);
 		cout << "(";
 		args->print(tabs);
 		cout << ")";
 	}
 
 	bool generateCode(TempVariable* result) const {
-		TempVariable* t = TempVariableFactory::getTemp();
-		bool del0 = args->generateCode(t);
+		TempVariable* t1 = TempVariableFactory::getTemp();
+		TempVariable* t2 = TempVariableFactory::getTemp();
 
-		string logfunc = "console.log";
-		string name = ident->toString();
+		bool del0 = mexpr->generateCode(t1);
+		bool del1 = args->generateCode(t2);
 
-		if (logfunc == name) {
-			cout << "cout << " << t->toString() << "->toString() << endl;" << endl;
-		}
-		else {
-			cout << "currentscope->resolve(\"" << ident->toString() << "\", " << t->toString() << ")" << endl; 
-		}
-		
+		cout << result->toString() << " = FuncLib::call("<< t1->toString() << ", " << t2->toString() << ");" << endl;
+
+		delete t1;
+		delete t2;
 	}
 };
 

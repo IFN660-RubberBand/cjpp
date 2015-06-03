@@ -45,12 +45,17 @@ void print(unsigned int tabs) const {
     
     void generateFunctions() const {
 			
-	cout << "Value* " << ident->toString() << "(List <Value*> params)" << endl;
-	cout << "currentscope=currentscope->newScope();" << endl;
-	cout << "currentscope->set(\"";
-	formalparmlist->generateCode();
- 	cout << "\", params->getNext());" << endl;
-	
+	cout << "Value* " << ident->toString();
+
+		if (formalparmlist != NULL){
+			cout << "(List <Value*> params)" << endl;
+			cout << "currentscope=currentscope->newScope();" << endl;
+			cout << "currentscope->set(\"";
+			formalparmlist->generateCode();
+			cout << "\", params->getNext());" << endl;
+		} else {
+			cout << "()" << endl;
+		}
 	
 	cout << "{" << endl;
 	funcbody->generateCode();

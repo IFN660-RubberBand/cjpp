@@ -239,8 +239,8 @@ LeftHandSideExpression: NewExpression	{ $$ = $1; }
 	;
 
 CallExpression: 
-	Identifier LPAREN RPAREN 		{ $$ = new CallExpression($1, NULL); }
-	| Identifier LPAREN Expression RPAREN 			{ $$ = new CallExpression($1, $3); }
+	MemberExpression LPAREN RPAREN 		{ $$ = new CallExpression($1, NULL); }
+	| MemberExpression LPAREN Expression RPAREN 			{ $$ = new CallExpression($1, $3); }
 	;
 
 // 11.3 Postfix Expressions
