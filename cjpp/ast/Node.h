@@ -69,7 +69,7 @@ public:
         cout << to_string(value);
     }
     bool generateRightHandCode(TempVariable* result) const {
-		cout << result->toString() << " = new IntegerValue(" << to_string(value) << ");" << endl;
+		cout << result->toString() << " = new NumberValue(" << to_string(value) << ");" << endl;
     	return true;
 	}
 };
