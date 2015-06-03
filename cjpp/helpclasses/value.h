@@ -22,11 +22,11 @@ protected:
         IntegerType     = 1,
         FloatType       = 2,
         BooleanType     = 3,
-
         UndefinedType   = 4,
         ObjectType      = 5,
         StringType      = 6,
-        NaNType         = 7
+        FunctionType	= 7,
+        NaNType         = 8
     } DataType;
     
 public:
@@ -329,6 +329,30 @@ public:
     DataType returnType(){
         return Value::BooleanType;
     };
+};
+
+class FunctionValue: public Value {
+public:
+	void (*func_ptr) ptr;
+	
+	FunctionValue(void (*func_ptr) ptr)	: ptr(ptr) {}
+	
+	bool toBoolean() {
+    	return true;
+	}
+    float toFloat() {
+        return NAN;
+    }
+    string toString() {
+        return "Function";
+    }
+	Value* copy() {
+		return new FunctionValue(ptr);
+	}
+	
+	DataType returnType() {
+		return Value::FunctionType;
+	}
 };
 
 
