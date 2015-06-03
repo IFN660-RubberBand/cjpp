@@ -73,6 +73,8 @@ public:
     	bool free = expr->generateCode(t);
     	
 		cout << "if(!" << t->toString() << "->toBoolean()) " << "goto " << end->toString() << ";" << endl;
+		if(free)
+    		cout << "delete " << t->toString() << ";" << endl;
 		stmt->generateCode();
 		
 		//jump to start
@@ -148,7 +150,8 @@ public:
 			cout << "//TODO infite loop case not implemented" << endl;
 		}
 		
-		
+		if(free_test)
+			cout << "delete " << test->toString() << ";" << endl;
 		
 		stmt->generateCode();
 		
@@ -205,13 +208,13 @@ public:
     }
     
      void generateCode() const {
-    	TempVariable* ref = TempVariableFactory::getTemp();
+    	cout << "//ForVar-loop" << endl;
+		
+		TempVariable* ref = TempVariableFactory::getTemp();
     	TempVariable* test = TempVariableFactory::getTemp();
     	TempVariable* inc = TempVariableFactory::getTemp();
     	JumpLabel* end = JumpLabelFactory::getLabel();	
-		JumpLabel* check = JumpLabelFactory::getLabel();	
-		
-		cout << "//ForVar-loop" << endl;
+		JumpLabel* check = JumpLabelFactory::getLabel();
 		
 		//generate code for ref expression
 		if(vars != NULL) {
@@ -232,7 +235,8 @@ public:
 			cout << "//TODO infinite loop case not implemented" << endl;
 		}
 		
-		
+		if(free_test)
+			cout << "delete " << test->toString() << ";" << endl;
 		
 		stmt->generateCode();
 		

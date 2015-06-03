@@ -35,8 +35,13 @@ public:
 		cout << endl << "//Assignment" << endl;
 		bool del = expr->generateCode(result);
 		if(!del)
-			cout << result->toString() << " = " << result->toString() << "->clone();" << endl; 
-		left->generateLeftHandCode(result);
+			cout << result->toString() << " = " << result->toString() << "->copy();" << endl; 
+		if(op == 0) {
+			left->generateLeftHandCode(result);
+		} else {
+			cout << "not implemented yet" << endl;
+		}
+		
 		return false;
 	}		
 };

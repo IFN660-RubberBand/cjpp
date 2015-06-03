@@ -20,14 +20,14 @@ public:
 		cout << ";" << endl;
     }
     void generateCode() const {
-	
     	TempVariable* t = TempVariableFactory::getTemp();
-	
-
-	l->generateCode(t);
-
-	delete t;
+    	bool free = l->generateCode(t);
+    	if(free) {
+ 		cout << "delete " << t->toString() << ";" << endl;
 	}
+	delete t;
+
+    }
 };
 
 #endif

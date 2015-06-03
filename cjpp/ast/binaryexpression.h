@@ -45,24 +45,19 @@ public:
 		
 		switch(op) {
     		case PLUS:
-    			//cout << "tmp" << result << " = new IntegerValue(" << tmp0 << "->v + " << tmp1 << "->v);" << endl; 
-    			//cout << " " << *t1;
-				cout << result->toString() << " = libcjpp_add(" << t1->toString() << ", " << t2->toString() << ");" << endl; 
+    			cout << result->toString() << " = libcjpp_add(" << t1->toString() << ", " << t2->toString() << ");" << endl; 
     			break;
     
 			case MINUS:
-				//cout << "tmp" << result << " = new IntegerValue(" << tmp0 << "->v - " << tmp1 << "->v);" << endl; 
 				cout << result->toString() << " = libcjpp_sub(" << t1->toString() << ", " << t2->toString() << ");" << endl; 
 				break;	
     		
     		case MULTIPLY:
-    			cout << result->toString() << " = new IntegerValue(" << t1->toString() << "->v * " << t2->toString() << "->v);" << endl; 
-    			//cout << "tmp" << result << " = libcjpp_mult(" << tmp0 << ", " << tmp1 << ");" << endl; 
+    			cout << result->toString() << " = libcjpp_mul(" << t1->toString() << ", " << t2->toString() << ");" << endl; 
     			break;
     			
     		case DIVIDE:
-    			cout << result->toString() << " = new IntegerValue(" << t1->toString() << "->v / " << t2->toString() << "->v);" << endl;
-    			//cout << "tmp" << result << " = libcjpp_div(" << tmp0 << ", " << tmp1 << ");" << endl;
+    			cout << result->toString() << " = libcjpp_div(" << t1->toString() << ", " << t2->toString() << ");" << endl;
     			break;
 
     		case GTR:
@@ -110,17 +105,16 @@ public:
 	}
 	
 	bool generateLazyCode(TempVariable* result) const {
-		TempVariable* t1 = TempVariableFactory::getTemp();
 		JumpLabel* l = JumpLabelFactory::getLabel();		
 		//generate normal code for the left operand		
-    	bool del0 = left->generateCode(t1);
+    	bool free = left->generateCode(result);
     	
     	
     	
-    	if(del0)
-    		cout << result->toString() << " = " << t1->toString() << ";" << endl;
-    	else	//copy the result into the result correcr variable
-			cout << result->toString() << " = " << t1->toString() << "->copy();" << endl;
+    	if(!free)
+			cout << result->toString() << " = " << result->toString() << "->copy();" << endl;
+    		//copy the result into the result correct variable
+			
     	
     		
 		if(op == OR)//if OR and TRUE jump to the end
@@ -132,16 +126,14 @@ public:
 		cout << "delete " << result->toString() << ";" << endl;
 		
 		//generate code for the right operand
-		del0 = right->generateCode(t1);
-		if(del0)
-    		cout << result->toString() << " = " << t1->toString() << ";" << endl;
-    	else	
-			cout << result->toString() << " = " << t1->toString() << "->copy();" << endl;
+		free = right->generateCode(result);
+		if(!free)
+			cout << result->toString() << " = " << result->toString() << "->copy();" << endl;
+    		//copy the result into the result correct variable
 		
 		//jump label
 		cout << l->toString() << ":" << endl;
 		
-		delete t1;
 		delete l;
     	return true;	
 	}
