@@ -58,9 +58,8 @@ void print(unsigned int tabs) const {
     void generateFunctions() const {
 			
 	cout << "Value* " << ident->toString();
-
+	cout << "(Scope currentscope, List <Value*> params)" << endl;
 		if (formalparmlist != NULL){
-			cout << "(List <Value*> params)" << endl;
 			cout << "currentscope=currentscope->newScope();" << endl;
 			for(list<const Identifier*>::iterator iter = formalparmlist->ident->begin();
     	    				iter != formalparmlist->ident->end();
@@ -77,9 +76,7 @@ void print(unsigned int tabs) const {
 	
 	cout << "{" << endl;
 	funcbody->generateCode();
-	cout << "currentScope->set(" << "\"" << ident->toString() <<"\"" << ", " << "new FunctionValue(" << ident->toString() <<"));" << endl ; 
-
-	cout << "}" << endl;
+	cout << "}" << endl << endl;
 
 	
     		
