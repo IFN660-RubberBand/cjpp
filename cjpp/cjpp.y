@@ -121,6 +121,7 @@ FunctionExpression:
 
 FormalParameterList: Identifier			{ $$ = new IdentifierList($1); }				
 	| FormalParameterList Identifier	{ $$ = $1; $$->append($2);    }
+	| FormalParameterList COMMA Identifier	{ $$ = $1; $$->append($3);    }
 	;
 
 FunctionBody: 

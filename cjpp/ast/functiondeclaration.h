@@ -50,18 +50,25 @@ void print(unsigned int tabs) const {
 		if (formalparmlist != NULL){
 			cout << "(List <Value*> params)" << endl;
 			cout << "currentscope=currentscope->newScope();" << endl;
-			cout << "currentscope->set(\"";
-			formalparmlist->generateCode();
-			cout << "\", params->getNext());" << endl;
+			for(list<const Identifier*>::iterator iter = formalparmlist->ident->begin();
+    	    				iter != formalparmlist->ident->end();
+            				iter++)
+			{
+				cout << "currentscope->set(\"";
+        		 	(*iter)->print(0);   
+				cout << "\", params->getNext());" << endl;
+	        	}			
+
 		} else {
 			cout << "()" << endl;
 		}
 	
 	cout << "{" << endl;
 	funcbody->generateCode();
+	cout << "currentScope->set(" << "\"" << ident->toString() <<"\"" << ", " << "new FunctionValue(" << ident->toString() <<"));" << endl ; 
+
 	cout << "}" << endl;
 
-	cout << "currentScope->set(" << "\"" << ident->toString() <<"\"" << ", " << "new FunctionValue(" << ident->toString() <<"));" << endl ; 
 	
     		
 	}
