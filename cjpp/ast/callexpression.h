@@ -20,7 +20,8 @@ public:
 		cout << "function call ";
 		mexpr->print(tabs);
 		cout << "(";
-		args->print(tabs);
+		if(args != NULL)
+			args->print(tabs);
 		cout << ")";
 	}
 
@@ -29,7 +30,8 @@ public:
 		TempVariable* t2 = TempVariableFactory::getTemp();
 
 		bool del0 = mexpr->generateCode(t1);
-		bool del1 = args->generateCode(t2);
+		if(args != NULL)
+			bool del1 = args->generateCode(t2);
 
 		cout << result->toString() << " = FuncLib::call("<< t1->toString() << ", " << t2->toString() << ");" << endl;
 
