@@ -277,40 +277,6 @@ public:
 };
 
 
-class ExpressionList : public Expression {
-public:
-    list<const Expression*>* stmts;	
-    ExpressionList(const Expression* s)
-    {
-         stmts = new list<const Expression*>();
-	 append(s);	
-    }
-    ExpressionList()
-    {
-         stmts = new list<const Expression*>();
-    }	
-    ~ExpressionList() {
-    	while(!stmts->empty()) {
-			delete stmts->front(); 
-			stmts->pop_front();
-		}
-		delete stmts;
-	}
-    void append(const Expression* s) 
-    {
-	 stmts->push_back(s);
-    }
-    void print(unsigned int tabs) const {
-         for(list<const Expression*>::iterator iter = stmts->begin();
-    	    iter != stmts->end();
-            iter++)
-	 	{
-        	(*iter)->print(tabs);  
-        }	
-    }	
-};
-
-
 class VariableDecList : public Node {
 public:
     list<const VariableDec*>* stmts;	
