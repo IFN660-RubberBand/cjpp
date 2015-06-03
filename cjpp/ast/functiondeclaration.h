@@ -35,8 +35,20 @@ void print(unsigned int tabs) const {
 	cout<<" (";
 
 	if(formalparmlist != NULL)	
-		formalparmlist->print(tabs);
+	{	
+		for(list<const Identifier*>::iterator iter = formalparmlist->ident->begin();
+    	    				iter != formalparmlist->ident->end();
+            				iter++)
+		{
 
+       		 	(*iter)->print(0);   
+			list<const Identifier*>::iterator temp = iter;
+			if(++temp != formalparmlist->ident->end())	
+				cout << ",";
+	       	}			
+
+
+	}
 	cout << ") "<< endl << "{" << endl;
 	funcbody->print(tabs+1);
 	cout << "}";
