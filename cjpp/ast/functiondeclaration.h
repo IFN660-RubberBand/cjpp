@@ -58,7 +58,7 @@ void print(unsigned int tabs) const {
     void generateFunctions() const {
 			
 	cout << "Value* " << ident->toString();
-	cout << "(Scope currentscope, list<Value*> params)" << endl;
+	cout << "(Scope* currentscope, list<Value*> params)" << endl;
 		if (formalparmlist != NULL){
 			for(list<const Identifier*>::iterator iter = formalparmlist->ident->begin();
     	    				iter != formalparmlist->ident->end();
