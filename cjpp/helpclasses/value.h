@@ -333,9 +333,9 @@ public:
 
 class FunctionValue: public Value {
 public:
-	void (*func_ptr) ptr;
+	Value* (*ptr) (List<Value*>*);
 	
-	FunctionValue(void (*func_ptr) ptr)	: ptr(ptr) {}
+	FunctionValue(Value* (*ptr) (List<Value*>*))	: ptr(ptr) {}
 	
 	bool toBoolean() {
     	return true;
