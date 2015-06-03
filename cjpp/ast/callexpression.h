@@ -2,12 +2,13 @@
 #define CALLEXPRESSION
 
 #include "Node.h"
+#include "expressionlist.h"
 
 class CallExpression : public Expression {
 public:
 	const Expression* mexpr;
-	const Expression* args;
-	CallExpression(const Expression* mexpr, const Expression* args)
+	ExpressionList* args;
+	CallExpression(const Expression* mexpr, ExpressionList* args)
 	: mexpr(mexpr), args(args)
 	{}
 	~CallExpression() {
@@ -25,19 +26,37 @@ public:
 		cout << ")";
 	}
 
-	bool generateCode(TempVariable* result) const {
+bool generateCode(TempVariable* result) const {
 		TempVariable* t1 = TempVariableFactory::getTemp();
-		TempVariable* t2 = TempVariableFactory::getTemp();
+		TempVariable* t2;
 
+		
+		if(args != NULL) {
+			cout << "list<Value*>* l = new list<Value*>();" << endl;
+			t2 = TempVariableFactory::getTemp();
+			for(auto iter = args->exprs->begin(); iter != args->exprs->end(); iter++)
+			{	
+        		bool del = (*iter)->generateCode(t2);
+				if(del)
+					cout << "args->append(" << t2->toString() << ");" << endl;
+				else 
+					 cout << "args->append(" << t2->toString() << "->copy());" << endl;
+        	}
+        	
+        	
+			delete t2;
+		}
+		
 		bool del0 = mexpr->generateCode(t1);
-		if(args != NULL)
-			bool del1 = args->generateCode(t2);
-
-		cout << result->toString() << " = FuncLib::call("<< t1->toString() << ", " << t2->toString() << ");" << endl;
-
+		cout << result->toString() << " = FunctionLib::call("<< t1->toString() << ", " << "l);" << endl;
+		
+		if(args != NULL) 
+			cout << "delete l;" << endl;
+			
 		delete t1;
-		delete t2;
-	}
+		return del0;
+}
+
 };
 
 #endif

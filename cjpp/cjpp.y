@@ -22,6 +22,7 @@
 	MemberExpression* memexpr;
 	SourceElementList* sourceelementlist;
 	VariableDec* vardec;
+	ExpressionList* exprlist;
 	Program* prog;
 	VariableDecList* vardeclist;
 	Literal* l;
@@ -36,6 +37,7 @@
 %type <sourceelementlist> SourceElements FunctionBody
 %type <vardec> VariableDeclaration VariableDeclarationNoIn
 %type <vardeclist> VariableDeclarationList VariableDeclarationListNoIn
+%type <exprlist> Arguments ArgumentList
 %type <memexpr> MemberExpression
 %type <funcdec> FunctionDeclaration 
 %type <identparmlist> FormalParameterList
@@ -243,10 +245,19 @@ LeftHandSideExpression: NewExpression	{ $$ = $1; }
 	;
 
 CallExpression: 
-	MemberExpression LPAREN RPAREN 		{ $$ = new CallExpression($1, NULL); }
+	MemberExpression Arguments 		{ $$ = new CallExpression($1, $2); }
 	;
 	
-
+Arguments:
+	LPAREN RPAREN						{ $$ = NULL; }
+	| LPAREN ArgumentList RPAREN		{ $$ = $2;   }
+	;
+	
+ArgumentList:
+	AssignmentExpression				{ $$ = new ExpressionList(); $$->append($1);}
+	| ArgumentList AssignmentExpression { $$ = $1, $$->append($2); }
+	
+	
 // 11.3 Postfix Expressions
 PostfixExpression: 
 	LeftHandSideExpression		{ $$ = $1; }

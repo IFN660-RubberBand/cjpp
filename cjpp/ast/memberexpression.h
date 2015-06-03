@@ -61,7 +61,7 @@ public:
     	    iter != l->ident->end();
             iter++)
 		{
-        	cout << result->toString() << "->resolve(\"" << (*iter)->toString() << "\");" << endl;  
+        	cout << result->toString() << " = "<< result->toString() << "->resolve(\"" << (*iter)->toString() << "\");" << endl;  
         }	
         return false;
 	}
