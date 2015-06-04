@@ -73,6 +73,7 @@ void print(unsigned int tabs) const {
 	
 	cout << "{" << endl;
 	cout << "currentscope = currentscope->openScope();" << endl;
+	funcbody->generateFunctionAssignment();
 	funcbody->generateCode();
 
 	cout << "}" << endl << endl;

@@ -29,7 +29,7 @@ public:
 bool generateCode(TempVariable* result) const {
 		TempVariable* t1 = TempVariableFactory::getTemp();
 		TempVariable* t2;
-
+		TempVariable* t3;
 		
 		if(args != NULL) {
 			cout << "list<Value*>* l = new list<Value*>();" << endl;
@@ -48,11 +48,12 @@ bool generateCode(TempVariable* result) const {
 		}
 		
 		bool del0 = mexpr->generateCode(t1);
+		t3 = TempVariableFactory::getTemp();
 		
 		if(args != NULL)
-			cout << result->toString() << " = FunctionLib::call(currentscope, " << t1->toString() << ", " << "l);" << endl;
+			cout << t3->toString() << " = FunctionLib::call(currentscope, " << t1->toString() << ", " << "l);" << endl;
 		else 
-			cout << result->toString() << " = FunctionLib::call(currentscope, " << t1->toString() << ", " << "NULL);" << endl;
+			cout << t3->toString() << " = FunctionLib::call(currentscope, " << t1->toString() << ", " << "NULL);" << endl;
 		
 		if(args != NULL) 
 			cout << "delete l;" << endl;

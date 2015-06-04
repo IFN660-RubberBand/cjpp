@@ -53,7 +53,7 @@ public:
         }
 	}
 
-    void generateFunctionAssignment() {
+    void generateFunctionAssignment() const {
         for(auto iter = stmts->begin(); iter != stmts->end(); iter++)
         {
             if((*iter)->isFunction()) {

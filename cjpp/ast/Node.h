@@ -31,7 +31,7 @@ class SourceElement : public Node {
 public:
 	virtual void generateCode() const = 0;
 	virtual void generateFunctions() const = 0;
-    virtual void generateFunctionAssignment() const = 0;
+    virtual void generateFunctionAssignment() const {};
 	virtual bool isStatement() const = 0;
 	virtual bool isFunction() const = 0;
 };
