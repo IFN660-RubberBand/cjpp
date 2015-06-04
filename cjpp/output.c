@@ -10,7 +10,10 @@
 int main(int argc, char* argv[]) {
 	Scope* currentscope = new Scope();
 
-	currentscope->set("console", new ObjectValue(&console));
+	Value* tmp5;
+	tmp5 = new FunctionValue(&log);
+	currentscope->set("console", new ObjectValue("log", tmp5));
+
 
 	Value* tmp0;
 	Value* tmp1;
@@ -20,7 +23,7 @@ int main(int argc, char* argv[]) {
 	l->push_back(tmp2);
 	tmp1 = currentscope->resolve("console");
 	cout << "console" << endl;
-	//dynamic_cast<ObjectValue*>(tmp1)->resolve("log");
+	dynamic_cast<ObjectValue*>(tmp1)->resolve("log");
 	cout << "log" << endl;
 	Value* tmp3;
 	tmp3 = FunctionLib::call(currentscope, tmp1, l);

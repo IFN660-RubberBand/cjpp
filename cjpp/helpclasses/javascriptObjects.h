@@ -3,7 +3,7 @@
 
 
 
-Value* console(Scope* currentscope, list<Value*>* params)
+Value* log(Scope* currentscope, list<Value*>* params)
 {
 	currentscope = currentscope->openScope();
 
