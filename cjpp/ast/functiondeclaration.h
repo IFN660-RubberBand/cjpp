@@ -50,7 +50,8 @@ void print(unsigned int tabs) const {
 
 	}
 	cout << ") "<< endl << "{" << endl;
-	funcbody->print(tabs+1);
+	if (funcbody != NULL)
+		funcbody->print(tabs+1);
 	cout << "}";
 		
     }	
@@ -73,9 +74,10 @@ void print(unsigned int tabs) const {
 	
 	cout << "{" << endl;
 	cout << "currentscope = currentscope->openScope();" << endl;
-	funcbody->generateFunctionAssignment();
-	funcbody->generateCode();
-
+	if (funcbody != NULL) {
+		funcbody->generateFunctionAssignment();
+		funcbody->generateCode();
+	}
 	cout << "}" << endl << endl;
 
 	

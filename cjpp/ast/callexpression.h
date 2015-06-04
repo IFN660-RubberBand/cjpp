@@ -47,7 +47,7 @@ bool generateCode(TempVariable* result) const {
 			delete t2;
 		}
 		
-		bool del0 = mexpr->generateCode(t1);
+		bool del0 = mexpr->generateRightHandCode(t1);
 		t3 = TempVariableFactory::getTemp();
 		
 		if(args != NULL)

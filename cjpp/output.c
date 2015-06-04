@@ -25,9 +25,7 @@ int main(int argc, char* argv[]) {
 	tmp6 = new NumberValue(2.00);
 	l->push_back(tmp6);
 	tmp1 = currentscope->resolve("console");
-	cout << "console" << endl;
 	tmp2 = dynamic_cast<ObjectValue*>(tmp1)->resolve("log");
-	cout << "log" << endl;
 	Value* tmp3;
 	tmp3 = FunctionLib::call(currentscope, tmp2, l);
 	delete l;
