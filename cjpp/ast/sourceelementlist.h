@@ -40,10 +40,7 @@ public:
 	void generateCode() const {
         for(auto iter = stmts->begin(); iter != stmts->end(); iter++)
 		{
-        	if((*iter)->isStatement()) {
-        		(*iter)->generateCode(); 
-			}
-			 
+        	(*iter)->generateCode(); 			 
         }	
     }
     
@@ -55,6 +52,15 @@ public:
 			}
         }
 	}
+
+    void generateFunctionAssignment() {
+        for(auto iter = stmts->begin(); iter != stmts->end(); iter++)
+        {
+            if((*iter)->isFunction()) {
+                ((*iter))->generateFunctionAssignment(); 
+            }
+        }
+    }
 		
 };
 

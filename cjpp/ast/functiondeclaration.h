@@ -90,7 +90,10 @@ void print(unsigned int tabs) const {
 		return true;
 	}
 	
-	void generateCode() const {
+	void generateCode() const 
+	{}
+
+	void generateFunctionAssignment() const {
 		cout << "currentscope->set(" << "\"" << ident->toString() << "\", " << "new FunctionValue(" << ident->toString() << "));" << endl;
 	}
 };
