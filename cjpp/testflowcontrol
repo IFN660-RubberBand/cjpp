@@ -6,5 +6,3 @@ if (x < 2) {
 else {
 	x = x + 10;
 }
-
-console.log(x);
