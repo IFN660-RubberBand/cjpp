@@ -220,6 +220,10 @@ public:
     float toFloat() {
         return 0;
     }
+    Value* copy() {
+        return new ObjectValue();
+    }
+
     string toString() {
         return "Object";
     }

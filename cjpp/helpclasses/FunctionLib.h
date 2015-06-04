@@ -11,7 +11,6 @@ using namespace std;
 class FunctionLib{
 public: 
 	static Value* call(Scope* currentscope, Value* function, list<Value*>* args){
-		cout << function->toString() << endl;
 		if (function->returnType() != 7)
 		{
 			cout << "TypeError: not a function!" << endl;

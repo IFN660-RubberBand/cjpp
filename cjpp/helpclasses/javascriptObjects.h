@@ -1,6 +1,7 @@
 #include "value.h"
 #include "Scope.h"
 
+using namespace std;
 
 
 Value* log(Scope* currentscope, list<Value*>* params)
@@ -10,9 +11,11 @@ Value* log(Scope* currentscope, list<Value*>* params)
 	Value* tmp0;
 	if (params != NULL)
 	{
-		for(int i = 0; i < 2; i++)
+		for(list<Value*>::iterator iter = params->begin();
+				iter != params->end();
+				iter++)
 		{
-			cout << "test" << " ";
+			cout << (*iter)->toString() << " ";
 		}	
 	}
 	cout << endl;

@@ -17,16 +17,19 @@ int main(int argc, char* argv[]) {
 
 	Value* tmp0;
 	Value* tmp1;
+	Value* tmp6;
 	list<Value*>* l = new list<Value*>();
 	Value* tmp2;
 	tmp2 = new StringValue("huzzah!");
 	l->push_back(tmp2);
+	tmp6 = new NumberValue(2.00);
+	l->push_back(tmp6);
 	tmp1 = currentscope->resolve("console");
 	cout << "console" << endl;
-	dynamic_cast<ObjectValue*>(tmp1)->resolve("log");
+	tmp2 = dynamic_cast<ObjectValue*>(tmp1)->resolve("log");
 	cout << "log" << endl;
 	Value* tmp3;
-	tmp3 = FunctionLib::call(currentscope, tmp1, l);
+	tmp3 = FunctionLib::call(currentscope, tmp2, l);
 	delete l;
 
 	currentscope->closeScope();
