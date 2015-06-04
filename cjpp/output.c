@@ -1,29 +1,32 @@
 #include "helpclasses/value.h"
 #include "helpclasses/Scope.h"
-#include "helpclasses/FunctionLib.h"
 #include "helpclasses/MathFuncsLib.h"
+#include "helpclasses/FunctionLib.h"
+#include "helpclasses/javascriptObjects.h"
 
 
-
-static Value* foo(list<Value*>* l) {
-	Value* tmp0;
-	Value* tmp1 = new NumberValue(1.000000);
-	Value* tmp2 = new NumberValue(2.000000);
-	tmp0 = MathFuncs::addV2(tmp1, tmp2);
-	return tmp0;
-}
 
 
 int main(int argc, char* argv[]) {
-Scope* currentscope = new Scope();
-currentscope->set("foo", new FunctionValue(&foo));
+	Scope* currentscope = new Scope();
 
-Value* tmp3 = new FunctionValue(&foo);
-Value* tmp4;
+	currentscope->set("console", new ObjectValue(&console));
 
-Value* tmp5 = new StringValue("bar");
+	Value* tmp0;
+	Value* tmp1;
+	list<Value*>* l = new list<Value*>();
+	Value* tmp2;
+	tmp2 = new StringValue("huzzah!");
+	l->push_back(tmp2);
+	tmp1 = currentscope->resolve("console");
+	cout << "console" << endl;
+	//dynamic_cast<ObjectValue*>(tmp1)->resolve("log");
+	cout << "log" << endl;
+	Value* tmp3;
+	tmp3 = FunctionLib::call(currentscope, tmp1, l);
+	delete l;
 
-tmp4 = FunctionLib::call(tmp5, NULL);
-//currentscope->closeScope();
-return 0;
+	currentscope->closeScope();
+	delete currentscope;
+	return 0;
 }

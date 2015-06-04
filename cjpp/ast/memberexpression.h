@@ -38,7 +38,7 @@ public:
     	    iter != l->ident->end();
             iter++)
 		{
-        	cout << result->toString() << "->resolve(\"" << (*iter)->toString() << "\");" << endl;  
+        	cout << "dynamic_cast<ObjectValue*>(" << result->toString() << ")" << "->resolve(\"" << (*iter)->toString() << "\");" << endl;  
         }	
 		return del;
 	}  
