@@ -38,9 +38,9 @@ bool generateCode(TempVariable* result) const {
 			{	
         		bool del = (*iter)->generateCode(t2);
 				if(del)
-					cout << "l->append(" << t2->toString() << ");" << endl;
+					cout << "l->push_back(" << t2->toString() << ");" << endl;
 				else 
-					 cout << "l->append(" << t2->toString() << "->copy());" << endl;
+					 cout << "l->push_back(" << t2->toString() << "->copy());" << endl;
         	}
         	
         	
