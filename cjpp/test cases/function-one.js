@@ -8,6 +8,6 @@ function bar(x) {
 	return x + 1;
 }
 
-z = foo() + bar();
+z = foo() + bar(1);
 
 console.log(z);
