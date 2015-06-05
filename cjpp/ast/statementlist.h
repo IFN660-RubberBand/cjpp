@@ -35,9 +35,11 @@ public:
         	(*iter)->print(tabs);  
         }	
     }
+    
     void generateCode() const {
         for(auto iter = stmts->begin(); iter != stmts->end(); iter++)
 		{
+			TempVariableFactory::clear();
         	(*iter)->generateCode();  
         }	
     }

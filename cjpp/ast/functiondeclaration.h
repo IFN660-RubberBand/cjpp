@@ -65,6 +65,7 @@ void print(unsigned int tabs) const {
 	cout << "Value* " << ident->toString();
 	cout << "(Scope* currentscope, list<Value*>* params)" << endl;
 	cout << "{" << endl;
+	cout << "list<Value*>* l;" << endl;
 	cout << "currentscope = currentscope->openScope();" << endl;
 	
 	if (funcbody != NULL) {
