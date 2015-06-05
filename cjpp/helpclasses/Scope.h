@@ -1,7 +1,9 @@
 #ifndef SCOPE
 #define SCOPE
 
+#include <map>
 #include "value.h"
+using namespace std;
 
 
 class Scope {

@@ -19,7 +19,10 @@
 	FunctionDeclaration* funcdec;
 	IdentifierList* identparmlist;
 	StatementList* stmtlist;
+	MemberExpression* memexpr;
+	SourceElementList* sourceelementlist;
 	VariableDec* vardec;
+	ExpressionList* exprlist;
 	Program* prog;
 	VariableDecList* vardeclist;
 	Literal* l;
@@ -27,16 +30,19 @@
 	char* str;
 	double num;
 	int integer;
-
+	
 }
 
-%type <stmtlist> SourceElements StatementList FunctionBody
+%type <stmtlist> StatementList
+%type <sourceelementlist> SourceElements FunctionBody
 %type <vardec> VariableDeclaration VariableDeclarationNoIn
 %type <vardeclist> VariableDeclarationList VariableDeclarationListNoIn
+%type <exprlist> Arguments ArgumentList
+%type <memexpr> MemberExpression
 %type <funcdec> FunctionDeclaration 
 %type <identparmlist> FormalParameterList
-%type <stmt> Statement SourceElement ExpressionStatement IterationStatement VariableStatement Block EmptyStatement IfStatement
-%type <expr> Expression ExpressionNoIn MemberExpression NewExpression BitwiseANDExpression BitwiseOrExpression PrimaryExpression LogicalAndExpression   AssignmentExpression MultiplicativeExpression ShiftExpression UnaryExpression RelationalExpression LogicalOrExpression FunctionExpression
+%type <stmt> Statement SourceElement ExpressionStatement IterationStatement VariableStatement Block EmptyStatement IfStatement ReturnStatement
+%type <expr> Expression ExpressionNoIn NewExpression BitwiseANDExpression BitwiseOrExpression PrimaryExpression LogicalAndExpression   AssignmentExpression MultiplicativeExpression ShiftExpression UnaryExpression RelationalExpression LogicalOrExpression FunctionExpression
 BitwiseXORExpression ConditionalExpression AdditiveExpression EqualityExpression LeftHandSideExpression PostfixExpression
 BitwiseANDExpressionNoIn BitwiseOrExpressionNoIn LogicalAndExpressionNoIn AssignmentExpressionNoIn  RelationalExpressionNoIn LogicalOrExpressionNoIn BitwiseXORExpressionNoIn ConditionalExpressionNoIn EqualityExpressionNoIn Initialiser InitialiserNoIn CallExpression
 %type <i> Identifier 
@@ -92,18 +98,19 @@ Program:
 	;
 
 SourceElements: 
-        SourceElement 			{ $$ = new StatementList($1); } 							
+    SourceElement 					{ $$ = new SourceElementList($1); } 							
 	| SourceElements SourceElement 	{ $$ = $1; $$->append($2);    }								
 	;
 
 SourceElement: 
-        Statement			{ $$ = $1; }
+    Statement			{ $$ = $1; }
 	|FunctionDeclaration		{ /*$$ = $1;*/ }
 	;
 	/* END 14 - Program */
 
 	/* 13 - Function definition */
-FunctionDeclaration: FUNCTION Identifier LPAREN FormalParameterList RPAREN LCURLY FunctionBody RCURLY { $$ = new FunctionDeclaration($2, $4, $7); }
+FunctionDeclaration: 
+	FUNCTION Identifier LPAREN FormalParameterList RPAREN LCURLY FunctionBody RCURLY { $$ = new FunctionDeclaration($2, $4, $7); }
 	| FUNCTION Identifier LPAREN RPAREN LCURLY FunctionBody RCURLY { $$ = new FunctionDeclaration($2, NULL, $6); }
 	;
 
@@ -116,9 +123,11 @@ FunctionExpression:
 
 FormalParameterList: Identifier			{ $$ = new IdentifierList($1); }				
 	| FormalParameterList Identifier	{ $$ = $1; $$->append($2);    }
+	| FormalParameterList COMMA Identifier	{ $$ = $1; $$->append($3);    }
 	;
 
-FunctionBody: SourceElements			{ $$ = $1; }
+FunctionBody: 
+	SourceElements			{ $$ = $1; }
 	|					{ $$ = NULL; }
 	;
 	/* END 13 - Function definition */
@@ -131,6 +140,7 @@ Statement:
 	| EmptyStatement        { $$ = $1; }
 	| Block					{ $$ = $1; }
 	| IfStatement 			{ $$ = $1; }
+	| ReturnStatement 		{ $$ = $1; }
 	;
 
 
@@ -141,6 +151,10 @@ EmptyStatement:
 IfStatement:
 	IF LPAREN Expression RPAREN Statement 				{ $$ = new IfStatement($3, $5, NULL); }
 	| IF LPAREN Expression RPAREN Statement ELSE Statement 		{ $$ = new IfStatement($3, $5, $7); }
+	;
+
+ReturnStatement: RETURN SEMICOLON 		{ $$ = new ReturnStatement(NULL); }
+	| RETURN Expression SEMICOLON 		{ $$ = new ReturnStatement($2); }
 	;
 
 Block: 
@@ -222,8 +236,9 @@ PrimaryExpression:
 
 
 // 11.2 Left-Hand-Side Expressions
-MemberExpression: PrimaryExpression	{ $$ = $1; }
-	| FunctionExpression { $$ = $1; }
+MemberExpression: 
+	PrimaryExpression	{ $$ = new MemberExpression($1); }
+	| MemberExpression POINT Identifier { $$ = $1; $$->append($3); }
 	;
 
 NewExpression: 
@@ -231,14 +246,23 @@ NewExpression:
 	;
 
 LeftHandSideExpression: NewExpression	{ $$ = $1; }
-	| CallExpression 			{ $$ = $1; }
+	| CallExpression 					{ $$ = $1; }
 	;
 
 CallExpression: 
-	MemberExpression LPAREN RPAREN 		{ $$ = new CallExpression($1, NULL); }
-	| MemberExpression LPAREN Expression RPAREN 			{ $$ = new CallExpression($1, $3); }
+	MemberExpression Arguments 		{ $$ = new CallExpression($1, $2); }
 	;
-
+	
+Arguments:
+	LPAREN RPAREN						{ $$ = NULL; }
+	| LPAREN ArgumentList RPAREN		{ $$ = $2;   }
+	;
+	
+ArgumentList:
+	AssignmentExpression				{ $$ = new ExpressionList(); $$->append($1);}
+	| ArgumentList AssignmentExpression { $$ = $1, $$->append($2); }
+	
+	
 // 11.3 Postfix Expressions
 PostfixExpression: 
 	LeftHandSideExpression		{ $$ = $1; }

@@ -9,6 +9,8 @@
 #include <cmath>
 #include <string.h>
 #include <boost/lexical_cast.hpp>
+#include <list>
+
 
 using namespace std;
 
@@ -22,11 +24,11 @@ protected:
         IntegerType     = 1,
         FloatType       = 2,
         BooleanType     = 3,
-
         UndefinedType   = 4,
         ObjectType      = 5,
         StringType      = 6,
-        NaNType         = 7
+        FunctionType	= 7,
+        NaNType         = 8
     } DataType;
     
 public:
@@ -35,7 +37,7 @@ public:
     virtual string toString() = 0;
     virtual Value* copy() = 0;
     virtual DataType returnType() = 0;
-    virtual ~Value() { delete this; };
+    virtual ~Value() {  }
 };
 
 /**
@@ -57,7 +59,7 @@ public:
 	}
     DataType returnType() {
         return Value::UndefinedType;
-    };
+    }
 };
 
 /**
@@ -79,7 +81,7 @@ public:
     }
     DataType returnType() {
         return Value::NaNType;
-    };
+    }
 };
 
 /**
@@ -101,7 +103,7 @@ public:
 	}
     DataType returnType() {
         return Value::NullType;
-    };
+    }
 };
 
 /**
@@ -112,9 +114,6 @@ public:
     float val;
     
     NumberValue(float val) : val(val) {}
-    ~NumberValue(){
-        delete this;
-    }
 
     bool toBoolean() {
         if(val) {
@@ -136,7 +135,7 @@ public:
      */
     DataType returnType() {
         return Value::FloatType;
-    };
+    }
 };
 
 /**
@@ -150,9 +149,7 @@ public:
 	int32_t val;
     
 	IntegerValue(int32_t val) : val(val){}
-    ~IntegerValue(){
-        delete this;
-    }
+
     bool toBoolean() {
 		if(val)
 			return true;
@@ -223,6 +220,10 @@ public:
     float toFloat() {
         return 0;
     }
+    Value* copy() {
+        return new ObjectValue();
+    }
+
     string toString() {
         return "Object";
     }
@@ -231,7 +232,7 @@ public:
      */
     DataType returnType() {
         return Value::ObjectType;
-    };
+    }
 };
 
 /**
@@ -262,7 +263,7 @@ public:
      */
     DataType returnType(){
         return Value::FloatType;
-    };
+    }
 };
 
 /**
@@ -299,7 +300,7 @@ public:
      */
     DataType returnType() {
         return Value::StringType;
-    };
+    }
 };
 
 /**
@@ -328,8 +329,10 @@ public:
      */
     DataType returnType(){
         return Value::BooleanType;
-    };
+    }
 };
+
+
 
 
 

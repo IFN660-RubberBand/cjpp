@@ -31,6 +31,7 @@ public:
 			cout << " = ";
 		expr->print(tabs);
 	}
+	
 	bool generateCode(TempVariable* result) const {
 		cout << endl << "//Assignment" << endl;
 		bool del = expr->generateCode(result);

@@ -18,6 +18,8 @@
 #include "identifierlist.h"
 #include "functionexpression.h"
 #include "callexpression.h"
-
+#include "sourceelementlist.h"
+#include "memberexpression.h"
+#include "returnstatement.h"
 
 #endif

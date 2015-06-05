@@ -10,6 +10,7 @@
 
 #include "../helpclasses/TempVariableFactory.h"
 
+
 #define indent(x) { for(unsigned int i = 0; i < x; i++) cout << "\t"; }
 using namespace std;
 
@@ -24,6 +25,15 @@ public:
 	virtual bool generateRightHandCode(TempVariable* result) const {
 		cout << "not implemented yet" << endl;
 	}
+};
+
+class SourceElement : public Node {
+public:
+	virtual void generateCode() const = 0;
+	virtual void generateFunctions() const = 0;
+    virtual void generateFunctionAssignment() const {};
+	virtual bool isStatement() const = 0;
+	virtual bool isFunction() const = 0;
 };
 
 class Expression : public Node {
@@ -60,7 +70,7 @@ public:
         cout << to_string(value);
     }
     bool generateRightHandCode(TempVariable* result) const {
-		cout << result->toString() << " = new IntegerValue(" << to_string(value) << ");" << endl;
+		cout << result->toString() << " = new NumberValue(" << to_string(value) << ");" << endl;
     	return true;
 	}
 };
@@ -268,40 +278,6 @@ public:
 };
 
 
-class ExpressionList : public Expression {
-public:
-    list<const Expression*>* stmts;	
-    ExpressionList(const Expression* s)
-    {
-         stmts = new list<const Expression*>();
-	 append(s);	
-    }
-    ExpressionList()
-    {
-         stmts = new list<const Expression*>();
-    }	
-    ~ExpressionList() {
-    	while(!stmts->empty()) {
-			delete stmts->front(); 
-			stmts->pop_front();
-		}
-		delete stmts;
-	}
-    void append(const Expression* s) 
-    {
-	 stmts->push_back(s);
-    }
-    void print(unsigned int tabs) const {
-         for(list<const Expression*>::iterator iter = stmts->begin();
-    	    iter != stmts->end();
-            iter++)
-	 	{
-        	(*iter)->print(tabs);  
-        }	
-    }	
-};
-
-
 class VariableDecList : public Node {
 public:
     list<const VariableDec*>* stmts;	
@@ -350,23 +326,5 @@ public:
 
 	}	
 };
-
-class MemberExpression : public Expression {
-public:
-    const Expression* expr;
-    MemberExpression(const Expression* expr)
-    : expr(expr)
-    {}
-    ~MemberExpression() {
-        delete expr;
-    }
-    void print(unsigned int tabs) const {
-        Expression::print(tabs);
-        expr->print(tabs);
-    }   
-};
-
-
-
 
 #endif
