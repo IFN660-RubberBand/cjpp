@@ -41,6 +41,8 @@ public:
 		cout << "setGlobalObjects(currentscope);"<< endl << endl;
 		
 		l->generateFunctionAssignment();
+		
+		TempVariableFactory::reset();
 		l->generateCode();
 		cout << endl << "currentscope->closeScope();" << endl;
 		cout << "delete currentscope;" << endl;
