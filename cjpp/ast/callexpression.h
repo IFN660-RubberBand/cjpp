@@ -28,24 +28,32 @@ public:
 
 bool generateCode(TempVariable* result) const {
 		TempVariable* t1 = TempVariableFactory::getTemp();
-		TempVariable* t2;
-
+		TempVariable* t2[args == NULL? 0 : args->exprs->size()];
+		bool del[args == NULL? 0 : args->exprs->size()];
+		int i = 0;
+		
 		if(args != NULL) {
-			cout << "l = new list<Value*>();" << endl;
-			t2 = TempVariableFactory::getTemp();
+			
 			
 			for(auto iter = args->exprs->begin(); iter != args->exprs->end(); iter++)
 			{	
-        		bool del = (*iter)->generateCode(t2);
-				if(del)
-					cout << "l->push_back(" << t2->toString() << ");" << endl;
+				t2[i] = TempVariableFactory::getTemp();
+        		del[i] = (*iter)->generateCode(t2[i]);
+        		i++;
+			}
+			
+			cout << "l = new list<Value*>();" << endl;
+			
+			for(int k = 0; k < i; k++)
+			{	
+				if(del[k])
+					cout << "l->push_back(" << t2[k]->toString() << ");" << endl;
 				else 
-					 cout << "l->push_back(" << t2->toString() << "->copy());" << endl;
+					 cout << "l->push_back(" << t2[k]->toString() << "->copy());" << endl;
+				delete t2[k];
         	}
         	
-        	
-			delete t2;
-		}
+        }
 		
 		bool del0 = mexpr->generateRightHandCode(t1);
 				
