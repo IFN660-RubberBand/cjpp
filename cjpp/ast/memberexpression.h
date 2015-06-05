@@ -1,5 +1,5 @@
 #ifndef MEMEXPR
-#define MEMEPRY
+#define MEMEXPR
 
 
 class MemberExpression : public Expression {
