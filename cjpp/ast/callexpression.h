@@ -30,16 +30,13 @@ bool generateCode(TempVariable* result) const {
 		TempVariable* t1 = TempVariableFactory::getTemp();
 		TempVariable* t2;
 
-		bool del[args == NULL? 0 : args->exprs->size()];
-		int i = 0;
-		
 		if(args != NULL) {
 			cout << "l = new list<Value*>();" << endl;
 			t2 = TempVariableFactory::getTemp();
 			
 			for(auto iter = args->exprs->begin(); iter != args->exprs->end(); iter++)
 			{	
-        		del[i++] = (*iter)->generateCode(t2);
+        		bool del = (*iter)->generateCode(t2);
 				if(del)
 					cout << "l->push_back(" << t2->toString() << ");" << endl;
 				else 
