@@ -22,11 +22,11 @@ hexdigit 	([0-9a-fA-F])
 hexnumber 	0x{hexdigit}+
 
 digit 		([0-9])
-num1 		([-+]?{digit}+\.?([eE][-+]?{digit}+)?)
-num2 		([-+]?{digit}*\.{digit}+([eE][-+]?{digit}+)?)
+num1 		({digit}+\.?([eE][-+]?{digit}+)?)
+num2 		({digit}*\.{digit}+([eE][-+]?{digit}+)?)
 number 		{num1}|{num2}
 
-identifier 		({letter}|{digit}|\$)({letter}|{digit}|[_\-/$])*
+identifier 		({letter}|{digit}|\$)({letter}|{digit}|[_\/$])*
 
 %%
 
