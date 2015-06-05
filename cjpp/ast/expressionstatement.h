@@ -19,7 +19,6 @@ public:
 		cout << ";" << endl;
     }
     void generateCode() const {
-    	TempVariableFactory::reset();
     	TempVariable* t = TempVariableFactory::getTemp();
 		expr->generateCode(t);
 		delete t;

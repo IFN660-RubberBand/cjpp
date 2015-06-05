@@ -34,7 +34,7 @@ bool generateCode(TempVariable* result) const {
 		int i = 0;
 		
 		if(args != NULL) {
-			cout << "list<Value*>* l = new list<Value*>();" << endl;
+			cout << "l = new list<Value*>();" << endl;
 			t2 = TempVariableFactory::getTemp();
 			
 			for(auto iter = args->exprs->begin(); iter != args->exprs->end(); iter++)

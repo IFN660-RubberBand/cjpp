@@ -23,7 +23,9 @@ public:
 		current = 0;
 		maxvar = 0;
 	}
-	
+	static void clear() {
+		current = 0;
+	}
 };
 
 #endif
