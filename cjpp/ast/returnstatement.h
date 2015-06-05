@@ -22,7 +22,10 @@ public:
 
 	void generateCode() const {
 		TempVariable* t = TempVariableFactory::getTemp();
-		expr->generateCode(t); 
+		bool del = expr->generateCode(t); 
+		if(!del) {
+			cout << t->toString() << " = " << t->toString() << "->copy();" << endl;
+		}
 		cout << "currentscope->closeScope();" << endl;
 		cout << "delete currentscope;" << endl;
 		cout << "return " << t->toString() << ";" << endl;
