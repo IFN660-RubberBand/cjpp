@@ -37,6 +37,7 @@ public:
 		
 		cout << endl << "int main(int argc, char* argv[]) {" << endl;
 		cout << "Scope* currentscope = new Scope();" << endl << endl << endl;
+		TempVariableFactory::reset();
 		l->generateFunctionAssignment();
 		l->generateCode();
 		cout << endl << "currentscope->closeScope();" << endl;
