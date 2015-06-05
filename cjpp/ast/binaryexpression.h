@@ -49,15 +49,15 @@ public:
     			break;
     
 			case MINUS:
-				cout << result->toString() << " = MathFuncs::sub(" << t1->toString() << ", " << t2->toString() << ");" << endl; 
+				cout << result->toString() << " = MathFuncs::subV(" << t1->toString() << ", " << t2->toString() << ");" << endl; 
 				break;	
     		
     		case MULTIPLY:
-    			cout << result->toString() << " = MathFuncs::mul(" << t1->toString() << ", " << t2->toString() << ");" << endl; 
+    			cout << result->toString() << " = MathFuncs::multV(" << t1->toString() << ", " << t2->toString() << ");" << endl; 
     			break;
     			
     		case DIVIDE:
-    			cout << result->toString() << " = MathFuncs::div(" << t1->toString() << ", " << t2->toString() << ");" << endl;
+    			cout << result->toString() << " = MathFuncs::divV(" << t1->toString() << ", " << t2->toString() << ");" << endl;
     			break;
 
     		case GTR:
