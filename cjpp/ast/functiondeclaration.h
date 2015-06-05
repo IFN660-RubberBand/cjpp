@@ -79,7 +79,7 @@ void print(unsigned int tabs) const {
 				cout << "currentscope->set(\"";
         		 	(*iter)->print(0);   
 				cout << "\", params->front());" << endl;
-				cout << "params->pop_front());" << endl;
+				cout << "params->pop_front();" << endl;
 	        	}			
 
 		}
