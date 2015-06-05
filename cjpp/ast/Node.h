@@ -179,7 +179,7 @@ public:
 			TempVariable* temp;				
 			temp = TempVariableFactory::getTemp();
 			expr->generateCode(temp);
-			cout << "currentScope->set(" << "\"" << i->toString() << "\"" << "," << temp->toString() << ");" << endl ; 
+			cout << "currentscope->set(" << "\"" << i->toString() << "\"" << "," << temp->toString() << ");" << endl ; 
 			cout << result->toString() << " = " << "new StringValue (" << "\"" << i->toString() << "\""<< ");" << endl;
 			delete temp;
 			

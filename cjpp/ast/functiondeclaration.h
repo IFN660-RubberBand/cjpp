@@ -91,6 +91,7 @@ void print(unsigned int tabs) const {
 		funcbody->generateCode();
 	}
 	cout << "currentscope->closeScope();" << endl;
+	cout << "delete currentscope;" << endl;
 	cout << "return new UndefinedValue();" << endl;
 	cout << "}" << endl << endl;
 
