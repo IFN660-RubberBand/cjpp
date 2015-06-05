@@ -23,6 +23,7 @@ public:
 	void generateCode() const {
 		TempVariable* t = TempVariableFactory::getTemp();
 		expr->generateCode(t); 
+		cout << "currentscope->closeScope();" << endl;
 		cout << "return " << t->toString() << ";" << endl;
 		delete t;
 	}

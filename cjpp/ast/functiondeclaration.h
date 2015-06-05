@@ -78,7 +78,8 @@ void print(unsigned int tabs) const {
 			{
 				cout << "currentscope->set(\"";
         		 	(*iter)->print(0);   
-				cout << "\", params->getNext());" << endl;
+				cout << "\", params->front());" << endl;
+				cout << "params->pop_front());" << endl;
 	        	}			
 
 		}
@@ -89,6 +90,7 @@ void print(unsigned int tabs) const {
 		funcbody->generateCode();
 	}
 	cout << "currentscope->closeScope();" << endl;
+	cout << "return new UndefinedValue();" << endl;
 	cout << "}" << endl << endl;
 
 	
