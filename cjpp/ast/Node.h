@@ -24,6 +24,7 @@ public:
 	}
 	virtual bool generateRightHandCode(TempVariable* result) const {
 		cout << "not implemented yet" << endl;
+        return 0;
 	}
 };
 
@@ -55,6 +56,7 @@ public:
     }
     virtual bool generateCode(TempVariable* result) const {
 		cout << "expression not implemented yet" << endl;
+        return 0;
 	};
 };
 
@@ -296,17 +298,13 @@ public:
 	
 	bool generateCode(TempVariable* result) {
 		list<const VariableDec*>::iterator iter = stmts->begin();
-	        for(iter = stmts->begin(); iter != stmts->end(); iter++)
-		{
-
-			bool res = (*iter)->generateCode(result);  
-			if(res)
-				cout << "delete " << result->toString() << ";" << endl ;
-        	}	
-		
-		
-
-	}	
+	        for(iter = stmts->begin(); iter != stmts->end(); iter++){
+    			bool res = (*iter)->generateCode(result);  
+    			if(res)
+    				cout << "delete " << result->toString() << ";" << endl ;
+            }
+        return 0;
+	}
 };
 
 #endif

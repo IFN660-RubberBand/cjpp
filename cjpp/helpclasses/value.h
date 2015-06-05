@@ -178,20 +178,20 @@ public:
  */
 class ObjectValue: public Value {
 public:
-	map<char*, Value*>* objMap;
+	map<string, Value*>* objMap;
     
 	ObjectValue() {
-		objMap = new map<char*, Value*>();
+		objMap = new map<string, Value*>();
 	}
     
-    ObjectValue(char* ident, Value* value): ObjectValue() {
+    ObjectValue(string ident, Value* value): ObjectValue() {
         set(ident, value);
     }
     
     /**
      * @return Return the found object within the resolved scope or else return integer representing the undefined value in the enumeration.
      */
-	Value* resolve(char* ident) {
+	Value* resolve(string ident) {
 		auto search = objMap->find(ident);
         
     	if(search != objMap->end()){
@@ -205,7 +205,7 @@ public:
     /**
      * ...
      */
-	void set(char* ident, Value* value) {
+	void set(string ident, Value* value) {
 		auto search = objMap->find(ident);
 
     	if(search != objMap->end()) {

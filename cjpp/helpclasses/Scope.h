@@ -10,14 +10,14 @@ class Scope {
 private:
 	Scope* prev;
 public:
-	map<char*, Value*>* m;
+	map<string, Value*>* m;
 	Scope() {
 		prev = NULL;
-		m = new map<char*, Value*>();
+		m = new map<string, Value*>();
 	}
 	
 	Scope(Scope* prev) : prev(prev)	{
-		m = new map<char*, Value*>();
+		m = new map<string, Value*>();
 	}
 	
 	~Scope() {
@@ -25,7 +25,7 @@ public:
 	}
 	
 	
-	Value* resolve(char* ident) {
+	Value* resolve(string ident) {
 		auto search = m->find(ident);
     	if(search != m->end()) {
         	return search->second;
@@ -41,7 +41,7 @@ public:
     	}
 	}
 
-	Value* set(char* ident, Value* value) {
+	Value* set(string ident, Value* value) {
 		auto search = m->find(ident);
     	if(search != m->end()) {
 			if(search->second != value) {

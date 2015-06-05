@@ -1,9 +1,9 @@
 #ifndef JMPLABELFAC
 #define JMPLABELFAC
 
-using namespace std;
 #include <iostream>
 #include "JumpLabel.h"
+using namespace std;
 
 class JumpLabelFactory {
 private:

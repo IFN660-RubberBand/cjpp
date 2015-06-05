@@ -20,16 +20,16 @@ public:
     {}
     ~FunctionExpression() {
     	delete ident;
-    delete formalparmlist;
-	delete funcbody;
+        delete formalparmlist;
+    	delete funcbody;
 	}
     void print(unsigned int tabs) const {
-		
+		cout << "not implemented yet" << endl;
     }	
     
     bool generateCode(TempVariable* result) const {
-
-    		
+        cout << "not implemented yet" << endl;
+        return 0;		
 	}
 	
 	

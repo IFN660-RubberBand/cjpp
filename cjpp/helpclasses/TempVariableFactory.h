@@ -1,9 +1,10 @@
 #ifndef TEMPVARFAC
 #define TEMPVARFAC
 
-using namespace std;
 #include <iostream>
 #include "TempVariable.h"
+
+using namespace std;
 
 class TempVariableFactory {
 private:
