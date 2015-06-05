@@ -45,6 +45,14 @@ public:
 	static Value* divV(Value* lval, Value* rval){
 		return new NumberValue(lval->toFloat() / rval->toFloat());
 	}
+	
+	static Value* unaryPlus(Value* val){
+		return new NumberValue(val->toFloat());
+	}
+	
+	static Value* unaryMinus(Value* val){
+		return new NumberValue(-1 * val->toFloat());
+	}
 
     /* \deprecated { Uses template instead of objects }
      Addition function with returning Value.	

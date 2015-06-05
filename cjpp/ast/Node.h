@@ -215,24 +215,6 @@ public:
 
 
 
-class UnaryExpression : public Expression {
-public:
-    int op;
-    const Expression* expr;
-    UnaryExpression(int op, const Expression* expr)
-	: op(op), expr(expr)
-    {}
-    ~UnaryExpression() {
-    	delete expr;
-	}
-    void print(unsigned int tabs) const {
-        Expression::print(tabs);
-	cout << " " << (char) op << " ";
-	expr->print(tabs);
-
-    }	
-};
-
 class PostfixExpression : public Expression {
 public:
     const Expression* expr;

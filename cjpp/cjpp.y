@@ -6,6 +6,7 @@
 	int yylex(void);
 	#include "ast/includefile.h"
 	#include "ast/binaryexpression.h"
+	#include "ast/unaryexpression.h"
 	
 	Program* program;
 %}
