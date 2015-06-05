@@ -276,11 +276,8 @@ public:
 	StringValue(string val) : val(val){}
 
     bool toBoolean() {
-        try{
-            return boost::lexical_cast<int>(val);
-        }catch(const boost::bad_lexical_cast &){
-            return 0;
-        }
+        return val[0] != 0;
+        	
 	}
     float toFloat() {
         try{
