@@ -21,6 +21,7 @@ public:
 	}
 	static void reset() {
 		current = 0;
+		maxvar = 0;
 	}
 	
 };

@@ -57,10 +57,21 @@ void print(unsigned int tabs) const {
     }	
     
     void generateFunctions() const {
+	if (funcbody != NULL) {
+		funcbody->generateFunctions();
+	}
+	
 			
 	cout << "Value* " << ident->toString();
 	cout << "(Scope* currentscope, list<Value*>* params)" << endl;
-		if (formalparmlist != NULL){
+	cout << "{" << endl;
+	cout << "currentscope = currentscope->openScope();" << endl;
+	
+	if (funcbody != NULL) {
+		funcbody->generateFunctionAssignment();
+	}
+	
+	if (formalparmlist != NULL){
 			for(list<const Identifier*>::iterator iter = formalparmlist->ident->begin();
     	    				iter != formalparmlist->ident->end();
             				iter++)
@@ -72,12 +83,12 @@ void print(unsigned int tabs) const {
 
 		}
 	
-	cout << "{" << endl;
-	cout << "currentscope = currentscope->openScope();" << endl;
+	
 	if (funcbody != NULL) {
-		funcbody->generateFunctionAssignment();
+		TempVariableFactory::reset();
 		funcbody->generateCode();
 	}
+	cout << "currentscope->closeScope();" << endl;
 	cout << "}" << endl << endl;
 
 	

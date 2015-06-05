@@ -44,7 +44,7 @@ public:
         }	
     }
     
-    void generateFunctions() {
+    void generateFunctions() const {
     	for(auto iter = stmts->begin(); iter != stmts->end(); iter++)
 		{
         	if((*iter)->isFunction()) {
