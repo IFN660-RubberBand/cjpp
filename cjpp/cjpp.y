@@ -260,7 +260,7 @@ Arguments:
 	
 ArgumentList:
 	AssignmentExpression				{ $$ = new ExpressionList(); $$->append($1);}
-	| ArgumentList AssignmentExpression { $$ = $1, $$->append($2); }
+	| ArgumentList COMMA AssignmentExpression { $$ = $1, $$->append($3); }
 	
 	
 // 11.3 Postfix Expressions

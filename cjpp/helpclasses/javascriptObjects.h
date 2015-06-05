@@ -26,5 +26,5 @@ Value* log(Scope* currentscope, list<Value*>* params)
 	
 void setGlobalObjects(Scope* currentscope)
 	{
-		currentscope->set("console", new ObjectValue("log", new FunctionValue(&log)))
+		currentscope->set("console", new ObjectValue("log", new FunctionValue(&log)));
 	}
