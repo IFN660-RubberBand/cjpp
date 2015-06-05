@@ -4,10 +4,10 @@
 using namespace std;
 
 
+
+
 Value* log(Scope* currentscope, list<Value*>* params)
 {
-	currentscope = currentscope->openScope();
-
 	Value* tmp0;
 	if (params != NULL)
 	{
@@ -21,3 +21,10 @@ Value* log(Scope* currentscope, list<Value*>* params)
 	cout << endl;
 	return tmp0;
 }
+
+
+	
+void setGlobalObjects(Scope* currentscope)
+	{
+		currentscope->set("console", new ObjectValue("log", new FunctionValue(&log)))
+	}
