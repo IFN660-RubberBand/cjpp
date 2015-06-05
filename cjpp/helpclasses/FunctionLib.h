@@ -18,7 +18,7 @@ public:
 		}
 		else 
 		{
-			return ((FunctionValue*)function)->ptr(NULL, args);
+			return ((FunctionValue*)function)->ptr(currentscope, args);
 		}
 	}
 };
